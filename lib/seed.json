@@ -1,0 +1,305 @@
+{
+  "intro": "ZUBY | DÁSNĚ je zubní centrum nacházející se v Hradci Králové.",
+  "about": [
+    "ZUBY | DÁSNĚ je zubní centrum nacházející se v Hradci Králové. Pečujeme o pacienty podle nejmodernějších postupů a používáme k tomu kvalitní vybavení a materiály. Při vyšetřování a ošetřování pacientů používáme dentální mikroskop nebo lupové brýle. To nám umožňuje včasnou diagnostiku vznikajícího problému, při léčbě pak minimální invazivitu, maximální přesnost a pečlivost.",
+    "Invazivní výkony u nás probíhají vždy bezbolestně díky aplikaci lokální anestesie. Naše hlavní priority jsou Vaše spokojenost a komfort. Snažíme se vytvořit přátelské a přívětivé prostředí, které Vám pomůže překonat jakoukoliv obavu z návštěvy zubaře. Náš skvělý tým Vám poskytne kvalitní péči, kterou si zasloužíte. Těšíme se na setkání s Vámi!"
+  ],
+  "photos": [
+    {
+      "id": "photo-0",
+      "src": "/source/7.webp",
+      "alt": "ordinace 1",
+      "focus": 50
+    },
+    {
+      "id": "photo-1",
+      "src": "/source/13.webp",
+      "alt": "ordinace 2",
+      "focus": 50
+    },
+    {
+      "id": "photo-2",
+      "src": "/source/22.webp",
+      "alt": "ordinace 3",
+      "focus": 50
+    },
+    {
+      "id": "photo-3",
+      "src": "/source/19.webp",
+      "alt": "ordinace 4",
+      "focus": 50
+    },
+    {
+      "id": "photo-4",
+      "src": "/source/6.webp",
+      "alt": "ordinace 5",
+      "focus": 50
+    },
+    {
+      "id": "photo-5",
+      "src": "/source/8.webp",
+      "alt": "ordinace 5",
+      "focus": 50
+    }
+  ],
+  "team": [
+    {
+      "id": "person-0",
+      "name": "Pavel Šponer",
+      "title": "MDDr.",
+      "role": "Zubní lékař",
+      "description": "",
+      "src": "/source/Pavel Sponer.jpg",
+      "alt": "MDDr. Pavel Šponer Zubní lékař",
+      "focus": 50,
+      "hidden": false
+    },
+    {
+      "id": "person-1",
+      "name": "Ondřej Stárek",
+      "title": "MDDr.",
+      "role": "Zubní lékař",
+      "description": "",
+      "src": "/source/Ondrej Starek.jpg",
+      "alt": "MDDr. Ondřej Stárek Zubní lékař",
+      "focus": 50,
+      "hidden": false
+    },
+    {
+      "id": "person-2",
+      "name": "Lenka Mrhálková",
+      "title": "",
+      "role": "Asistentka",
+      "description": "",
+      "src": "/source/avatar.jpg",
+      "alt": "Lenka Mrhálková Asistentka",
+      "focus": 50,
+      "hidden": false
+    },
+    {
+      "id": "person-3",
+      "name": "Dagmar Novotná",
+      "title": "",
+      "role": "Asistentka",
+      "description": "",
+      "src": "/source/avatar.jpg",
+      "alt": "Dagmar Novotná Asistentka",
+      "focus": 50,
+      "hidden": false
+    },
+    {
+      "id": "person-4",
+      "name": "Veronika Dlesková",
+      "title": "",
+      "role": "Asistentka",
+      "description": "",
+      "src": "/source/avatar.jpg",
+      "alt": "Veronika Dlesková Asistentka",
+      "focus": 50,
+      "hidden": false
+    },
+    {
+      "id": "person-5",
+      "name": "Denisa Volná",
+      "title": "",
+      "role": "Administrativa",
+      "description": "",
+      "src": "/source/avatar.jpg",
+      "alt": "Denisa Volná Administrativa",
+      "focus": 50,
+      "hidden": false
+    },
+    {
+      "id": "person-6",
+      "name": "Barbara Zounarová",
+      "title": "DiS.",
+      "role": "Dentální hygienistka",
+      "description": "",
+      "src": "/source/avatar.jpg",
+      "alt": "Barbara Zounarová, DiS. Dentální hygienistka",
+      "focus": 50,
+      "hidden": false
+    },
+    {
+      "id": "person-7",
+      "name": "Dominika Vrbická",
+      "title": "DiS.",
+      "role": "Dentální hygienistka",
+      "description": "",
+      "src": "/source/avatar.jpg",
+      "alt": "Dominika Vrbická, DiS. Dentální hygienistka",
+      "focus": 50,
+      "hidden": false
+    },
+    {
+      "id": "person-8",
+      "name": "Eliška Zahálková",
+      "title": "DiS.",
+      "role": "Dentální hygienistka",
+      "description": "",
+      "src": "/source/Eliska Zahalkova.jpg",
+      "alt": "Eliška Zahálková, DiS. Dentální hygienistka",
+      "focus": 50,
+      "hidden": false
+    }
+  ],
+  "steps": [
+    {
+      "id": "step-0",
+      "title": "OBJEDNÁNÍ",
+      "text": "Objednejte se telefonicky, emailem nebo přes kontaktní formulář, a společně vybereme vhodný termín pro vstupní vyšetření."
+    },
+    {
+      "id": "step-1",
+      "title": "VSTUPNÍ VYŠETŘENÍ",
+      "text": "První návštěva je spojená se zjištěním současného stavu orálního zdraví. Vyslechneme si, jaké máte obtíže, jaké jsou Vaše představy a přání. Provedeme důkladné vyšetření chrupu, dutiny ústní, též zhotovíme RTG snímky a fotodokumentaci."
+    },
+    {
+      "id": "step-2",
+      "title": "NÁVRH LÉČBY",
+      "text": "Na základě získaných informací Vám sestavíme léčebný plán včetně předběžné cenové kalkulace ošetření."
+    },
+    {
+      "id": "step-3",
+      "title": "LÉČBA",
+      "text": "Po společné domluvě naplánujeme termíny návštěv, během kterých proběhnou potřebná ošetření. Anestezie je u nás nezbytnou součástí výkonů, díky ní je ošetření bezbolestné."
+    },
+    {
+      "id": "step-4",
+      "title": "PRAVIDELNÉ KONTROLY",
+      "text": "Po dokončení léčby o Vás pravidelně pečujeme prostřednictvím preventivních prohlídek a dentální hygieny."
+    }
+  ],
+  "priceNote": "Kompletní ceník je k nahlédnutí na recepci, bez konzultace s lékařem je pouze orientační.",
+  "categories": [
+    {
+      "id": "category-1",
+      "name": "Ošetření a péče",
+      "items": [
+        {
+          "id": "price-0",
+          "name": "Konzultace neregistrovaného pacienta",
+          "price": "2700 Kč",
+          "unit": "",
+          "note": ""
+        },
+        {
+          "id": "price-1",
+          "name": "Konzultace endodoncie",
+          "price": "900 Kč",
+          "unit": "",
+          "note": ""
+        },
+        {
+          "id": "price-2",
+          "name": "Zhotovení CBCT",
+          "price": "900 - 1800 Kč",
+          "unit": "",
+          "note": ""
+        },
+        {
+          "id": "price-3",
+          "name": "Implantát + korunka",
+          "price": "28000 - 35000 Kč",
+          "unit": "",
+          "note": ""
+        },
+        {
+          "id": "price-4",
+          "name": "Fotokompozitní výplň",
+          "price": "1800 - 6300 Kč",
+          "unit": "",
+          "note": ""
+        },
+        {
+          "id": "price-5",
+          "name": "Endodontické ošetření",
+          "price": "8000 - 19500 Kč",
+          "unit": "",
+          "note": ""
+        },
+        {
+          "id": "price-6",
+          "name": "Reendodontické ošetření",
+          "price": "11000 - 20500 Kč",
+          "unit": "",
+          "note": ""
+        },
+        {
+          "id": "price-7",
+          "name": "Korunka keramická",
+          "price": "11400 - 14500 Kč",
+          "unit": "",
+          "note": ""
+        },
+        {
+          "id": "price-8",
+          "name": "Dentální hygiena - vstupní ošetření",
+          "price": "2000 Kč",
+          "unit": "",
+          "note": ""
+        },
+        {
+          "id": "price-9",
+          "name": "Dentalní hygiena - kontrolní ošetření",
+          "price": "1000 - 1500 Kč",
+          "unit": "",
+          "note": ""
+        },
+        {
+          "id": "price-10",
+          "name": "Bělení zubů - domácí",
+          "price": "6000 Kč",
+          "unit": "",
+          "note": ""
+        },
+        {
+          "id": "price-11",
+          "name": "Bělení zubů - kombinované",
+          "price": "8800 Kč",
+          "unit": "",
+          "note": ""
+        }
+      ]
+    }
+  ],
+  "contact": {
+    "phone": "+420 774 564 281",
+    "email": "recepce@zubydasne.cz",
+    "address": "Pražská třída 916/65, Kukleny, Hradec Králové",
+    "map": "https://maps.app.goo.gl/8t9ML6sDr61P4HS56",
+    "facebook": "https://www.facebook.com/profile.php?id=61551829476840",
+    "instagram": "https://instagram.com/zuby_dasne?igshid=MmVlMjlkMTBhMg==",
+    "hours": [
+      {
+        "day": "Pondělí",
+        "time": "07:30 - 16:00"
+      },
+      {
+        "day": "Úterý",
+        "time": "07:30 - 16:00"
+      },
+      {
+        "day": "Středa",
+        "time": "07:30 - 16:00"
+      },
+      {
+        "day": "Čtvrtek",
+        "time": "07:30 - 16:00"
+      },
+      {
+        "day": "Pátek",
+        "time": "07:30 - 13:00"
+      },
+      {
+        "day": "Sobota",
+        "time": "Zavřeno"
+      },
+      {
+        "day": "Neděle",
+        "time": "Zavřeno"
+      }
+    ]
+  },
+  "bookingNote": "Online objednávání zatím není aktivní. Objednejte se prosím telefonicky nebo e-mailem."
+}
