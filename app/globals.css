@@ -18,23 +18,23 @@
 
 /* Clear glass navigation: static highlights, with only transform/opacity feedback. */
 .tile{
- --tile-fill:linear-gradient(135deg,rgba(255,255,250,.15),rgba(255,255,250,.025) 48%,rgba(225,237,218,.08));
- --tile-shadow:inset 0 1px 0 rgba(255,255,255,.7),inset 1px 0 0 rgba(255,255,255,.2),inset 0 -1px 0 rgba(255,255,255,.25),0 8px 24px rgba(17,34,20,.1);
+ --tile-fill:linear-gradient(135deg,rgba(185,223,255,.035),rgba(213,236,255,.005) 48%,rgba(158,209,255,.025));
+ --tile-shadow:inset 0 1px 0 rgba(237,249,255,.65),inset 1px 0 0 rgba(222,242,255,.16),inset 0 -1px 0 rgba(209,234,255,.2),0 6px 20px rgba(18,37,52,.065);
  isolation:isolate;overflow:hidden;background:var(--tile-fill);
- border-color:rgba(255,255,248,.35);border-top-color:rgba(255,255,255,.72);border-bottom-color:rgba(255,255,248,.22);
- backdrop-filter:blur(8px) saturate(135%);-webkit-backdrop-filter:blur(8px) saturate(135%);
+ border-color:rgba(217,238,255,.36);border-top-color:rgba(239,250,255,.7);border-bottom-color:rgba(205,234,255,.24);
+ backdrop-filter:blur(2px) saturate(108%);-webkit-backdrop-filter:blur(2px) saturate(108%);
  box-shadow:var(--tile-shadow);color:#1c2e22;transition:transform 180ms ease;
 }
 .tile::before,.tile::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none}
-.tile::before{z-index:0;background:radial-gradient(ellipse at 12% 0%,rgba(255,255,255,.34),transparent 56%),linear-gradient(165deg,rgba(255,255,255,.14),transparent 33%,transparent 68%,rgba(255,255,245,.12));opacity:.7;transition:opacity 180ms ease}
+.tile::before{z-index:0;background:radial-gradient(ellipse at 12% 0%,rgba(223,244,255,.12),transparent 42%),linear-gradient(165deg,rgba(224,243,255,.035),transparent 25%,transparent 78%,rgba(204,230,255,.025));opacity:.4;transition:opacity 180ms ease}
 .tile::after{z-index:0;padding:1px;background:linear-gradient(135deg,#ffffffdf,rgba(255,255,255,.08) 35%,rgba(255,255,255,.05) 58%,#ffffffaa);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
 .tile>svg,.tile>span{position:relative;z-index:1}
 .tile>svg{stroke-width:1.5;filter:drop-shadow(0 1px 0 rgba(255,255,255,.65))}
 .tile>span{text-shadow:0 1px 1px rgba(255,255,246,.65)}
 .tile:hover{transform:none;background:var(--tile-fill);box-shadow:var(--tile-shadow)}
 .tile:focus-visible{outline:3px solid #344e34;outline-offset:5px}
-.tile:hover::before,.tile:focus-visible::before{opacity:1}
-.tile.booking{--tile-fill:linear-gradient(135deg,rgba(245,255,231,.23),rgba(235,248,217,.08) 55%,rgba(217,238,196,.13));background:var(--tile-fill);border-color:rgba(250,255,229,.66)}
+.tile:hover::before,.tile:focus-visible::before{opacity:.7}
+.tile.booking{--tile-fill:linear-gradient(135deg,rgba(190,225,255,.065),rgba(213,237,255,.018) 55%,rgba(172,214,255,.04));background:var(--tile-fill);border-color:rgba(226,244,255,.62)}
 @media(hover:hover) and (pointer:fine){.tile:hover{transform:translateY(-3px)}}
 .tile:active{transform:scale(.98)}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.tile,.tile.booking{--tile-fill:linear-gradient(135deg,#edf0e1ed,#dfe7d4e8)}}
@@ -46,9 +46,9 @@
 .veil.is-closing{animation:veil-out 300ms ease both}
 .panel{background:none;backdrop-filter:none;-webkit-backdrop-filter:none;border:0;box-shadow:none;overflow:visible;isolation:isolate;contain:layout style}
 .panel:focus{outline:none}
-.panel-morph,.panel-surface{position:absolute;inset:0;border:1px solid #ffffedab;border-radius:inherit;background:linear-gradient(125deg,rgba(250,251,240,.85),rgba(229,233,217,.83));pointer-events:none}
+.panel-morph,.panel-surface{position:absolute;inset:0;border:1px solid #ffffedab;border-radius:inherit;background:linear-gradient(125deg,#fafbf0,#e5e9d9);pointer-events:none}
 .panel-morph{transform-origin:top left;contain:strict;box-shadow:inset 0 1px 2px #fff8,0 12px 32px #18220d24}
-.panel-surface{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:inset 0 1px 2px #fff9,0 24px 64px #18220d35}
+.panel-surface{box-shadow:inset 0 1px 2px #fff9,0 24px 64px #18220d35}
 .panel.is-open .panel-morph{visibility:hidden}
 .panel-head,.panel-scroll{position:relative}
 .panel-head{flex-shrink:0}
@@ -63,7 +63,6 @@
 @keyframes veil-out{from{opacity:1}to{opacity:0}}
 @keyframes panel-content-in{from{opacity:0}to{opacity:1}}
 @keyframes panel-content-out{from{opacity:1}to{opacity:0}}
-@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.panel-surface{background:#f0f2e5}}
 @media(max-width:700px){.team-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.team-layout{gap:16px}.panel-scroll{border-radius:0 0 24px 24px}}
 @media(max-width:480px){.team-grid{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.veil,.panel-scroll{animation:none}}

@@ -9,6 +9,7 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
  const shell=useRef<HTMLDivElement>(null);
  const closeButton=useRef<HTMLButtonElement>(null);
  const currentTransform=useRef<string|null>(null);
+ const currentOpacity=useRef(1);
  const revealed=useRef(false);
  const [visible,setVisible]=useState(false);
 
@@ -22,11 +23,13 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
    :'scale(.97)';
   const expanded='translate3d(0,0,0) scale(1,1)';
   const start=exiting?(currentTransform.current??expanded):tileTransform;
+  const startOpacity=exiting?currentOpacity.current:.06;
   let animation:Animation|undefined,frame=0,timer:ReturnType<typeof setTimeout>|undefined,cancelled=false,finished=false;
   const fadeContent=exiting&&revealed.current;
   if(!exiting){revealed.current=false;setVisible(false)}
   p.focus({preventScroll:true});
   s.style.transform=start;
+  s.style.opacity=String(startOpacity);
   s.style.willChange='transform, opacity';
 
   const finish=()=>{
@@ -34,19 +37,21 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
    finished=true;
    currentTransform.current=exiting?tileTransform:expanded;
    s.style.transform=currentTransform.current;
+   currentOpacity.current=exiting?0:1;
+   s.style.opacity=String(currentOpacity.current);
    s.style.willChange='auto';
    if(exiting)onExited();
    else{revealed.current=true;setVisible(true)}
   };
-  // Only a flat, empty surface moves. Photos, text and backdrop blur stay out
-  // of the scaled layer, so the compositor can reuse the same small texture.
+  // The opaque surface expands while fading in; content is mounted only once
+  // both animations finish. No backdrop filter or content is scaled.
   const startMotion=()=>{
    if(exiting){revealed.current=false;setVisible(false)}
    frame=requestAnimationFrame(()=>{
     animation=s.animate([
-     {transform:start,opacity:1},
+     {transform:start,opacity:startOpacity},
      {transform:exiting?tileTransform:expanded,opacity:exiting?0:1},
-    ],{duration:exiting?300:420,easing:exiting?'cubic-bezier(.4,0,.2,1)':'cubic-bezier(.22,1,.36,1)',fill:'forwards'});
+    ],{duration:exiting?300:480,easing:exiting?'cubic-bezier(.4,0,.2,1)':'cubic-bezier(.22,1,.36,1)',fill:'forwards'});
     animation.finished.then(finish,()=>{});
    });
   };
@@ -57,7 +62,7 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
   motion.addEventListener('change',skipMotion);
   return()=>{
    // Preserve progress if Back/Escape interrupts an opening animation.
-   if(!finished)currentTransform.current=getComputedStyle(s).transform;
+   if(!finished){const style=getComputedStyle(s);currentTransform.current=style.transform;currentOpacity.current=Number(style.opacity)}
    cancelled=true;
    clearTimeout(timer);
    cancelAnimationFrame(frame);
