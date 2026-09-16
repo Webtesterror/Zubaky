@@ -1,5 +1,7 @@
 # Zuby Dásně — správa webu
 
+**Nasazení na Netlify včetně administrace:** postup najdete v [NETLIFY.md](NETLIFY.md). Netlify používá vlastní heslo `ADMIN_PASSWORD` a trvalé Netlify Blobs. Níže uvedená aktivace přes ChatGPT se týká pouze původního Sites náhledu.
+
 ## Přihlášení
 
 Na webu klikněte dole na **Správa obsahu**. Online náhled používá přihlášení přes ChatGPT. Při první návštěvě zadejte jednorázový aktivační kód z odděleného souboru **PRISTUPY.txt**. Tím se váš účet stane jediným správcem. Další přihlášené účty nemají právo upravovat obsah.
