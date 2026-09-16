@@ -15,3 +15,30 @@
 .stage{display:flex;justify-content:center;padding-top:18vh;padding-bottom:10vh}.tiles{width:min(760px,100%)}.tile{min-height:150px}.person img{height:auto;aspect-ratio:3/4;object-fit:cover}.admin-thumb{height:auto;aspect-ratio:3/4}.contact-map{display:block;width:100%;height:360px;border:0;border-radius:20px;margin-top:32px;background:#dce3d2}.map-external{display:inline-block;margin-top:14px}@media(max-width:700px){.stage{padding-top:23vh;padding-bottom:35px}.tiles{margin-top:0}.tile{min-height:122px}.contact-map{height:300px}.person img{height:auto;aspect-ratio:3/4}}
 
 .topline,.footline{justify-content:flex-end}
+
+/* Keep live blur and long content out of the expanding compositor layer. */
+.veil{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(21,35,15,.19);animation:veil-in 420ms ease both}
+.veil.is-closing{animation:veil-out 300ms ease both}
+.panel{background:none;backdrop-filter:none;-webkit-backdrop-filter:none;border:0;box-shadow:none;overflow:visible;isolation:isolate;contain:layout style}
+.panel:focus{outline:none}
+.panel-morph,.panel-surface{position:absolute;inset:0;border:1px solid #ffffedab;border-radius:inherit;background:linear-gradient(125deg,rgba(250,251,240,.85),rgba(229,233,217,.83));pointer-events:none}
+.panel-morph{transform-origin:top left;contain:strict;box-shadow:inset 0 1px 2px #fff8,0 12px 32px #18220d24}
+.panel-surface{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:inset 0 1px 2px #fff9,0 24px 64px #18220d35}
+.panel.is-open .panel-morph{visibility:hidden}
+.panel-head,.panel-scroll{position:relative}
+.panel-head{flex-shrink:0}
+.panel-scroll{min-height:0;border-radius:0 0 32px 32px;animation:panel-content-in 140ms ease-out both}
+.panel.is-closing .panel-head,.panel.is-closing .panel-scroll{animation:panel-content-out 80ms ease-in both;pointer-events:none}
+.about-text{max-width:none;width:100%}
+.team-layout{display:grid;gap:24px}
+.team-owners{grid-template-columns:repeat(2,minmax(0,1fr));width:min(100%,820px);justify-self:center}
+.person{min-width:0}
+.person-text{overflow-wrap:anywhere}
+@keyframes veil-in{from{opacity:0}to{opacity:1}}
+@keyframes veil-out{from{opacity:1}to{opacity:0}}
+@keyframes panel-content-in{from{opacity:0}to{opacity:1}}
+@keyframes panel-content-out{from{opacity:1}to{opacity:0}}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.panel-surface{background:#f0f2e5}}
+@media(max-width:700px){.team-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.team-layout{gap:16px}.panel-scroll{border-radius:0 0 24px 24px}}
+@media(max-width:480px){.team-grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.veil,.panel-scroll{animation:none}}
