@@ -26,7 +26,7 @@ U profilu bez fotografie se obrázek nezobrazuje. Na původním webu mělo šest
 
 ## O nás a další sekce
 
-V **O nás** lze upravovat úvodní nadpis, odstavce a fotografie, včetně jejich pořadí. **Průběh léčby** umožňuje upravit jednotlivé kroky. V **Kontaktu** upravíte telefon, e-mail, adresu, odkazy a otevírací dobu.
+V **O nás** lze upravovat odstavce a fotografie, včetně jejich pořadí. **Průběh léčby** umožňuje upravit jednotlivé kroky. V **Kontaktu** upravíte telefon, e-mail, adresu, odkazy a otevírací dobu.
 
 ## Objednávání
 
