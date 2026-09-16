@@ -4,7 +4,7 @@
 
 Na webu klikněte dole na **Správa obsahu**. Online náhled používá přihlášení přes ChatGPT. Při první návštěvě zadejte jednorázový aktivační kód z odděleného souboru **PRISTUPY.txt**. Tím se váš účet stane jediným správcem. Další přihlášené účty nemají právo upravovat obsah.
 
-Místní náhled používá vlastní přístupový kód z téhož souboru. Je dostupný pouze na tomto počítači. Místní a online databáze jsou oddělené; jejich změny se automaticky nesynchronizují.
+Místní náhled používá stejný kód jako online aktivace. Je dostupný pouze na tomto počítači. Místní a online databáze jsou oddělené; jejich změny se automaticky nesynchronizují.
 
 ## Změna ceníku
 
