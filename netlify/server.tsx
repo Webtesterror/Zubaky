@@ -31,7 +31,7 @@ const redirect=(location:string,cookie?:string)=>new Response(null,{status:303,h
 // Site-wide stores survive deployment. One CAS write makes draft + publish atomic.
 export function createHandler(stores=()=>({content:getStore({name:'zuby-content',consistency:'strong'}),media:getStore({name:'zuby-media',consistency:'strong'})})){
  return async function handler(req:Request):Promise<Response>{try{
- const path=new URL(req.url).pathname;
+ const path=new URL(req.url).pathname.replace(/\/+$/,'')||'/';
  if(!['GET','HEAD'].includes(req.method)&&req.headers.get('origin')!==new URL(req.url).origin)return json({error:'Neplatný původ požadavku.'},403);
  if(path==='/admin/login'||path==='/signin-with-chatgpt'){
   if(!secret())return login('V Netlify nastavte proměnnou ADMIN_PASSWORD na heslo o alespoň 24 znacích a proveďte nové nasazení.',503);
@@ -85,4 +85,4 @@ export function createHandler(stores=()=>({content:getStore({name:'zuby-content'
  }catch(e){console.error('Netlify request failed',e instanceof Error?e.name:'unknown');return json({error:'Požadavek se nepodařilo dokončit. Zkontrolujte údaje nebo zkuste akci později.'},503)}};
 }
 export default createHandler();
-export const config={path:['/','/admin','/api/*','/signin-with-chatgpt','/signout-with-chatgpt'],rateLimit:{windowLimit:120,windowSize:60,aggregateBy:['ip','domain']}};
+export const config={path:['/','/admin','/admin/*','/api/*','/signin-with-chatgpt','/signout-with-chatgpt'],rateLimit:{windowLimit:120,windowSize:60,aggregateBy:['ip','domain']}};

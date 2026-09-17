@@ -25,6 +25,8 @@ Prázdné úložiště načítá kompletní výchozí obsah z lib/seed.json; prv
 
 Objednávkový formulář zůstává neaktivní a neodesílá osobní údaje.
 
-Lokální ověření: `npm run build:netlify`, `node scripts/test-netlify.mjs`, `npx tsc --noEmit`. Test používá trvalý testovací adaptér podle rozhraní Blobs; nedokládá přístup k vašemu produkčnímu účtu. Po nasazení ověřte přihlášení, koncept, zveřejnění, nahrání fotografie a jejich přetrvání po dalším nasazení. V deployment logu zkontrolujte také aplikování rate limitu.
+Lokální ověření: `npm run build:netlify`, `node scripts/test-netlify.mjs`, `npx tsc --noEmit`. Test kontroluje také deklarované Netlify cesty včetně `/admin/login` a variant s koncovým lomítkem. Používá skutečné SDK a lokální server Netlify Blobs; ověřuje koncept, publikování i fotografie po restartu úložiště. Testovací data jsou oddělena od produkce. Po nasazení ověřte přihlášení na své veřejné adrese. V deployment logu zkontrolujte také aplikování rate limitu.
+
+Pokud kliknutí na Správa obsahu skončí chybou 404 na `/admin/login`, jde o staré nasazení bez správného směrování přihlášení. Nasaďte aktuální větev main; heslo kvůli této chybě není potřeba měnit.
 
 Netlify zdroje: https://docs.netlify.com/build/data-and-storage/netlify-blobs/ a https://docs.netlify.com/build/functions/configuration/
