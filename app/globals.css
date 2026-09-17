@@ -18,11 +18,11 @@
 
 /* Clear glass navigation: static highlights, with only transform/opacity feedback. */
 .tile{
- --tile-fill:linear-gradient(135deg,rgba(170,215,255,.03),rgba(196,227,255,0) 48%,rgba(145,200,255,.02));
+ --tile-fill:linear-gradient(135deg,rgba(233,244,252,.22),rgba(239,247,253,.18) 48%,rgba(226,240,251,.20));
  --tile-shadow:inset 0 1px 0 rgba(226,244,255,.657),inset 1px 0 0 rgba(207,234,255,.168),inset 0 -1px 0 rgba(194,225,255,.215),0 6px 20px rgba(18,39,57,.063);
  isolation:isolate;overflow:hidden;background:var(--tile-fill);
  border-color:rgba(201,229,255,.374);border-top-color:rgba(229,246,255,.71);border-bottom-color:rgba(189,223,254,.256);
- backdrop-filter:blur(.5px);-webkit-backdrop-filter:blur(.5px);
+ backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
  box-shadow:var(--tile-shadow);color:#1c2f26;transition:transform 180ms ease;
 }
 .tile::before,.tile::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none}
@@ -34,7 +34,7 @@
 .tile:hover{transform:none;background:var(--tile-fill);box-shadow:var(--tile-shadow)}
 .tile:focus-visible{outline:3px solid #344e34;outline-offset:5px}
 .tile:hover::before,.tile:focus-visible::before{opacity:.7}
-.tile.booking{--tile-fill:linear-gradient(135deg,rgba(175,217,255,.045),rgba(198,229,255,.005) 55%,rgba(157,204,255,.03));background:var(--tile-fill);border-color:rgba(213,238,255,.633)}
+.tile.booking{--tile-fill:linear-gradient(135deg,rgba(233,244,252,.235),rgba(239,247,253,.185) 55%,rgba(226,240,251,.21));background:var(--tile-fill);border-color:rgba(213,238,255,.633)}
 @media(hover:hover) and (pointer:fine){.tile:hover{transform:translateY(-3px)}}
 .tile:active{transform:scale(.98)}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.tile,.tile.booking{--tile-fill:linear-gradient(135deg,#edf0e1ed,#dfe7d4e8)}}
