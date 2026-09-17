@@ -41,20 +41,33 @@ try{
  await stores().content.setJSON('state',{draft:legacy,published:legacy,revision});
  assert.equal((await (await request('/api/content')).json()).data.announcement,'');
  const original=await (await request('/')).text();assert.match(original,/bootstrap/);assert.ok(!original.includes('home-announcement'));
+ // Both languages are rendered on the server, without optional requests before consent.
+ assert.match(original,/<html lang="cs">/);assert.ok(original.includes('cookie-banner'));assert.ok(!original.includes('<iframe'));
+ const enResponse=await request('/?lang=en');assert.equal(enResponse.headers.get('set-cookie'),null);
+ const enHtml=await enResponse.text();assert.match(enHtml,/<html lang="en">/);assert.ok(enHtml.includes('About us'));assert.ok(enHtml.includes('Root canal treatment'));assert.ok(enHtml.includes('Dental hygienist'));assert.ok(enHtml.includes('Accept cookies'));assert.ok(!enHtml.includes('<iframe'));
+ assert.match(enHtml,/hreflang="cs"/);assert.match(enHtml,/hreflang="en"/);
+ const remembered=await (await request('/','GET',undefined,false,{cookie:'zuby_consent=v1-accepted; zuby_lang=en'})).text();
+ assert.match(remembered,/<html lang="en">/);assert.ok(!remembered.includes('class="cookie-banner"'));assert.ok(remembered.includes('<iframe'));
+ const rejected=await (await request('/','GET',undefined,false,{cookie:'zuby_consent=v1-rejected; zuby_lang=en'})).text();
+ assert.match(rejected,/<html lang="cs">/);assert.ok(!rejected.includes('class="cookie-banner"'));assert.ok(!rejected.includes('<iframe'));
+ const explicit=await (await request('/?lang=cs','GET',undefined,false,{cookie:'zuby_consent=v1-accepted; zuby_lang=en'})).text();assert.match(explicit,/<html lang="cs">/);
+ const invalidConsent=await (await request('/?lang=xx','GET',undefined,false,{cookie:'zuby_consent=invalid; zuby_lang=en'})).text();assert.match(invalidConsent,/<html lang="cs">/);assert.ok(invalidConsent.includes('class="cookie-banner"'));
  const announcement='Mimořádně zavřeno v pátek.\nZnovu otevřeme v pondělí. <b>Děkujeme</b>';
- data.announcement=announcement;
+ data.announcement=announcement;data.english={[announcement]:'Special opening hours announcement',[data.categories[0].items[0].name]:'Updated English consultation'};
  data.team[0].name='Test přetrvání';data.team[0].hidden=true;data.priceNote='Nová poznámka testu';
  assert.equal((await request('/api/content','PUT',JSON.stringify({data,revision}))).status,200);
  assert.ok(!(await (await request('/')).text()).includes('Nová poznámka testu'));
  assert.ok(!(await (await request('/')).text()).includes('home-announcement'));
  await server.stop();server=new BlobsServer({directory,token});address=await server.start();
  handler=createHandler(stores); // Restart storage and handler, preserving disk contents.
- let draft=await (await request('/api/content')).json();assert.equal(draft.data.priceNote,'Nová poznámka testu');assert.equal(draft.data.announcement,announcement);
+ let draft=await (await request('/api/content')).json();assert.equal(draft.data.priceNote,'Nová poznámka testu');assert.equal(draft.data.announcement,announcement);assert.equal(draft.data.english[announcement],'Special opening hours announcement');
+ assert.ok(!(await (await request('/?lang=en')).text()).includes('Special opening hours announcement'),'English draft is not public');
  assert.equal((await request('/api/content','PUT',JSON.stringify({data,revision,publish:true}))).status,409);
  assert.equal((await request('/api/content','PUT',JSON.stringify({data,revision:draft.revision,publish:true}))).status,200);
  const page=await (await request('/')).text();assert.ok(page.includes('Nová poznámka testu'));assert.ok(!page.includes('Test přetrvání'));
  assert.match(page,/class="notice home-announcement"/);assert.ok(page.indexOf('home-announcement')<page.indexOf('aria-label="Hlavní sekce"'));
  assert.ok(page.includes('&lt;b&gt;Děkujeme&lt;/b&gt;'));assert.ok(!page.includes('<b>Děkujeme</b>'));
+ const publishedEnglish=await (await request('/?lang=en')).text();assert.ok(publishedEnglish.includes('Special opening hours announcement'));assert.ok(publishedEnglish.includes('Updated English consultation'));assert.ok(publishedEnglish.includes(data.categories[0].items[0].price));
  const form=new FormData();form.set('file',new File([fs.readFileSync('public/recepce-logo.webp')],'photo.webp',{type:'image/webp'}));
  assert.equal((await request('/api/upload','POST',form,false)).status,403);
  const uploaded=await request('/api/upload','POST',form);assert.equal(uploaded.status,200);const {src}=await uploaded.json();
@@ -63,6 +76,7 @@ try{
  assert.deepEqual(Buffer.from(await photo.arrayBuffer()),fs.readFileSync('public/recepce-logo.webp'));
  assert.ok((await (await request('/')).text()).includes('Nová poznámka testu'),'published content survives storage restart');
  assert.ok((await (await request('/')).text()).includes('home-announcement'),'published announcement survives restart');
+ assert.ok((await (await request('/?lang=en')).text()).includes('Updated English consultation'),'English publication survives storage restart');
  let saved=await (await request('/api/content')).json();saved.data.announcement='';
  assert.equal((await request('/api/content','PUT',JSON.stringify(saved))).status,200);
  assert.ok((await (await request('/')).text()).includes('home-announcement'),'draft deletion is not published');
@@ -77,7 +91,7 @@ try{
  assert.equal((await request('/api/content','PUT',JSON.stringify({data,revision:2}),false)).status,403);
  assert.match((await request('/signout-with-chatgpt')).headers.get('set-cookie'),/Max-Age=0/);
  process.env.ADMIN_PASSWORD=randomBytes(32).toString('hex');assert.equal((await request('/api/content')).status,403);
- console.log('PASS: deployed route coverage, login, forged headers, origin, permissions, drafts, publish, announcement persistence/removal/escaping/legacy compatibility, revision conflict, hidden profile, upload, actual Blobs SDK/storage restarts, logout and password rotation.');
+ console.log('PASS: bilingual SSR, consent/cookie language precedence, gated Google Maps, English CMS persistence, deployed route coverage, login, forged headers, origin, permissions, drafts, publish, announcement persistence/removal/escaping/legacy compatibility, revision conflict, hidden profile, upload, actual Blobs SDK/storage restarts, logout and password rotation.');
 }finally{
  await server.stop();
  assert.equal(path.dirname(path.resolve(directory)),path.resolve(os.tmpdir()));

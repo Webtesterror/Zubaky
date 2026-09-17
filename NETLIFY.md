@@ -22,6 +22,15 @@ Při změně hesla upravte ADMIN_PASSWORD a spusťte nové nasazení. Původní 
 
 ## Obsah a ověření
 
+### Čeština, angličtina a cookies
+
+- Návštěvník přepne jazyk tlačítky CZ / EN. Přímé adresy jsou `/?lang=cs` a `/?lang=en`; za ně lze přidat například `#nas-tym`. Anglický obsah se vykresluje také na serveru.
+- Ve Správě obsahu otevřete **Angličtina**. U českého textu vyplňte anglický překlad, uložte koncept a zveřejněte. Náhled konceptu ukazuje anglické sekce. Původní obsah má připravené překlady. Nové nebo změněné české texty, včetně mimořádné zprávy, je potřeba dopřeložit; administrace ukazuje počet chybějících překladů. Bez překladu se zachová český originál.
+- Jména, tituly, fotografie, pořadí a skrytí zaměstnanců, kontaktní údaje a ceny jsou společné oběma jazykům. Částky se nepřepočítávají. Odkaz na dokument o ochraně osobních údajů zůstává v češtině a je tak označen.
+- Při první návštěvě se dole zobrazí volba přijmout / odmítnout cookies. `zuby_consent` uchovává pouze tuto volbu po 180 dní. `zuby_lang` se ukládá pouze při přijetí. Po odmítnutí nebo odvolání souhlasu se jazyková cookie smaže; ruční přepínání a přímé jazykové odkazy dále fungují. Při zakázaných cookies v prohlížeči zůstává volba jen v aktuální stránce.
+- Vložená Google mapa se nenačítá před souhlasem ani po odmítnutí. Přímý odkaz na mapu je dostupný vždy. Tlačítko u mapy umožňuje cookies přijmout a mapu načíst. Souhlas lze změnit přes **Nastavení cookies** v patičce. Odvolání zastaví další vložené načítání; web nemůže odstranit cookies už uložené doménou Googlu.
+- Nová funkce nepřidává analytické ani reklamní měření. Přihlášení správce nadále používá vlastní zabezpečenou relační cookie.
+
 Prázdné úložiště načítá kompletní výchozí obsah z lib/seed.json; první uložení jej zapíše do Blobs. Pozdější nasazení obsah nepřepisují. Úpravy provedené pouze v původním Sites nebo místním náhledu nejsou automaticky přeneseny. Před migrací takových úprav je nutné exportovat publikovaný obsah a nahraná média.
 
 Objednávkový formulář zůstává neaktivní a neodesílá osobní údaje.

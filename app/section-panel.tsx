@@ -1,10 +1,12 @@
 'use client';
 import {useLayoutEffect,useRef,useState,type ReactNode} from 'react';
 import {X} from 'lucide-react';
+import {usePreferences} from './preferences';
 
 type Props={id:string,title:string,exiting:boolean,onClose:()=>void,onExited:()=>void,renderContent:()=>ReactNode};
 
 export default function SectionPanel({id,title,exiting,onClose,onExited,renderContent}:Props){
+ const {t}=usePreferences();
  const panel=useRef<HTMLDivElement>(null);
  const shell=useRef<HTMLDivElement>(null);
  const closeButton=useRef<HTMLButtonElement>(null);
@@ -92,7 +94,7 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
    {visible&&<>
     <div className="panel-surface" aria-hidden="true"/>
     <header className="panel-head"><div><div className="eyebrow">Zuby | Dásně</div><h2>{title}</h2></div>
-     <button className="close" ref={closeButton} aria-label="Zavřít sekci" onClick={()=>{if(!exiting)onClose()}}><X size={23}/></button>
+     <button className="close" ref={closeButton} aria-label={t("Zavřít sekci")} onClick={()=>{if(!exiting)onClose()}}><X size={23}/></button>
     </header>
     <div className="panel-scroll">{renderContent()}</div>
    </>}

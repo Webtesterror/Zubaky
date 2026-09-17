@@ -5,6 +5,6 @@ import AdminEditor from '../app/admin/editor';
 import Setup from '../app/admin/setup';
 const boot=JSON.parse(document.getElementById('bootstrap')!.textContent!);
 const root=document.getElementById('root')!;
-if(boot.page==='home')hydrateRoot(root,<Reception data={boot.data}/>);
+if(boot.page==='home')hydrateRoot(root,<Reception data={boot.data} initialLocale={boot.locale} initialConsent={boot.consent}/>);
 if(boot.page==='editor')hydrateRoot(root,<AdminEditor/>);
 if(boot.page==='setup')hydrateRoot(root,<Setup/>);
