@@ -125,3 +125,9 @@
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.social-glass{background:#e9f0ed}}
 @media(prefers-contrast:more){.social-glass{background:#eef2e3;color:#162819;border-color:#42583e}.social-glass::before{display:none}}
 @media(prefers-reduced-motion:reduce){.social-glass{transition:none}.social-glass:hover,.social-glass:active{transform:none}}
+
+/* Larger social buttons fill the contact space above the map. */
+.socials{gap:20px}
+.social-glass{width:88px;height:88px;border-radius:26px}
+.social-glass svg{width:40px;height:40px}
+@media(max-width:700px){.socials{gap:16px}.social-glass{width:76px;height:76px;border-radius:23px}.social-glass svg{width:35px;height:35px}}
