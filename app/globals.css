@@ -86,3 +86,24 @@
 @media(max-width:700px){.team-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.team-layout{gap:16px}.panel-scroll{border-radius:0 0 24px 24px}}
 @media(max-width:480px){.team-grid{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.veil,.panel-scroll{animation:none}}
+
+/* Scale navigation with large desktop viewports instead of capping it at 760px. */
+@media(min-width:1920px){
+ .tiles{width:clamp(760px,39.5833vw,1440px);gap:clamp(15px,.78125vw,28px)}
+ .tile{min-height:clamp(150px,7.8125vw,284px);padding:clamp(24px,1.25vw,45px);border-radius:clamp(24px,1.25vw,45px)}
+ .tile span{font-size:clamp(1.7rem,1.41667vw,3.2rem)}
+ .tile svg{width:clamp(29px,1.51042vw,55px);height:clamp(29px,1.51042vw,55px)}
+ .tile .tile-arrow{right:clamp(20px,1.04167vw,38px);bottom:clamp(26px,1.35417vw,49px);width:clamp(18px,.9375vw,34px);height:clamp(18px,.9375vw,34px)}
+ .topline{font-size:clamp(.875rem,.72917vw,1.5rem)}
+ .topline a{padding:clamp(10px,.52083vw,18px) clamp(16px,.83333vw,30px);gap:clamp(10px,.52083vw,18px);border-radius:clamp(18px,.9375vw,34px)}
+ .topline a svg{width:clamp(15px,.78125vw,28px);height:clamp(15px,.78125vw,28px)}
+ .footline{font-size:clamp(.875rem,.72917vw,1.25rem)}
+}
+
+/* Wider desktop photograph keeps the counter logo clear below the navigation. */
+@media(min-width:1200px) and (min-aspect-ratio:4/3){
+ .reception-bg{background-image:url('/recepce-wide.webp')}
+ .stage{padding-top:10vh;padding-bottom:18vh}
+ .ambient-plane{width:max(100vw,133.333333vh);height:max(75vw,100vh);left:calc((100vw - max(100vw,133.333333vh))*.5);top:calc((100vh - max(75vw,100vh))*.28)}
+ .ambient-wall{left:23%;width:49%;top:34%;height:21%}
+}
