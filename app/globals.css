@@ -40,38 +40,23 @@
  backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
  box-shadow:var(--tile-shadow);color:#1c2f26;transition:transform 180ms ease;
 }
-.tile-glass::before,.tile-glass::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none}
-.tile-glass::before{z-index:0;background:radial-gradient(ellipse at 12% 0%,rgba(207,236,255,.1),transparent 32%),linear-gradient(165deg,rgba(210,236,255,.025),transparent 20%,transparent 85%,rgba(188,220,255,.02));opacity:.3;transition:opacity 180ms ease}
-.tile-glass::after{z-index:0;padding:1px;background:linear-gradient(135deg,#f7fcffe1,rgba(235,244,255,.084) 35%,rgba(234,242,254,.053) 58%,#edf6ffaf);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.tile::before,.tile::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none}
+.tile::before{z-index:0;background:radial-gradient(ellipse at 12% 0%,rgba(207,236,255,.1),transparent 32%),linear-gradient(165deg,rgba(210,236,255,.025),transparent 20%,transparent 85%,rgba(188,220,255,.02));opacity:.3;transition:opacity 180ms ease}
+.tile::after{z-index:0;padding:1px;background:linear-gradient(135deg,#f7fcffe1,rgba(235,244,255,.084) 35%,rgba(234,242,254,.053) 58%,#edf6ffaf);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
 .tile>svg,.tile>span{position:relative;z-index:1}
 .tile>svg{stroke-width:1.5;color:#1b312b;filter:drop-shadow(0 1px 0 rgba(251,253,255,.64))}
 .tile>span{text-shadow:0 1px 1px rgba(255,255,246,.65)}
 .tile:hover{transform:none;background:var(--tile-fill);box-shadow:var(--tile-shadow)}
 .tile:focus-visible{outline:3px solid #344e34;outline-offset:5px}
-.tile:hover .tile-glass::before,.tile:focus-visible .tile-glass::before{opacity:.7}
+.tile:hover::before,.tile:focus-visible::before{opacity:.7}
 .tile.booking{--tile-fill:linear-gradient(135deg,rgba(233,244,252,.235),rgba(239,247,253,.185) 55%,rgba(226,240,251,.21));background:var(--tile-fill);border-color:rgba(213,238,255,.633)}
 @media(hover:hover) and (pointer:fine){.tile:hover{transform:translateY(-3px)}}
 .tile:active{transform:scale(.98)}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.tile,.tile.booking{--tile-fill:linear-gradient(135deg,#edf0e1ed,#dfe7d4e8)}}
-@supports not ((mask-composite:exclude) or (-webkit-mask-composite:xor)){.tile-glass::after{display:none}}
+@supports not ((mask-composite:exclude) or (-webkit-mask-composite:xor)){.tile::after{display:none}}
 @media(prefers-contrast:more){.tile,.tile.booking{--tile-fill:linear-gradient(#eef2e3,#eef2e3);color:#162819;border-color:#42583e}}
 
 /* Keep live blur and long content out of the expanding compositor layer. */
-/* The link establishes 3D space; frosted glass is its own flat layer so
-   overflow clipping and backdrop-filter do not flatten the floating glyphs. */
-.tile,.tile:hover,.tile.booking{overflow:visible;isolation:auto;background:transparent;box-shadow:none;border-color:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;transform-style:preserve-3d;transform:perspective(900px) rotateX(var(--tilt-x,0deg)) rotateY(var(--tilt-y,0deg));transition:transform 240ms ease-out}
-.tile>.tile-glass{position:absolute;inset:-1px;z-index:auto;pointer-events:none;overflow:hidden;border:1px solid rgba(201,229,255,.374);border-top-color:rgba(229,246,255,.71);border-bottom-color:rgba(189,223,254,.256);border-radius:inherit;background:var(--tile-fill);box-shadow:var(--tile-shadow);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);transform:translateZ(0)}
-.tile.booking>.tile-glass{border-color:rgba(213,238,255,.633)}
-.tile>.tile-icon,.tile>.tile-label,.tile>.tile-arrow{z-index:auto;pointer-events:none;transition:transform 240ms ease-out}
-.tile>.tile-icon{transform:translate3d(var(--layer-x,0px),var(--layer-y,0px),8px)}
-.tile>.tile-label{transform:translate3d(calc(var(--layer-x,0px)*.55),calc(var(--layer-y,0px)*.55),3px)}
-.tile>.tile-arrow{transform:translate3d(calc(var(--layer-x,0px)*.75),calc(var(--layer-y,0px)*.75),5px)}
-.tile[data-tilting=true],.tile[data-tilting=true]>.tile-icon,.tile[data-tilting=true]>.tile-label,.tile[data-tilting=true]>.tile-arrow{transition-duration:100ms}
-.tile[data-snap=true],.tile[data-snap=true]>.tile-icon,.tile[data-snap=true]>.tile-label,.tile[data-snap=true]>.tile-arrow{transition:none}
-.tile[data-snap=true]{transform:none}
-@media(hover:none),(pointer:coarse),(prefers-reduced-motion:reduce){.tile,.tile:hover,.tile.booking,.tile>.tile-icon,.tile>.tile-label,.tile>.tile-arrow{transform:none;transition:none}}
-@media(prefers-contrast:more){.tile>.tile-glass{border-color:#42583e}}
-
 .veil{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(21,35,15,.19);animation:veil-in 420ms ease both}
 .veil.is-closing{animation:veil-out 300ms ease both}
 .panel{background:none;backdrop-filter:none;-webkit-backdrop-filter:none;border:0;box-shadow:none;overflow:visible;isolation:isolate;contain:layout style}

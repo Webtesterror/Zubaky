@@ -1,10 +1,9 @@
 'use client';
 import {useCallback,useEffect,useLayoutEffect,useRef,useState} from 'react';
-import {Heart,Users,Route,ReceiptText,MapPin,CalendarDays,Phone,Mail} from 'lucide-react';
+import {Heart,Users,Route,ReceiptText,MapPin,CalendarDays,ArrowUpRight,Phone,Mail} from 'lucide-react';
 import type {Content} from '@/lib/content';
 import SectionPanel from './section-panel';
 import AmbientLight from './ambient-light';
-import GlassTile from './glass-tile';
 const sections=[{id:'o-nas',name:'O nás',Icon:Heart},{id:'nas-tym',name:'Náš tým',Icon:Users},{id:'prubeh-lecby',name:'Průběh léčby',Icon:Route},{id:'cenik',name:'Ceník',Icon:ReceiptText},{id:'kontakt',name:'Kontakt',Icon:MapPin},{id:'objednani',name:'Objednání',Icon:CalendarDays}];
 export function SectionContent({id,data}:{id:string,data:Content}){
  const [message,setMessage]=useState('');
@@ -73,7 +72,7 @@ export default function Reception({data}:{data:Content}){
    <div className="stage">
     <h1 className="sr-only">Zuby Dásně — stomatologické centrum</h1>
     <nav className="tiles" aria-label="Hlavní sekce">
-     {sections.map(section=><GlassTile key={section.id} {...section} disabled={!!(requested||active)} onOpen={open}/>)}
+     {sections.map(({id,name,Icon})=><a key={id} id={'tile-'+id} href={'#'+id} aria-haspopup="dialog" className={'tile '+(id==='objednani'?'booking':'')} onClick={e=>{e.preventDefault();open(id)}}><Icon aria-hidden="true"/><span>{name}</span><ArrowUpRight className="tile-arrow" aria-hidden="true"/></a>)}
     </nav>
    </div>
    <footer className="footline"><a className="admin-link" href="/admin">Správa obsahu</a></footer>
