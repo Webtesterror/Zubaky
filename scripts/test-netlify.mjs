@@ -36,16 +36,25 @@ try{
  assert.equal((await request('/admin')).status,200);
  assert.equal((await request('/admin/')).status,200);
  let {data,revision}=await (await request('/api/content')).json();
- const original=await (await request('/')).text();assert.match(original,/bootstrap/);
+ // Simulate content saved before announcements existed.
+ const legacy=structuredClone(data);delete legacy.announcement;
+ await stores().content.setJSON('state',{draft:legacy,published:legacy,revision});
+ assert.equal((await (await request('/api/content')).json()).data.announcement,'');
+ const original=await (await request('/')).text();assert.match(original,/bootstrap/);assert.ok(!original.includes('home-announcement'));
+ const announcement='Mimořádně zavřeno v pátek.\nZnovu otevřeme v pondělí. <b>Děkujeme</b>';
+ data.announcement=announcement;
  data.team[0].name='Test přetrvání';data.team[0].hidden=true;data.priceNote='Nová poznámka testu';
  assert.equal((await request('/api/content','PUT',JSON.stringify({data,revision}))).status,200);
  assert.ok(!(await (await request('/')).text()).includes('Nová poznámka testu'));
+ assert.ok(!(await (await request('/')).text()).includes('home-announcement'));
  await server.stop();server=new BlobsServer({directory,token});address=await server.start();
  handler=createHandler(stores); // Restart storage and handler, preserving disk contents.
- let draft=await (await request('/api/content')).json();assert.equal(draft.data.priceNote,'Nová poznámka testu');
+ let draft=await (await request('/api/content')).json();assert.equal(draft.data.priceNote,'Nová poznámka testu');assert.equal(draft.data.announcement,announcement);
  assert.equal((await request('/api/content','PUT',JSON.stringify({data,revision,publish:true}))).status,409);
  assert.equal((await request('/api/content','PUT',JSON.stringify({data,revision:draft.revision,publish:true}))).status,200);
  const page=await (await request('/')).text();assert.ok(page.includes('Nová poznámka testu'));assert.ok(!page.includes('Test přetrvání'));
+ assert.match(page,/class="notice home-announcement"/);assert.ok(page.indexOf('home-announcement')<page.indexOf('aria-label="Hlavní sekce"'));
+ assert.ok(page.includes('&lt;b&gt;Děkujeme&lt;/b&gt;'));assert.ok(!page.includes('<b>Děkujeme</b>'));
  const form=new FormData();form.set('file',new File([fs.readFileSync('public/recepce-logo.webp')],'photo.webp',{type:'image/webp'}));
  assert.equal((await request('/api/upload','POST',form,false)).status,403);
  const uploaded=await request('/api/upload','POST',form);assert.equal(uploaded.status,200);const {src}=await uploaded.json();
@@ -53,11 +62,22 @@ try{
  handler=createHandler(stores);const photo=await request(src);assert.equal(photo.status,200);assert.equal(photo.headers.get('content-type'),'image/webp');
  assert.deepEqual(Buffer.from(await photo.arrayBuffer()),fs.readFileSync('public/recepce-logo.webp'));
  assert.ok((await (await request('/')).text()).includes('Nová poznámka testu'),'published content survives storage restart');
+ assert.ok((await (await request('/')).text()).includes('home-announcement'),'published announcement survives restart');
+ let saved=await (await request('/api/content')).json();saved.data.announcement='';
+ assert.equal((await request('/api/content','PUT',JSON.stringify(saved))).status,200);
+ assert.ok((await (await request('/')).text()).includes('home-announcement'),'draft deletion is not published');
+ saved=await (await request('/api/content')).json();
+ assert.equal((await request('/api/content','PUT',JSON.stringify({...saved,publish:true}))).status,200);
+ assert.ok(!(await (await request('/')).text()).includes('home-announcement'),'publishing empty text removes notice');
+ saved=await (await request('/api/content')).json();saved.data.announcement='   \n  ';
+ assert.equal((await request('/api/content','PUT',JSON.stringify({...saved,publish:true}))).status,200);
+ assert.ok(!(await (await request('/')).text()).includes('home-announcement'),'whitespace does not render a notice');
+ assert.equal((await (await request('/api/content')).json()).data.announcement,'');
  const invalid=new FormData();invalid.set('file',new File(['this is not a photo'],'fake.png',{type:'image/png'}));assert.equal((await request('/api/upload','POST',invalid)).status,400);
  assert.equal((await request('/api/content','PUT',JSON.stringify({data,revision:2}),false)).status,403);
  assert.match((await request('/signout-with-chatgpt')).headers.get('set-cookie'),/Max-Age=0/);
  process.env.ADMIN_PASSWORD=randomBytes(32).toString('hex');assert.equal((await request('/api/content')).status,403);
- console.log('PASS: deployed route coverage, login, forged headers, origin, permissions, drafts, publish, revision conflict, hidden profile, upload, actual Blobs SDK/storage restarts, logout and password rotation.');
+ console.log('PASS: deployed route coverage, login, forged headers, origin, permissions, drafts, publish, announcement persistence/removal/escaping/legacy compatibility, revision conflict, hidden profile, upload, actual Blobs SDK/storage restarts, logout and password rotation.');
 }finally{
  await server.stop();
  assert.equal(path.dirname(path.resolve(directory)),path.resolve(os.tmpdir()));

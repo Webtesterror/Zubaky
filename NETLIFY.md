@@ -14,6 +14,7 @@ Při změně hesla upravte ADMIN_PASSWORD a spusťte nové nasazení. Původní 
 
 ## Správa
 
+- Mimořádná zpráva: otevřete stejnojmennou záložku, napište text a zvolte Zveřejnit změny. Zpráva zůstane nad dlaždicemi i po restartu nebo nasazení. Odstraníte ji tlačítkem Vymazat zprávu a následným zveřejněním. Uložit koncept zatím veřejný web nezmění.
 - Ceník: otevřete záložku Ceník, upravte nebo přidejte položku a cenu. Šipkami změníte pořadí.
 - Zaměstnanec: v Náš tým zvolte Přidat zaměstnance, vyplňte údaje a nahrajte fotografii. Lze měnit pořadí i skrýt profil.
 - Fotografie: tlačítkem Nahrát / vyměnit fotografii vyberte JPG, PNG nebo WebP do **4 MB**. Posuvníkem nastavte ořez a vyplňte alternativní text. Limit respektuje přenosové omezení Netlify Functions.

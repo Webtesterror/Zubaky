@@ -107,3 +107,9 @@
  .ambient-plane{width:max(100vw,133.333333vh);height:max(75vw,100vh);left:calc((100vw - max(100vw,133.333333vh))*.5);top:calc((100vh - max(75vw,100vh))*.28)}
  .ambient-wall{left:23%;width:49%;top:34%;height:21%}
 }
+
+/* Shared notice styling with the price list; empty announcements render nothing. */
+.home-navigation{width:min(760px,100%);min-width:0}
+.home-navigation .tiles{width:100%}
+.home-announcement{white-space:pre-line;overflow-wrap:anywhere;text-align:left;margin:0 0 20px}
+@media(min-width:1920px){.home-navigation{width:clamp(760px,39.5833vw,1440px)}.home-announcement{font-size:clamp(1rem,.83333vw,1.5rem);padding:clamp(18px,.9375vw,30px) clamp(22px,1.14583vw,40px);margin-bottom:clamp(20px,1.04167vw,36px)}}

@@ -5,6 +5,9 @@ import type {Content} from '@/lib/content';
 import SectionPanel from './section-panel';
 import AmbientLight from './ambient-light';
 const sections=[{id:'o-nas',name:'O nás',Icon:Heart},{id:'nas-tym',name:'Náš tým',Icon:Users},{id:'prubeh-lecby',name:'Průběh léčby',Icon:Route},{id:'cenik',name:'Ceník',Icon:ReceiptText},{id:'kontakt',name:'Kontakt',Icon:MapPin},{id:'objednani',name:'Objednání',Icon:CalendarDays}];
+export function Announcement({text}:{text?:string}){
+ return text?.trim()?<aside className="notice home-announcement" aria-label="Mimořádná zpráva">{text}</aside>:null;
+}
 export function SectionContent({id,data}:{id:string,data:Content}){
  const [message,setMessage]=useState('');
  const mapLink=(!data.contact.map || data.contact.map==='https://maps.app.goo.gl/8t9ML6sDr61P4HS56')?'https://maps.app.goo.gl/kuauTduyaYLPFiPQ7':data.contact.map;
@@ -72,9 +75,12 @@ export default function Reception({data}:{data:Content}){
    <header className="topline"><a href={'tel:'+data.contact.phone.replace(/\s/g,'')}><Phone size={15}/>{data.contact.phone}</a></header>
    <div className="stage">
     <h1 className="sr-only">Zuby Dásně — stomatologické centrum</h1>
+    <div className="home-navigation">
+    <Announcement text={data.announcement}/>
     <nav className="tiles" aria-label="Hlavní sekce">
      {sections.map(({id,name,Icon})=><a key={id} id={'tile-'+id} href={'#'+id} aria-haspopup="dialog" className={'tile '+(id==='objednani'?'booking':'')} onClick={e=>{e.preventDefault();open(id)}}><Icon aria-hidden="true"/><span>{name}</span><ArrowUpRight className="tile-arrow" aria-hidden="true"/></a>)}
     </nav>
+    </div>
    </div>
    <footer className="footline"><a className="admin-link" href="/admin">Správa obsahu</a></footer>
   </main>

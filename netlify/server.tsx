@@ -50,6 +50,7 @@ export function createHandler(stores=()=>({content:getStore({name:'zuby-content'
  if(path==='/api/content'||path==='/'){
   const record=await content.getWithMetadata('state',{type:'json'});
   const state:State=record?.data??{draft:structuredClone(seed),published:structuredClone(seed),revision:0};
+  state.draft.announcement??='';state.published.announcement??='';
   if(path==='/'&&(req.method==='GET'||req.method==='HEAD')){const data=structuredClone(state.published);data.team=data.team.filter(p=>!p.hidden);return document(renderToString(<Reception data={data}/>),{page:'home',data})}
   if(path==='/api/content'&&req.method==='GET')return json({data:state.draft,revision:state.revision});
   if(path==='/api/content'&&req.method==='PUT'){
