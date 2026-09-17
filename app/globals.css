@@ -16,6 +16,21 @@
 
 .topline,.footline{justify-content:flex-end}
 
+/* The square overlay follows the photograph's cover crop. Only the wall is lit;
+   the photograph, counter, lettering and plants remain completely stationary. */
+.reception-bg{overflow:hidden}
+.ambient-plane{position:absolute;z-index:1;pointer-events:none;width:100vmax;height:100vmax;left:calc((100vw - 100vmax)*.5);top:calc((100vh - 100vmax)*.28)}
+.ambient-wall{position:absolute;left:13%;top:31%;width:66%;height:22%;overflow:hidden;-webkit-mask-image:radial-gradient(ellipse at 50% 48%,#000 15%,transparent 70%);mask-image:radial-gradient(ellipse at 50% 48%,#000 15%,transparent 70%)}
+.ambient-shadow,.ambient-caustic{position:absolute;inset:5px;pointer-events:none}
+.ambient-shadow svg,.ambient-caustic svg{display:block;width:100%;height:100%}
+.ambient-shadow{opacity:.045;animation:leaf-light-drift 32s ease-in-out infinite}
+.ambient-caustic{opacity:.035;animation:wall-light-drift 38s ease-in-out infinite}
+.ambient-plane[data-paused=true] .ambient-shadow,.ambient-plane[data-paused=true] .ambient-caustic{animation-play-state:paused}
+@keyframes leaf-light-drift{0%,100%{transform:translate3d(-1px,1px,0);opacity:.045}50%{transform:translate3d(2px,-2px,0);opacity:.065}}
+@keyframes wall-light-drift{0%,100%{transform:translate3d(1px,-1px,0);opacity:.025}50%{transform:translate3d(-2px,1px,0);opacity:.045}}
+@media(max-width:700px){.ambient-plane{left:calc((100vw - 100vmax)*.08);top:calc((100vh - 100vmax)*.5)}}
+@media(prefers-reduced-motion:reduce),(prefers-contrast:more){.ambient-plane{display:none}.ambient-shadow,.ambient-caustic{animation:none}}
+
 /* Clear glass navigation: static highlights, with only transform/opacity feedback. */
 .tile{
  --tile-fill:linear-gradient(135deg,rgba(233,244,252,.22),rgba(239,247,253,.18) 48%,rgba(226,240,251,.20));

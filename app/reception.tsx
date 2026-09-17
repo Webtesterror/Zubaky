@@ -3,6 +3,7 @@ import {useCallback,useEffect,useLayoutEffect,useRef,useState} from 'react';
 import {Heart,Users,Route,ReceiptText,MapPin,CalendarDays,ArrowUpRight,Phone,Mail} from 'lucide-react';
 import type {Content} from '@/lib/content';
 import SectionPanel from './section-panel';
+import AmbientLight from './ambient-light';
 const sections=[{id:'o-nas',name:'O nás',Icon:Heart},{id:'nas-tym',name:'Náš tým',Icon:Users},{id:'prubeh-lecby',name:'Průběh léčby',Icon:Route},{id:'cenik',name:'Ceník',Icon:ReceiptText},{id:'kontakt',name:'Kontakt',Icon:MapPin},{id:'objednani',name:'Objednání',Icon:CalendarDays}];
 export function SectionContent({id,data}:{id:string,data:Content}){
  const [message,setMessage]=useState('');
@@ -65,7 +66,7 @@ export default function Reception({data}:{data:Content}){
   setRequested(id);
  }
  return <>
-  <div className="reception-bg" aria-hidden="true"/>
+  <div className="reception-bg" aria-hidden="true"><AmbientLight paused={!!(requested||active)}/></div>
   <main className="scene" ref={scene}>
    <header className="topline"><a href={'tel:'+data.contact.phone.replace(/\s/g,'')}><Phone size={15}/>{data.contact.phone}</a></header>
    <div className="stage">
