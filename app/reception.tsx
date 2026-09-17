@@ -41,6 +41,11 @@ export default function Reception({data}:{data:Content}){
   addEventListener('hashchange',sync);
   return()=>{removeEventListener('popstate',sync);removeEventListener('hashchange',sync)};
  },[]);
+ useLayoutEffect(()=>{
+  // Scope the viewport lock to the hydrated homepage, never the CMS or no-JS content.
+  document.documentElement.classList.add('reception-page');
+  return()=>document.documentElement.classList.remove('reception-page');
+ },[]);
  useEffect(()=>{if(!active&&requested)setActive(requested)},[active,requested]);
  useLayoutEffect(()=>{
   if(!active)return;
