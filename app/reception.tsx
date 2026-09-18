@@ -4,7 +4,7 @@ import {Heart,Users,Route,ReceiptText,MapPin,CalendarDays,ArrowUpRight,Phone,Mai
 import type {Content} from '@/lib/content';
 import SectionPanel from './section-panel';
 import AmbientLight from './ambient-light';
-import {useMobileReveal} from './use-mobile-reveal';
+import {useMobileReveal,useMenuReturn} from './use-mobile-reveal';
 import {PreferencesProvider,LanguageSwitcher,CookieBanner,PageLanguage,usePreferences} from './preferences';
 import {translatedContent} from '@/lib/i18n';
 import type {Locale,Consent} from '@/lib/preferences';
@@ -37,6 +37,7 @@ function ReceptionScene({original}:{original:Content}){
  const data=translatedContent(original,locale);
  const [requested,setRequested]=useState<string|null>(null);
  const [active,setActive]=useState<string|null>(null);
+ const {returningSection,finishReturn}=useMenuReturn(active,requested);
  const [ready,setReady]=useState(false);
  const scene=useRef<HTMLElement>(null);
  const navigating=useRef(false);
@@ -88,14 +89,14 @@ function ReceptionScene({original}:{original:Content}){
  }
  return <>
   <div className="reception-bg" aria-hidden="true"><AmbientLight paused={!!(requested||active)}/></div>
-  <main className="scene" ref={scene} data-intro={revealing?'reveal':undefined} onPointerDownCapture={finishReveal} onFocusCapture={finishReveal}>
+  <main className="scene" ref={scene} data-intro={revealing?'reveal':undefined} data-return-phase={returningSection?(active?'closing':'reveal'):undefined} onPointerDownCapture={()=>{finishReveal();finishReturn()}} onFocusCapture={e=>{finishReveal();if(e.target.id!=='tile-'+returningSection)finishReturn()}}>
    <header className="topline"><LanguageSwitcher/><a href={'tel:'+data.contact.phone.replace(/\s/g,'')}><Phone size={15}/>{data.contact.phone}</a></header>
    <div className="stage">
     <h1 className="sr-only">{t("Zuby Dásně — stomatologické centrum")}</h1>
     <div className="home-navigation">
     <Announcement text={data.announcement}/>
     <nav className="tiles" aria-label={t("Hlavní sekce")}>
-     {sections.map(({id,name,Icon})=><a key={id} id={'tile-'+id} href={'#'+id} aria-haspopup="dialog" className={'tile '+(id==='objednani'?'booking':'')} onClick={e=>{e.preventDefault();open(id)}}><Icon aria-hidden="true"/><span>{t(name)}</span><ArrowUpRight className="tile-arrow" aria-hidden="true"/></a>)}
+     {sections.map(({id,name,Icon})=><a key={id} id={'tile-'+id} data-return-anchor={returningSection===id?'true':undefined} href={'#'+id} aria-haspopup="dialog" className={'tile '+(id==='objednani'?'booking':'')} onClick={e=>{e.preventDefault();open(id)}}><Icon aria-hidden="true"/><span>{t(name)}</span><ArrowUpRight className="tile-arrow" aria-hidden="true"/></a>)}
     </nav>
     </div>
    </div>
