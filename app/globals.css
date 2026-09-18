@@ -233,7 +233,7 @@
 /* Keep only the reception photograph behind the glass section surface.
    Visibility preserves tile geometry for the opening and closing animation. */
 .scene[inert]{visibility:hidden}
-.panel-surface{background:linear-gradient(125deg,rgba(250,251,240,.775),rgba(229,233,217,.7));backdrop-filter:blur(16px) saturate(110%);-webkit-backdrop-filter:blur(16px) saturate(110%);border-color:rgba(201,229,255,.374);border-top-color:rgba(229,246,255,.71);border-bottom-color:rgba(189,223,254,.256);box-shadow:inset 0 1px 0 rgba(226,244,255,.657),inset 1px 0 0 rgba(207,234,255,.168),inset 0 -1px 0 rgba(194,225,255,.215),0 24px 64px #18220d35}
+.panel-surface{background:linear-gradient(135deg,rgba(233,244,252,.22),rgba(239,247,253,.18) 48%,rgba(226,240,251,.20));backdrop-filter:blur(16px) saturate(110%);-webkit-backdrop-filter:blur(16px) saturate(110%);border-color:rgba(201,229,255,.374);border-top-color:rgba(229,246,255,.71);border-bottom-color:rgba(189,223,254,.256);box-shadow:inset 0 1px 0 rgba(226,244,255,.657),inset 1px 0 0 rgba(207,234,255,.168),inset 0 -1px 0 rgba(194,225,255,.215),0 24px 64px #18220d35}
 @media(max-width:1000px){.panel-surface{backdrop-filter:blur(10px) saturate(110%);-webkit-backdrop-filter:blur(10px) saturate(110%)}}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.panel-surface{background:linear-gradient(125deg,#fafbf0,#e5e9d9)}}
 @media(prefers-contrast:more),(prefers-reduced-transparency:reduce){.panel-surface{background:linear-gradient(125deg,#fafbf0,#e5e9d9);backdrop-filter:none;-webkit-backdrop-filter:none}}
