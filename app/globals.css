@@ -209,8 +209,10 @@
  }
 }
 
-/* All six tiles return together after the panel has closed. */
-@media(max-width:1000px) and (prefers-reduced-motion:no-preference){
- .scene[data-return-phase=closing] .tile{animation:none;opacity:0;transform:translate3d(0,12px,0);filter:blur(14px)}
- .scene[data-return-phase=reveal] .tile{animation:mobile-tile-arrive 650ms cubic-bezier(.22,1,.36,1) 300ms both}
+/* Mobile glass: 15% less fill opacity; labels and icons remain fully legible. */
+@media(max-width:1000px) and (prefers-contrast:no-preference){
+ @supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .tile{--tile-fill:linear-gradient(135deg,rgba(233,244,252,.187),rgba(239,247,253,.153) 48%,rgba(226,240,251,.17))}
+  .tile.booking{--tile-fill:linear-gradient(135deg,rgba(233,244,252,.19975),rgba(239,247,253,.15725) 55%,rgba(226,240,251,.1785))}
+ }
 }

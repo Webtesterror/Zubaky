@@ -21,25 +21,3 @@ export function useMobileReveal(){
  },[finishReveal]);
  return {revealing,finishReveal};
 }
-
-export function useMenuReturn(active:string|null,requested:string|null){
- const [returningSection,setReturningSection]=useState<string|null>(null);
- const finishReturn=useCallback(()=>setReturningSection(null),[]);
- useLayoutEffect(()=>{
-  if(requested){finishReturn();return;}
-  if(active&&matchMedia('(max-width: 1000px)').matches&&!matchMedia('(prefers-reduced-motion: reduce)').matches)setReturningSection(active);
- },[active,requested,finishReturn]);
- useLayoutEffect(()=>{
-  if(!returningSection)return;
-  const mobile=matchMedia('(max-width: 1000px)');
-  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-  const changed=()=>{if(!mobile.matches||reduced.matches)finishReturn()};
-  changed();
-  // Keep all tiles hidden while the panel shrinks. Reveal all of them together
-  // 300 ms after it has closed, then remove the temporary filter layers.
-  const timer=active?undefined:setTimeout(finishReturn,1000);
-  mobile.addEventListener('change',changed);reduced.addEventListener('change',changed);
-  return()=>{clearTimeout(timer);mobile.removeEventListener('change',changed);reduced.removeEventListener('change',changed)};
- },[active,returningSection,finishReturn]);
- return {returningSection,finishReturn};
-}
