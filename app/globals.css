@@ -45,9 +45,9 @@
  backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
  box-shadow:var(--tile-shadow);color:#1c2f26;transition:transform 180ms ease;
 }
-.tile::before,.tile::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none}
+.tile::before,.tile::after,.panel-surface::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none}
 .tile::before{z-index:0;background:radial-gradient(ellipse at 12% 0%,rgba(207,236,255,.1),transparent 32%),linear-gradient(165deg,rgba(210,236,255,.025),transparent 20%,transparent 85%,rgba(188,220,255,.02));opacity:.3;transition:opacity 180ms ease}
-.tile::after{z-index:0;padding:1px;background:linear-gradient(135deg,#f7fcffe1,rgba(235,244,255,.084) 35%,rgba(234,242,254,.053) 58%,#edf6ffaf);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.tile::after,.panel-surface::after{z-index:0;padding:1px;background:linear-gradient(135deg,#f7fcffe1,rgba(235,244,255,.084) 35%,rgba(234,242,254,.053) 58%,#edf6ffaf);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
 .tile>svg,.tile>span{position:relative;z-index:1}
 .tile>svg{stroke-width:1.5;color:#1b312b;filter:drop-shadow(0 1px 0 rgba(251,253,255,.64))}
 .tile>span{text-shadow:0 1px 1px rgba(255,255,246,.65)}
@@ -58,7 +58,7 @@
 @media(hover:hover) and (pointer:fine){.tile:hover{transform:translateY(-3px)}}
 .tile:active{transform:scale(.98)}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.tile,.tile.booking{--tile-fill:linear-gradient(135deg,#edf0e1ed,#dfe7d4e8)}}
-@supports not ((mask-composite:exclude) or (-webkit-mask-composite:xor)){.tile::after{display:none}}
+@supports not ((mask-composite:exclude) or (-webkit-mask-composite:xor)){.tile::after,.panel-surface::after{display:none}}
 @media(prefers-contrast:more){.tile,.tile.booking{--tile-fill:linear-gradient(#eef2e3,#eef2e3);color:#162819;border-color:#42583e}}
 
 /* Keep live blur and long content out of the expanding compositor layer. */
@@ -233,7 +233,7 @@
 /* Keep only the reception photograph behind the glass section surface.
    Visibility preserves tile geometry for the opening and closing animation. */
 .scene[inert]{visibility:hidden}
-.panel-surface{background:linear-gradient(125deg,rgba(250,251,240,.85),rgba(229,233,217,.8));backdrop-filter:blur(16px) saturate(110%);-webkit-backdrop-filter:blur(16px) saturate(110%);border-color:rgba(255,255,245,.75);box-shadow:inset 0 1px 2px rgba(255,255,255,.8),inset 0 -1px 0 rgba(255,255,255,.25),0 24px 64px #18220d35}
+.panel-surface{background:linear-gradient(125deg,rgba(250,251,240,.775),rgba(229,233,217,.7));backdrop-filter:blur(16px) saturate(110%);-webkit-backdrop-filter:blur(16px) saturate(110%);border-color:rgba(201,229,255,.374);border-top-color:rgba(229,246,255,.71);border-bottom-color:rgba(189,223,254,.256);box-shadow:inset 0 1px 0 rgba(226,244,255,.657),inset 1px 0 0 rgba(207,234,255,.168),inset 0 -1px 0 rgba(194,225,255,.215),0 24px 64px #18220d35}
 @media(max-width:1000px){.panel-surface{backdrop-filter:blur(10px) saturate(110%);-webkit-backdrop-filter:blur(10px) saturate(110%)}}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.panel-surface{background:linear-gradient(125deg,#fafbf0,#e5e9d9)}}
 @media(prefers-contrast:more),(prefers-reduced-transparency:reduce){.panel-surface{background:linear-gradient(125deg,#fafbf0,#e5e9d9);backdrop-filter:none;-webkit-backdrop-filter:none}}
