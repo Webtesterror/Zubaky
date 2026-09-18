@@ -77,7 +77,7 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
  useLayoutEffect(()=>{if(visible)closeButton.current?.focus({preventScroll:true})},[visible]);
 
  return <>
-  <div className={'veil'+(exiting?' is-closing':'')} aria-hidden="true"/>
+  <div className={'veil'+(exiting?' is-closing':'')} aria-hidden="true" onClick={e=>{if(e.target===e.currentTarget&&!exiting)onClose()}}/>
   <div className={'panel'+(visible?' is-open':' is-morphing')+(exiting?' is-closing':'')} ref={panel}
    role="dialog" aria-modal="true" aria-label={title} tabIndex={-1}
    onKeyDown={e=>{
