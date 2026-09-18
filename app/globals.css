@@ -209,11 +209,11 @@
  }
 }
 
-/* Mobile glass: three successive 15% reductions in fill opacity; labels and icons remain fully legible. */
+/* Mobile glass: four successive 15% reductions in fill opacity; labels and icons remain fully legible. */
 @media(max-width:1000px) and (prefers-contrast:no-preference){
  @supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-  .tile{--tile-fill:linear-gradient(135deg,rgba(233,244,252,0.1351075),rgba(239,247,253,0.1105425) 48%,rgba(226,240,251,0.122825))}
-  .tile.booking{--tile-fill:linear-gradient(135deg,rgba(233,244,252,0.14431937),rgba(239,247,253,0.11361312) 55%,rgba(226,240,251,0.12896625))}
+  .tile{--tile-fill:linear-gradient(135deg,rgba(233,244,252,0.114841375),rgba(239,247,253,0.093961125) 48%,rgba(226,240,251,0.10440125))}
+  .tile.booking{--tile-fill:linear-gradient(135deg,rgba(233,244,252,0.122671464),rgba(239,247,253,0.096571152) 55%,rgba(226,240,251,0.109621312))}
  }
 }
 
