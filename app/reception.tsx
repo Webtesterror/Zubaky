@@ -96,7 +96,7 @@ function ReceptionScene({original}:{original:Content}){
     <div className="home-navigation">
     <Announcement text={data.announcement}/>
     <nav className="tiles" aria-label={t("Hlavní sekce")}>
-     {sections.map(({id,name,Icon})=><a key={id} id={'tile-'+id} data-return-anchor={returningSection===id?'true':undefined} href={'#'+id} aria-haspopup="dialog" className={'tile '+(id==='objednani'?'booking':'')} onClick={e=>{e.preventDefault();open(id)}}><Icon aria-hidden="true"/><span>{t(name)}</span><ArrowUpRight className="tile-arrow" aria-hidden="true"/></a>)}
+     {sections.map(({id,name,Icon})=><a key={id} id={'tile-'+id} href={'#'+id} aria-haspopup="dialog" className={'tile '+(id==='objednani'?'booking':'')} onClick={e=>{e.preventDefault();open(id)}}><Icon aria-hidden="true"/><span>{t(name)}</span><ArrowUpRight className="tile-arrow" aria-hidden="true"/></a>)}
     </nav>
     </div>
    </div>

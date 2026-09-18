@@ -35,7 +35,7 @@ export function useMenuReturn(active:string|null,requested:string|null){
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const changed=()=>{if(!mobile.matches||reduced.matches)finishReturn()};
   changed();
-  // Keep other tiles hidden while the panel shrinks. Reveal all of them together
+  // Keep all tiles hidden while the panel shrinks. Reveal all of them together
   // 300 ms after it has closed, then remove the temporary filter layers.
   const timer=active?undefined:setTimeout(finishReturn,1000);
   mobile.addEventListener('change',changed);reduced.addEventListener('change',changed);

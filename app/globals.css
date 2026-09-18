@@ -209,9 +209,8 @@
  }
 }
 
-/* Returning from a section keeps its own tile still; the other five arrive together. */
+/* All six tiles return together after the panel has closed. */
 @media(max-width:1000px) and (prefers-reduced-motion:no-preference){
- .scene[data-return-phase] .tile[data-return-anchor]{animation:none;opacity:1;transform:none;filter:none}
- .scene[data-return-phase=closing] .tile:not([data-return-anchor]){animation:none;opacity:0;transform:translate3d(0,12px,0);filter:blur(14px)}
- .scene[data-return-phase=reveal] .tile:not([data-return-anchor]){animation:mobile-tile-arrive 650ms cubic-bezier(.22,1,.36,1) 300ms both}
+ .scene[data-return-phase=closing] .tile{animation:none;opacity:0;transform:translate3d(0,12px,0);filter:blur(14px)}
+ .scene[data-return-phase=reveal] .tile{animation:mobile-tile-arrive 650ms cubic-bezier(.22,1,.36,1) 300ms both}
 }
