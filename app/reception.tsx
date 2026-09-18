@@ -4,6 +4,7 @@ import {Heart,Users,Route,ReceiptText,MapPin,CalendarDays,ArrowUpRight,Phone,Mai
 import type {Content} from '@/lib/content';
 import SectionPanel from './section-panel';
 import AmbientLight from './ambient-light';
+import {useMobileReveal} from './use-mobile-reveal';
 import {PreferencesProvider,LanguageSwitcher,CookieBanner,PageLanguage,usePreferences} from './preferences';
 import {translatedContent} from '@/lib/i18n';
 import type {Locale,Consent} from '@/lib/preferences';
@@ -31,6 +32,7 @@ export default function Reception({data,initialLocale='cs',initialConsent=null}:
  return <PreferencesProvider initialLocale={initialLocale} initialConsent={initialConsent}><PageLanguage/><ReceptionScene original={data}/></PreferencesProvider>;
 }
 function ReceptionScene({original}:{original:Content}){
+ const {revealing,finishReveal}=useMobileReveal();
  const {locale,t,openSettings}=usePreferences();
  const data=translatedContent(original,locale);
  const [requested,setRequested]=useState<string|null>(null);
@@ -86,7 +88,7 @@ function ReceptionScene({original}:{original:Content}){
  }
  return <>
   <div className="reception-bg" aria-hidden="true"><AmbientLight paused={!!(requested||active)}/></div>
-  <main className="scene" ref={scene}>
+  <main className="scene" ref={scene} data-intro={revealing?'reveal':undefined} onPointerDownCapture={finishReveal} onFocusCapture={finishReveal}>
    <header className="topline"><LanguageSwitcher/><a href={'tel:'+data.contact.phone.replace(/\s/g,'')}><Phone size={15}/>{data.contact.phone}</a></header>
    <div className="stage">
     <h1 className="sr-only">{t("Zuby Dásně — stomatologické centrum")}</h1>
