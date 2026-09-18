@@ -209,10 +209,15 @@
  }
 }
 
-/* Mobile glass: two successive 15% reductions in fill opacity; labels and icons remain fully legible. */
+/* Mobile glass: three successive 15% reductions in fill opacity; labels and icons remain fully legible. */
 @media(max-width:1000px) and (prefers-contrast:no-preference){
  @supports ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-  .tile{--tile-fill:linear-gradient(135deg,rgba(233,244,252,.15895),rgba(239,247,253,.13005) 48%,rgba(226,240,251,.1445))}
-  .tile.booking{--tile-fill:linear-gradient(135deg,rgba(233,244,252,.1697875),rgba(239,247,253,.1336625) 55%,rgba(226,240,251,.151725))}
+  .tile{--tile-fill:linear-gradient(135deg,rgba(233,244,252,0.1351075),rgba(239,247,253,0.1105425) 48%,rgba(226,240,251,0.122825))}
+  .tile.booking{--tile-fill:linear-gradient(135deg,rgba(233,244,252,0.14431937),rgba(239,247,253,0.11361312) 55%,rgba(226,240,251,0.12896625))}
  }
 }
+
+/* Only tile lettering softens during a language change. */
+.tile-label{filter:blur(0);opacity:1;transition:filter 220ms ease,opacity 220ms ease}
+.tile-label.is-blurred{filter:blur(6px);opacity:.35;transition-duration:140ms}
+@media(prefers-reduced-motion:reduce){.tile-label,.tile-label.is-blurred{filter:none;opacity:1;transition:none}}

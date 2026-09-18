@@ -4,6 +4,7 @@ import {Heart,Users,Route,ReceiptText,MapPin,CalendarDays,ArrowUpRight,Phone,Mai
 import type {Content} from '@/lib/content';
 import SectionPanel from './section-panel';
 import AmbientLight from './ambient-light';
+import TileLabel from './tile-label';
 import {useMobileReveal} from './use-mobile-reveal';
 import {PreferencesProvider,LanguageSwitcher,CookieBanner,PageLanguage,usePreferences} from './preferences';
 import {translatedContent} from '@/lib/i18n';
@@ -95,7 +96,7 @@ function ReceptionScene({original}:{original:Content}){
     <div className="home-navigation">
     <Announcement text={data.announcement}/>
     <nav className="tiles" aria-label={t("Hlavní sekce")}>
-     {sections.map(({id,name,Icon})=><a key={id} id={'tile-'+id} href={'#'+id} aria-haspopup="dialog" className={'tile '+(id==='objednani'?'booking':'')} onClick={e=>{e.preventDefault();open(id)}}><Icon aria-hidden="true"/><span>{t(name)}</span><ArrowUpRight className="tile-arrow" aria-hidden="true"/></a>)}
+     {sections.map(({id,name,Icon})=><a key={id} id={'tile-'+id} href={'#'+id} aria-label={t(name)} aria-haspopup="dialog" className={'tile '+(id==='objednani'?'booking':'')} onClick={e=>{e.preventDefault();open(id)}}><Icon aria-hidden="true"/><TileLabel text={t(name)} locale={locale}/><ArrowUpRight className="tile-arrow" aria-hidden="true"/></a>)}
     </nav>
     </div>
    </div>
