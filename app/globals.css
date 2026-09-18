@@ -229,3 +229,11 @@
  .tile>svg{flex-shrink:0}
  .tile-label{width:100%;min-height:2.3em;line-height:1.15;display:flex;align-items:flex-end;padding-right:20px}
 }
+
+/* Keep only the reception photograph behind the glass section surface.
+   Visibility preserves tile geometry for the opening and closing animation. */
+.scene[inert]{visibility:hidden}
+.panel-surface{background:linear-gradient(125deg,rgba(250,251,240,.85),rgba(229,233,217,.8));backdrop-filter:blur(16px) saturate(110%);-webkit-backdrop-filter:blur(16px) saturate(110%);border-color:rgba(255,255,245,.75);box-shadow:inset 0 1px 2px rgba(255,255,255,.8),inset 0 -1px 0 rgba(255,255,255,.25),0 24px 64px #18220d35}
+@media(max-width:1000px){.panel-surface{backdrop-filter:blur(10px) saturate(110%);-webkit-backdrop-filter:blur(10px) saturate(110%)}}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.panel-surface{background:linear-gradient(125deg,#fafbf0,#e5e9d9)}}
+@media(prefers-contrast:more),(prefers-reduced-transparency:reduce){.panel-surface{background:linear-gradient(125deg,#fafbf0,#e5e9d9);backdrop-filter:none;-webkit-backdrop-filter:none}}
