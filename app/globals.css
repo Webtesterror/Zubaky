@@ -237,3 +237,22 @@
 
 /* Match background brightness and shading across desktop and mobile. */
 .reception-bg{filter:brightness(1.14)}
+
+/* Local reading surfaces leave the surrounding glass and photographs clear. */
+.tile .text-backing,.panel .text-backing,
+.panel-head h2,.panel-head .eyebrow,
+.panel-scroll h3,.panel-scroll p:not(.notice):not(.form-status),
+.panel-scroll .price-row>div,.panel-scroll .price-row>strong,
+.panel-scroll .contact-links a,.panel-scroll .map-external,
+.panel-scroll .form-grid>a,.panel-scroll .step-no{
+ background:rgba(243,246,236,.92);
+ box-shadow:0 0 7px 3px rgba(243,246,236,.5);
+ border-radius:6px;
+ -webkit-box-decoration-break:clone;box-decoration-break:clone;
+}
+.tile .text-backing{display:inline;padding:2px 5px;margin-left:-5px;font:inherit;line-height:inherit;text-shadow:none}
+.panel .text-backing{width:fit-content;max-width:100%;padding:2px 5px}
+.panel-head h2,.panel-head .eyebrow,.panel-scroll h3,.panel-scroll p:not(.notice):not(.form-status),.panel-scroll .price-row>div,.panel-scroll .price-row>strong,.panel-scroll .contact-links a,.panel-scroll .map-external,.panel-scroll .form-grid>a{width:fit-content;max-width:100%;padding:2px 5px}
+.panel-scroll .price-row>strong{align-self:start}
+.panel-scroll .step-no{align-self:start;text-align:center}
+@media(prefers-contrast:more){.tile .text-backing,.panel .text-backing{background:#f3f6ec;box-shadow:none}}

@@ -16,5 +16,5 @@ export default function TileLabel({text,locale}:{text:string,locale:Locale}){
   reduced.addEventListener('change',changed);
   return()=>{clearTimeout(timer);reduced.removeEventListener('change',changed)};
  },[text,locale]);
- return <span className={'tile-label'+(blurred?' is-blurred':'')} lang={shown.locale} aria-hidden="true">{shown.text}</span>;
+ return <span className={'tile-label'+(blurred?' is-blurred':'')} lang={shown.locale} aria-hidden="true"><span className="text-backing">{shown.text}</span></span>;
 }
