@@ -7,6 +7,7 @@ import SectionPhoto from './section-photo';
 
 import TileLabel from './tile-label';
 import WallLogo from './wall-logo';
+import ForegroundPlants from './foreground-plants';
 import {useMobileReveal} from './use-mobile-reveal';
 import {PreferencesProvider,LanguageSwitcher,CookieBanner,PageLanguage,usePreferences} from './preferences';
 import {translatedContent} from '@/lib/i18n';
@@ -108,7 +109,7 @@ function ReceptionScene({original}:{original:Content}){
  return <>
   <div className="reception-bg" aria-hidden="true"/>
   <main className="scene" ref={scene} data-intro={revealing?'reveal':undefined} data-return={returning?'reveal':undefined} onPointerDownCapture={()=>{finishReveal();setReturning(false)}} onKeyDownCapture={()=>setReturning(false)} onFocusCapture={finishReveal}>
-   <header className="topline"><div className="language-and-logo"><LanguageSwitcher/><WallLogo paused={!!(active||requested)}/></div><a href={'tel:'+data.contact.phone.replace(/\s/g,'')}><Phone size={15}/>{data.contact.phone}</a></header>
+   <ForegroundPlants/><header className="topline"><div className="language-and-logo"><LanguageSwitcher/><WallLogo paused={!!(active||requested)}/></div><a href={'tel:'+data.contact.phone.replace(/\s/g,'')}><Phone size={15}/>{data.contact.phone}</a></header>
    <div className="stage">
     <h1 className="sr-only">{t("Zuby Dásně — stomatologické centrum")}</h1>
     <div className="home-navigation">

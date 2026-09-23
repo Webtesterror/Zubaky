@@ -254,3 +254,14 @@
 @media(max-width:1000px){.wall-logo{--sign-size:clamp(82px,23vw,112px);top:calc(100% + 24px + var(--sign-size) * .6)}}
 @media(max-width:1000px) and (max-height:620px){.wall-logo{--sign-size:64px;top:calc(100% + 18px + var(--sign-size) * .6)}}
 @media(prefers-reduced-motion:reduce){.wall-sign{transform:none!important}}
+
+/* Foreground leaves share the exact cover sizing, position and shading of the room. */
+.foreground-plants{position:fixed;inset:0;z-index:3;pointer-events:none;filter:brightness(1.14)}
+.foliage-view{position:absolute;inset:0;overflow:hidden}
+.foliage-wide{display:none}
+.language-switch,.topline>a,.stage,.footline,.cookie-banner{position:relative;z-index:4}
+.cookie-banner{position:fixed;z-index:9}
+@media(max-width:1000px){.cookie-banner{position:static}}
+@media(min-width:1200px) and (min-aspect-ratio:4/3){
+ .foliage-square{display:none}.foliage-wide{display:block}
+}
