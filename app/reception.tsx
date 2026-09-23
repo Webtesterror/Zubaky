@@ -4,7 +4,7 @@ import {Heart,Users,Route,ReceiptText,MapPin,CalendarDays,ArrowUpRight,Phone,Mai
 import type {Content} from '@/lib/content';
 import SectionPanel from './section-panel';
 import SectionPhoto from './section-photo';
-import AmbientLight from './ambient-light';
+
 import TileLabel from './tile-label';
 import {useMobileReveal} from './use-mobile-reveal';
 import {PreferencesProvider,LanguageSwitcher,CookieBanner,PageLanguage,usePreferences} from './preferences';
@@ -89,7 +89,7 @@ function ReceptionScene({original}:{original:Content}){
   setRequested(id);
  }
  return <>
-  <div className="reception-bg" aria-hidden="true"><AmbientLight paused={!!(requested||active)}/></div>
+  <div className="reception-bg" aria-hidden="true"/>
   <main className="scene" ref={scene} data-intro={revealing?'reveal':undefined} onPointerDownCapture={finishReveal} onFocusCapture={finishReveal}>
    <header className="topline"><LanguageSwitcher/><a href={'tel:'+data.contact.phone.replace(/\s/g,'')}><Phone size={15}/>{data.contact.phone}</a></header>
    <div className="stage">
