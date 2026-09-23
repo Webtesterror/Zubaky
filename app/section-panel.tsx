@@ -26,7 +26,7 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
   const expanded='translate3d(0,0,0) scale(1,1)';
   const start=exiting?(currentTransform.current??expanded):tileTransform;
   const startOpacity=exiting?currentOpacity.current:.06;
-  let animation:Animation|undefined,handoff:Animation|undefined,frame=0,timer:ReturnType<typeof setTimeout>|undefined,cancelled=false,finished=false;
+  let animation:Animation|undefined,frame=0,timer:ReturnType<typeof setTimeout>|undefined,cancelled=false,finished=false;
   const fadeContent=exiting&&revealed.current;
   if(!exiting){revealed.current=false;setVisible(false)}
   p.focus({preventScroll:true});
@@ -48,19 +48,19 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
   // Content prepares offscreen during the morph. Only the empty shell scales;
   // the prepared content fades in once the shell reaches its final geometry.
   const startMotion=()=>{
-   if(exiting){handoff?.cancel();s.style.opacity=String(startOpacity);revealed.current=false;setVisible(false)}
+   if(exiting){revealed.current=false;setVisible(false)}
    frame=requestAnimationFrame(()=>{
     animation=s.animate([
      {transform:start,opacity:startOpacity},
      {transform:exiting?tileTransform:expanded,opacity:exiting?0:1},
-    ],{duration:exiting?460:480,easing:exiting?'cubic-bezier(.32,0,.2,1)':'cubic-bezier(.22,1,.36,1)',fill:'forwards'});
+    ],{duration:exiting?300:480,easing:exiting?'cubic-bezier(.4,0,.2,1)':'cubic-bezier(.22,1,.36,1)',fill:'forwards'});
     animation.finished.then(finish,()=>{});
    });
   };
   if(motion.matches||!s.animate)finish();
-  else if(fadeContent){handoff=s.animate([{opacity:0},{opacity:1}],{duration:180,easing:'ease-in-out',fill:'forwards'});timer=setTimeout(startMotion,180);}
+  else if(fadeContent)timer=setTimeout(startMotion,80);
   else startMotion();
-  const skipMotion=()=>{if(motion.matches){clearTimeout(timer);cancelAnimationFrame(frame);finish();animation?.cancel();handoff?.cancel()}};
+  const skipMotion=()=>{if(motion.matches){clearTimeout(timer);cancelAnimationFrame(frame);finish();animation?.cancel()}};
   motion.addEventListener('change',skipMotion);
   return()=>{
    // Preserve progress if Back/Escape interrupts an opening animation.
@@ -68,7 +68,7 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
    cancelled=true;
    clearTimeout(timer);
    cancelAnimationFrame(frame);
-   animation?.cancel();handoff?.cancel();
+   animation?.cancel();
    motion.removeEventListener('change',skipMotion);
    s.style.willChange='auto';
   };
