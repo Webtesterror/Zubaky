@@ -18,7 +18,7 @@ const BUCKET={async put(key,bytes,options){fs.writeFileSync(path.join(dataRoot,'
 globalThis.__localBindings={DB,BUCKET,ADMIN_SETUP_CODE:code};
 const {default:worker}=await import(pathToFileURL(path.join(root,'.sites-runtime/local-worker.mjs')).href);
 const mime={'.css':'text/css','.js':'text/javascript','.svg':'image/svg+xml','.png':'image/png','.webp':'image/webp','.jpg':'image/jpeg','.ttf':'font/ttf','.woff2':'font/woff2','.pdf':'application/pdf'};
-const ASSETS={async fetch(req){let p;try{p=decodeURIComponent(new URL(req.url).pathname)}catch{return new Response('Nenalezeno',{status:404})}const dir=path.join(root,'dist/client'),f=path.resolve(dir,'.'+p);if(!f.startsWith(dir+path.sep)||!fs.existsSync(f)||!fs.statSync(f).isFile())return new Response('Nenalezeno',{status:404});return new Response(fs.readFileSync(f),{headers:{'Content-Type':mime[path.extname(f)]||'application/octet-stream','X-Content-Type-Options':'nosniff'}})}};
+const ASSETS={async fetch(req){let p;try{p=decodeURIComponent(new URL(req.url).pathname)}catch{return new Response('Nenalezeno',{status:404})}const dir=path.join(root,'dist/client'),f=path.resolve(dir,'.'+p);if(!f.startsWith(dir+path.sep)||!fs.existsSync(f)||!fs.statSync(f).isFile())return new Response('Nenalezeno',{status:404});return new Response(fs.readFileSync(f),{headers:{'Content-Type':mime[path.extname(f)]||'application/octet-stream','X-Content-Type-Options':'nosniff','Cache-Control':p.startsWith('/optimized/')?'public,max-age=31536000,immutable':'no-cache'}})}};
 const hash=s=>crypto.createHash('sha256').update(s).digest('hex');
 const port=Number(process.env.PORT||5173);
 const origin=`http://127.0.0.1:${port}`;

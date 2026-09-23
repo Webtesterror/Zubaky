@@ -1,0 +1,174 @@
+{
+  "/source/7.webp": {
+    "width": 2048,
+    "height": 1365,
+    "variants": [
+      {
+        "src": "/optimized/102e1a85b99d0016-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/optimized/e318b32b22b291f1-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/optimized/3bf2e828da120be6-1440.webp",
+        "width": 1440
+      }
+    ]
+  },
+  "/source/13.webp": {
+    "width": 2048,
+    "height": 1365,
+    "variants": [
+      {
+        "src": "/optimized/e10fe6d383aa56da-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/optimized/9d89b37afcfca64e-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/optimized/71524332859db7d9-1440.webp",
+        "width": 1440
+      }
+    ]
+  },
+  "/source/22.webp": {
+    "width": 2048,
+    "height": 1365,
+    "variants": [
+      {
+        "src": "/optimized/626d078bb3d51a23-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/optimized/892ac4b289583482-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/optimized/c870cb99e663616e-1440.webp",
+        "width": 1440
+      }
+    ]
+  },
+  "/source/19.webp": {
+    "width": 2048,
+    "height": 1365,
+    "variants": [
+      {
+        "src": "/optimized/6285e3c88c193c2c-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/optimized/0e8beb99d9ed4cf5-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/optimized/e78773824deb116b-1440.webp",
+        "width": 1440
+      }
+    ]
+  },
+  "/source/6.webp": {
+    "width": 2048,
+    "height": 1365,
+    "variants": [
+      {
+        "src": "/optimized/3bc0f9c3bc197fa8-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/optimized/4da85af5149e0ef6-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/optimized/bdfbb7aad9e73187-1440.webp",
+        "width": 1440
+      }
+    ]
+  },
+  "/source/8.webp": {
+    "width": 2048,
+    "height": 1365,
+    "variants": [
+      {
+        "src": "/optimized/7ab2f01b2271d0e6-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/optimized/c8f613ebc858194c-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/optimized/5ebdbb0e3e738efb-1440.webp",
+        "width": 1440
+      }
+    ]
+  },
+  "/source/Pavel Sponer.jpg": {
+    "width": 1328,
+    "height": 1770,
+    "variants": [
+      {
+        "src": "/optimized/f62ea28103894b9b-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/optimized/813c10d3fb182e0b-960.webp",
+        "width": 960
+      }
+    ]
+  },
+  "/source/Ondrej Starek.jpg": {
+    "width": 1512,
+    "height": 2016,
+    "variants": [
+      {
+        "src": "/optimized/e3181b1a81b8ab90-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/optimized/b7787f6d6fc9aef5-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/optimized/35c1c623986b2d00-1440.webp",
+        "width": 1440
+      }
+    ]
+  },
+  "/source/avatar.jpg": {
+    "width": 1024,
+    "height": 1536,
+    "variants": [
+      {
+        "src": "/optimized/b695fac6124d0755-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/optimized/c147ee867c791b82-960.webp",
+        "width": 960
+      }
+    ]
+  },
+  "/source/Eliska Zahalkova.jpg": {
+    "width": 1512,
+    "height": 2016,
+    "variants": [
+      {
+        "src": "/optimized/134841ffd62baca3-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/optimized/b92a26576755c203-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/optimized/247805994399344d-1440.webp",
+        "width": 1440
+      }
+    ]
+  }
+}

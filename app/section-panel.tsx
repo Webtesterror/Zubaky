@@ -45,8 +45,8 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
    if(exiting)onExited();
    else{revealed.current=true;setVisible(true)}
   };
-  // The opaque surface expands while fading in; content is mounted only once
-  // both animations finish. No backdrop filter or content is scaled.
+  // Content prepares offscreen during the morph. Only the empty shell scales;
+  // the prepared content fades in once the shell reaches its final geometry.
   const startMotion=()=>{
    if(exiting){revealed.current=false;setVisible(false)}
    frame=requestAnimationFrame(()=>{
@@ -91,13 +91,13 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
     }
    }}>
    <div className="panel-morph" ref={shell} aria-hidden="true"/>
-   {visible&&<>
-    <div className="panel-surface" aria-hidden="true"/>
-    <header className="panel-head"><div><div className="eyebrow">Zuby | Dásně</div><h2>{title}</h2></div>
+   <>
+    {visible&&<div className="panel-surface" aria-hidden="true"/>}
+    <header className="panel-head" inert={!visible} aria-hidden={!visible}><div><div className="eyebrow">Zuby | Dásně</div><h2>{title}</h2></div>
      <button className="close" ref={closeButton} aria-label={t("Zavřít sekci")} onClick={()=>{if(!exiting)onClose()}}><X size={23}/></button>
     </header>
-    <div className="panel-scroll">{renderContent()}</div>
-   </>}
+    <div className="panel-scroll" inert={!visible} aria-hidden={!visible}>{renderContent()}</div>
+   </>
   </div>
  </>;
 }

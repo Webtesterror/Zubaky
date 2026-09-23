@@ -237,3 +237,12 @@
 @media(max-width:1000px){.panel-surface{backdrop-filter:blur(10px) saturate(110%);-webkit-backdrop-filter:blur(10px) saturate(110%)}}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.panel-surface{background:linear-gradient(125deg,#fafbf0,#e5e9d9)}}
 @media(prefers-contrast:more),(prefers-reduced-transparency:reduce){.panel-surface{background:linear-gradient(125deg,#fafbf0,#e5e9d9);backdrop-filter:none;-webkit-backdrop-filter:none}}
+
+/* Prepare content and first images during expansion; reveal without a blank beat. */
+.panel.is-morphing .panel-head,.panel.is-morphing .panel-scroll{visibility:hidden;opacity:0;animation:none;pointer-events:none}
+.panel.is-open:not(.is-closing) .panel-head,.panel.is-open:not(.is-closing) .panel-scroll{animation:panel-content-in 300ms ease-out both}
+.section-photo{display:block;overflow:hidden;background:linear-gradient(135deg,#eff3e54d,#d3dec340);border-radius:20px}
+.section-photo.is-portrait{aspect-ratio:3/4;border-radius:0}
+.section-photo img{display:block;transition:opacity 280ms ease;opacity:1}
+.reception-page .section-photo[data-loaded=false] img{opacity:0}
+@media(prefers-reduced-motion:reduce){.section-photo img,.panel.is-open:not(.is-closing) .panel-head,.panel.is-open:not(.is-closing) .panel-scroll{animation:none;transition:none}}
