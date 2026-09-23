@@ -249,3 +249,28 @@
 @media(min-width:1200px) and (min-aspect-ratio:4/3){
  .foliage-square{display:none}.foliage-wide{display:block}
 }
+
+/* Text remains pure black. Section copy gets a very tight, denser version of
+   the panel glass so the photograph cannot reduce its contrast. */
+body,.scene,.tile,.panel,.panel-head,.panel-scroll{color:#000}
+.topline,.footline{color:#000}
+.tile>svg{color:#000}
+.panel h2,.panel h3,.panel p,.panel li,.panel a,.panel small,.panel strong,
+.panel label,.panel td,.panel th,.panel .step-no,.panel .eyebrow{color:#000}
+.panel-head h2,.panel-head .eyebrow,.panel-scroll h3,.panel-scroll p,
+.panel-scroll li,.panel-scroll .price-row>div,.panel-scroll .price-row>strong,
+.panel-scroll .contact-links a,.panel-scroll .step-no,.panel-scroll .form-grid>a,
+.panel-scroll .map-external,.panel-scroll .field>span,.panel-scroll .person-text h3,
+.panel-scroll .person-text p{
+ background:linear-gradient(135deg,rgba(233,244,252,.308),rgba(239,247,253,.252) 48%,rgba(226,240,251,.28));
+ padding:1px 4px;border-radius:4px;
+ -webkit-box-decoration-break:clone;box-decoration-break:clone;
+}
+.panel-scroll p{width:fit-content;max-width:100%}
+.panel-scroll .price-row>strong{align-self:start}
+@media(prefers-contrast:more),(prefers-reduced-transparency:reduce){
+ .panel-head h2,.panel-head .eyebrow,.panel-scroll h3,.panel-scroll p,.panel-scroll li,
+ .panel-scroll .price-row>div,.panel-scroll .price-row>strong,.panel-scroll .contact-links a,
+ .panel-scroll .step-no,.panel-scroll .form-grid>a,.panel-scroll .map-external,
+ .panel-scroll .field>span,.panel-scroll .person-text h3,.panel-scroll .person-text p{background:#f3f6ec}
+}
