@@ -237,3 +237,8 @@
 
 /* Match background brightness and shading across desktop and mobile. */
 .reception-bg{filter:brightness(1.14)}
+
+/* On closing a section, all menu tiles return together after a short pause. */
+@media(prefers-reduced-motion:no-preference){
+ .scene[data-return=reveal]:not([inert]) .tile{animation:mobile-tile-arrive 800ms cubic-bezier(.22,1,.36,1) 750ms both}
+}

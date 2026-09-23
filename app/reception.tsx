@@ -40,6 +40,7 @@ function ReceptionScene({original}:{original:Content}){
  const [requested,setRequested]=useState<string|null>(null);
  const [active,setActive]=useState<string|null>(null);
  const [ready,setReady]=useState(false);
+ const [returning,setReturning]=useState(false);
  const scene=useRef<HTMLElement>(null);
  const navigating=useRef(false);
 
@@ -72,7 +73,21 @@ function ReceptionScene({original}:{original:Content}){
    document.getElementById('tile-'+active)?.focus({preventScroll:true});
   };
  },[active]);
- const exited=useCallback(()=>setActive(null),[]);
+  useEffect(()=>{
+  if(!returning)return;
+  const motion=matchMedia('(prefers-reduced-motion: reduce)');
+  const finish=()=>setReturning(false);
+  const changed=()=>{if(motion.matches)finish()};
+  const timer=setTimeout(finish,1600);
+  motion.addEventListener('change',changed);
+  changed();
+  return()=>{clearTimeout(timer);motion.removeEventListener('change',changed)};
+ },[returning]);
+ const exited=useCallback(()=>{
+  finishReveal();
+  setReturning(!matchMedia('(prefers-reduced-motion: reduce)').matches);
+  setActive(null);
+ },[finishReveal]);
  const close=useCallback(()=>{
   if(navigating.current)return;
   navigating.current=true;
@@ -85,12 +100,13 @@ function ReceptionScene({original}:{original:Content}){
  },[]);
  function open(id:string){
   if(navigating.current||active)return;
+  setReturning(false);
   history.pushState({section:true},'',`#${id}`);
   setRequested(id);
  }
  return <>
   <div className="reception-bg" aria-hidden="true"/>
-  <main className="scene" ref={scene} data-intro={revealing?'reveal':undefined} onPointerDownCapture={finishReveal} onFocusCapture={finishReveal}>
+  <main className="scene" ref={scene} data-intro={revealing?'reveal':undefined} data-return={returning?'reveal':undefined} onPointerDownCapture={()=>{finishReveal();setReturning(false)}} onKeyDownCapture={()=>setReturning(false)} onFocusCapture={finishReveal}>
    <header className="topline"><LanguageSwitcher/><a href={'tel:'+data.contact.phone.replace(/\s/g,'')}><Phone size={15}/>{data.contact.phone}</a></header>
    <div className="stage">
     <h1 className="sr-only">{t("Zuby Dásně — stomatologické centrum")}</h1>
