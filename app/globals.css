@@ -245,8 +245,8 @@
 .panel-scroll .price-row>div,.panel-scroll .price-row>strong,
 .panel-scroll .contact-links a,.panel-scroll .map-external,
 .panel-scroll .form-grid>a,.panel-scroll .step-no{
- background:rgba(255,255,255,.16);
- box-shadow:0 0 7px 3px rgba(255,255,255,.07);
+ background:rgba(255,255,255,.112);
+ box-shadow:0 0 7px 3px rgba(255,255,255,.049);
  border-radius:6px;
  -webkit-box-decoration-break:clone;box-decoration-break:clone;
 }
