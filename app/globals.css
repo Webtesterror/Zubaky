@@ -172,7 +172,7 @@
 }
 @keyframes mobile-detail-arrive{from{opacity:0}to{opacity:1}}
 @media(max-width:1000px) and (prefers-reduced-motion:no-preference){
- .scene[data-intro=reveal] .tile{--arrival-delay:2000ms;animation:mobile-tile-arrive 650ms cubic-bezier(.22,1,.36,1) var(--arrival-delay) both}
+ .scene[data-intro=reveal] .tile{--arrival-delay:2000ms;animation:mobile-tile-arrive 1250ms cubic-bezier(.22,1,.36,1) var(--arrival-delay) both}
  .scene[data-intro=reveal] .tile:nth-child(n+3){--arrival-delay:2100ms}
  .scene[data-intro=reveal] .tile:nth-child(n+5){--arrival-delay:2200ms}
  .scene[data-intro=reveal] .home-announcement{animation:mobile-detail-arrive 550ms ease 2000ms both}

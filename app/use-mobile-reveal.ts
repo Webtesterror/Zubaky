@@ -10,8 +10,8 @@ export function useMobileReveal(){
   const mobile=matchMedia('(max-width: 1000px)');
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   if(!mobile.matches||reduced.matches||location.hash){finishReveal();return;}
-  // Remove animation/filter layers once the last row has arrived at 2850 ms.
-  const timer=setTimeout(finishReveal,2950);
+  // Remove animation/filter layers once the last row has arrived at 3450 ms.
+  const timer=setTimeout(finishReveal,3550);
   const changed=()=>{if(!mobile.matches||reduced.matches)finishReveal()};
   const restored=(event:PageTransitionEvent)=>{if(event.persisted)finishReveal()};
   mobile.addEventListener('change',changed);
