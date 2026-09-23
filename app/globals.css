@@ -165,22 +165,22 @@
 @media(max-width:1000px) and (orientation:landscape){.cookie-banner{flex-direction:row;align-items:center;gap:16px;max-height:35dvh}.cookie-actions{flex-direction:column;gap:4px}.cookie-actions button{min-height:32px;padding:5px 12px}}
 @media(min-width:1920px){.topline .language-switch a{font-size:clamp(.82rem,.72917vw,1.4rem);padding:8px 14px;min-height:44px}}
 
-/* A single mobile arrival: 550 ms of the room, then three rows 100 ms apart. */
+/* A single mobile arrival: 2000 ms of the room, then three rows 100 ms apart. */
 @keyframes mobile-tile-arrive{
  from{opacity:0;transform:translate3d(0,12px,0);filter:blur(14px)}
  to{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
 }
 @keyframes mobile-detail-arrive{from{opacity:0}to{opacity:1}}
 @media(max-width:1000px) and (prefers-reduced-motion:no-preference){
- .scene[data-intro=reveal] .tile{--arrival-delay:550ms;animation:mobile-tile-arrive 650ms cubic-bezier(.22,1,.36,1) var(--arrival-delay) both}
- .scene[data-intro=reveal] .tile:nth-child(n+3){--arrival-delay:650ms}
- .scene[data-intro=reveal] .tile:nth-child(n+5){--arrival-delay:750ms}
- .scene[data-intro=reveal] .home-announcement{animation:mobile-detail-arrive 550ms ease 550ms both}
- .scene[data-intro=reveal] .footline,.scene[data-intro=reveal] .cookie-banner{animation:mobile-detail-arrive 300ms ease 1100ms both}
+ .scene[data-intro=reveal] .tile{--arrival-delay:2000ms;animation:mobile-tile-arrive 650ms cubic-bezier(.22,1,.36,1) var(--arrival-delay) both}
+ .scene[data-intro=reveal] .tile:nth-child(n+3){--arrival-delay:2100ms}
+ .scene[data-intro=reveal] .tile:nth-child(n+5){--arrival-delay:2200ms}
+ .scene[data-intro=reveal] .home-announcement{animation:mobile-detail-arrive 550ms ease 2000ms both}
+ .scene[data-intro=reveal] .footline,.scene[data-intro=reveal] .cookie-banner{animation:mobile-detail-arrive 300ms ease 2550ms both}
 }
 @media(max-width:1000px) and (orientation:landscape) and (prefers-reduced-motion:no-preference){
- .scene[data-intro=reveal] .tile:nth-child(n){--arrival-delay:550ms}
- .scene[data-intro=reveal] .tile:nth-child(n+4){--arrival-delay:650ms}
+ .scene[data-intro=reveal] .tile:nth-child(n){--arrival-delay:2000ms}
+ .scene[data-intro=reveal] .tile:nth-child(n+4){--arrival-delay:2100ms}
 }
 /* Use actual space left after the header, notice and consent controls.
    Keep at least 350 px for the menu before spending free height on the photo. */
@@ -229,3 +229,8 @@
 .section-photo img{display:block;transition:opacity 280ms ease;opacity:1}
 .reception-page .section-photo[data-loaded=false] img{opacity:0}
 @media(prefers-reduced-motion:reduce){.section-photo img,.panel.is-open:not(.is-closing) .panel-head,.panel.is-open:not(.is-closing) .panel-scroll{animation:none;transition:none}}
+
+/* Compact team portraits: four columns on desktop, two on mobile. */
+.team-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+@media(max-width:1000px){.team-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}}
+@media(max-width:700px){.person-text{padding:12px}.person h3{font-size:1.35rem;line-height:1.15}.person p{font-size:.8rem}.team-grid{gap:12px}}

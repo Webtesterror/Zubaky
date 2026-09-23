@@ -10,7 +10,7 @@ export default function SectionPhoto({src,alt,focus,eager=false,portrait=false}:
  return <span className={'section-photo'+(portrait?' is-portrait':'')} data-loaded={loaded}>
   <img ref={image} src={variants?.find(v=>v.width===960)?.src??src}
    srcSet={variants?.map(v=>`${v.src} ${v.width}w`).join(', ')}
-   sizes={portrait?'(max-width: 700px) calc(100vw - 64px), 410px':'(max-width: 700px) calc(100vw - 64px), (max-width: 1500px) 42vw, 610px'}
+   sizes={portrait?'(max-width: 700px) calc((100vw - 80px) / 2), (max-width: 1000px) calc((100vw - 132px) / 2), (max-width: 1500px) 20vw, 291px':'(max-width: 700px) calc(100vw - 64px), (max-width: 1500px) 42vw, 610px'}
    width={entry?.width} height={entry?.height} alt={alt} loading={eager?'eager':'lazy'} decoding="async"
    onLoad={()=>setLoaded(true)} onError={()=>setLoaded(true)} style={{objectPosition:`50% ${focus}%`}}/>
  </span>;

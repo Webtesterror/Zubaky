@@ -22,8 +22,8 @@ export function SectionContent({id,data}:{id:string,data:Content}){
  if(id==='o-nas')return <><div className="prose about-text">{data.about.map((p,i)=><p key={i}>{p}</p>)}</div><div className="gallery">{data.photos.filter(p=>p.src).map((p,i)=><SectionPhoto key={p.id+p.src} src={p.src} alt={p.alt} focus={p.focus} eager={i<2}/>)}</div></>;
  if(id==='nas-tym'){
   const team=data.team.filter(p=>!p.hidden);
-  const profiles=(people:Content['team'])=>people.map(p=><article className="person" key={p.id}>{p.src&&<SectionPhoto key={p.src} src={p.src} alt={p.alt} focus={p.focus} portrait eager={team.indexOf(p)<2}/>}<div className="person-text"><h3>{p.title==='MDDr.'?'MDDr. ':''}{p.name}{p.title&&p.title!=='MDDr.'?', '+p.title:''}</h3><p>{p.role}</p>{p.description&&<p className="bio">{p.description}</p>}</div></article>);
-  return <div className="team-layout"><div className="team-grid team-owners">{profiles(team.slice(0,2))}</div>{team.length>2&&<div className="team-grid">{profiles(team.slice(2))}</div>}</div>;
+  const profiles=(people:Content['team'])=>people.map(p=><article className="person" key={p.id}>{p.src&&<SectionPhoto key={p.src} src={p.src} alt={p.alt} focus={p.focus} portrait eager={team.indexOf(p)<4}/>}<div className="person-text"><h3>{p.title==='MDDr.'?'MDDr. ':''}{p.name}{p.title&&p.title!=='MDDr.'?', '+p.title:''}</h3><p>{p.role}</p>{p.description&&<p className="bio">{p.description}</p>}</div></article>);
+  return <div className="team-layout"><div className="team-grid">{profiles(team)}</div></div>;
  }
  if(id==='prubeh-lecby')return <ol className="steps">{data.steps.map((s,i)=><li key={s.id}><span className="step-no">{String(i+1).padStart(2,'0')}</span><div><h3>{s.title}</h3><p>{s.text}</p></div></li>)}</ol>;
  if(id==='cenik')return <><p className="notice">{data.priceNote}</p>{data.categories.map(c=><section className="price-group" key={c.id}><h3>{c.name}</h3>{c.items.map(p=><div className="price-row" key={p.id}><div>{p.name}{p.note&&<small>{p.note}</small>}</div><strong>{p.price}{p.unit&&` / ${p.unit}`}</strong></div>)}</section>)}</>;
