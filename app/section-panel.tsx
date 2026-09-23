@@ -43,7 +43,7 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
    s.style.opacity=String(currentOpacity.current);
    s.style.willChange='auto';
    if(exiting)onExited();
-   else{revealed.current=true;setVisible(true);if(!motion.matches&&s.animate)handoff=s.animate([{opacity:1},{opacity:0}],{duration:200,easing:'ease-out',fill:'forwards'})}
+   else{revealed.current=true;setVisible(true)}
   };
   // Content prepares offscreen during the morph. Only the empty shell scales;
   // the prepared content fades in once the shell reaches its final geometry.
@@ -53,7 +53,7 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
     animation=s.animate([
      {transform:start,opacity:startOpacity},
      {transform:exiting?tileTransform:expanded,opacity:exiting?0:1},
-    ],{duration:exiting?460:600,easing:exiting?'cubic-bezier(.32,0,.2,1)':'cubic-bezier(.2,.65,.25,1)',fill:'forwards'});
+    ],{duration:exiting?460:480,easing:exiting?'cubic-bezier(.32,0,.2,1)':'cubic-bezier(.22,1,.36,1)',fill:'forwards'});
     animation.finished.then(finish,()=>{});
    });
   };
