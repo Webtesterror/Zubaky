@@ -92,6 +92,12 @@
  .stage{padding-top:10vh;padding-bottom:18vh}
 }
 
+/* Smaller tablets benefit from the wider photograph, which keeps more of the
+   reception visible without leaving empty edges around the scene. */
+@media(min-width:701px) and (max-width:1199px) and (orientation:landscape){
+ .reception-bg{background-image:url('/recepce-wide.webp');background-position:center 34%}
+}
+
 /* Shared notice styling with the price list; empty announcements render nothing. */
 .home-navigation{width:min(760px,100%);min-width:0}
 .home-navigation .tiles{width:100%}
