@@ -185,6 +185,7 @@
  .scene[data-intro=reveal] .home-announcement{animation:mobile-detail-arrive 550ms ease 1500ms both}
  .scene[data-intro=reveal] .footline,.scene[data-intro=reveal] .cookie-banner{animation:mobile-detail-arrive 300ms ease 2050ms both}
 }
+.scene[data-menu-returning] .tiles{visibility:hidden;pointer-events:none}
 @media(max-width:1000px) and (orientation:landscape) and (prefers-reduced-motion:no-preference){
  .scene[data-intro=reveal] .tile:nth-child(n){--arrival-delay:1500ms}
  .scene[data-intro=reveal] .tile:nth-child(n+4){--arrival-delay:1600ms}
