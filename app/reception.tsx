@@ -61,6 +61,10 @@ function ReceptionScene({original}:{original:Content}){
   document.documentElement.classList.add('reception-page');
   return()=>document.documentElement.classList.remove('reception-page');
  },[]);
+ useLayoutEffect(()=>{
+  document.documentElement.classList.toggle('reception-panel-open',requested!==null);
+  return()=>document.documentElement.classList.remove('reception-panel-open');
+ },[requested]);
  useEffect(()=>{if(!active&&requested)setActive(requested)},[active,requested]);
  useLayoutEffect(()=>{
   if(!active)return;
