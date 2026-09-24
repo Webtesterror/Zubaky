@@ -148,7 +148,7 @@
 /* Language preferences and consent share the reception's quiet glass palette. */
 .topline{justify-content:space-between;gap:12px}
 .topline-actions{display:flex;align-items:center;justify-content:flex-end;gap:12px;min-width:0}
-.topline .brand-mark{display:block;position:relative;top:3px;flex:0 1 auto;min-width:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;filter:drop-shadow(0 1px 5px rgba(255,255,255,.55))}
+.topline .brand-mark{display:block;position:relative;top:8px;flex:0 1 auto;min-width:0;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;filter:drop-shadow(0 1px 5px rgba(255,255,255,.55))}
 .topline .brand-mark img{display:block;width:clamp(150px,20vw,262px);max-width:100%;height:auto}
 .language-switch{display:flex;gap:4px;flex-shrink:0;padding:3px;border:1px solid #ffffff78;border-radius:18px;background:#eff6fa32;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
 .topline .language-switch a{min-height:36px;min-width:40px;justify-content:center;padding:5px 10px;border:0;border-radius:13px;box-shadow:none;background:transparent;font-size:.82rem;letter-spacing:.04em}
