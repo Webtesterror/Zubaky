@@ -243,7 +243,7 @@
 @media(max-width:700px){.person-text{padding:12px}.person h3{font-size:1.35rem;line-height:1.15}.person p{font-size:.8rem}.team-grid{gap:12px}}
 
 /* Match background brightness and shading across desktop and mobile. */
-.reception-bg{filter:brightness(1.14);transform:scale(1);transform-origin:57% 48%;transition:transform 760ms cubic-bezier(.22,.61,.36,1)}
+.reception-bg{filter:brightness(1.14);transform:scale(1);transform-origin:57% 48%;transition:transform 910ms cubic-bezier(.22,.61,.36,1)}
 .reception-page.reception-panel-open .reception-bg{transform:scale(2.72)}
 @media(max-width:700px){.reception-bg{transform-origin:74% 48%}}
 @media(min-width:1200px){.reception-page.reception-panel-open .reception-bg{transform:scale(2.18)}}
