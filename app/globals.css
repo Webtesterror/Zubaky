@@ -311,3 +311,6 @@ body,.scene,.tile,.panel,.panel-head,.panel-scroll{color:#000}
  .panel-scroll>.booking-layout::before,.panel-scroll>.map-external::before,
  .panel-scroll .person-text::before{background:#f3f6ec;filter:none;inset:-8px;border-radius:12px}
 }
+
+/* Match the close control to the light glass controls on hover and focus. */
+.close:hover,.close:focus-visible{background:#f5f8edb8;border-color:#ffffff78;box-shadow:inset 0 1px 0 #fff9,0 2px 8px #26372c18;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
