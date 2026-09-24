@@ -238,7 +238,7 @@
 
 /* Match background brightness and shading across desktop and mobile. */
 .reception-bg{filter:brightness(1.14);transform:scale(1);transform-origin:66% 46%;transition:transform 760ms cubic-bezier(.22,.61,.36,1)}
-.reception-page.reception-panel-open .reception-bg{transform:scale(2)}
+.reception-page.reception-panel-open .reception-bg{transform:scale(2.6)}
 @media(prefers-reduced-motion:reduce){.reception-bg{transition:none}}
 
 
