@@ -262,10 +262,8 @@ body,.scene,.tile,.panel,.panel-head,.panel-scroll{color:#000}
 .panel-scroll .contact-links a,.panel-scroll .step-no,.panel-scroll .form-grid>a,
 .panel-scroll .map-external,.panel-scroll .field>span,.panel-scroll .person-text h3,
 .panel-scroll .person-text p{
- background:linear-gradient(135deg,rgba(233,244,252,.1848),rgba(239,247,253,.1512) 48%,rgba(226,240,251,.168));
- padding:9px 13px;margin:-8px -12px;border-radius:12px;
- -webkit-mask-image:radial-gradient(ellipse at center,#000 38%,rgba(0,0,0,.86) 58%,transparent 92%);
- mask-image:radial-gradient(ellipse at center,#000 38%,rgba(0,0,0,.86) 58%,transparent 92%);
+ background:radial-gradient(ellipse at center,rgba(233,244,252,.1848) 0%,rgba(239,247,253,.1512) 52%,rgba(226,240,251,0) 100%);
+ padding:14px 22px;border-radius:16px;color:#000!important;opacity:1;
  -webkit-box-decoration-break:clone;box-decoration-break:clone;
 }
 .panel-scroll p{width:fit-content;max-width:100%}
@@ -274,5 +272,5 @@ body,.scene,.tile,.panel,.panel-head,.panel-scroll{color:#000}
  .panel-head h2,.panel-head .eyebrow,.panel-scroll h3,.panel-scroll p,.panel-scroll li,
  .panel-scroll .price-row>div,.panel-scroll .price-row>strong,.panel-scroll .contact-links a,
  .panel-scroll .step-no,.panel-scroll .form-grid>a,.panel-scroll .map-external,
- .panel-scroll .field>span,.panel-scroll .person-text h3,.panel-scroll .person-text p{background:#f3f6ec;-webkit-mask-image:none;mask-image:none}
+ .panel-scroll .field>span,.panel-scroll .person-text h3,.panel-scroll .person-text p{background:#f3f6ec}
 }
