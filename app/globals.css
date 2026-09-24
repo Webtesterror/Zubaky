@@ -251,27 +251,32 @@
  .foliage-square{display:none}.foliage-wide{display:block}
 }
 
-/* Text remains pure black. Section copy gets a very tight, denser version of
-   the panel glass so the photograph cannot reduce its contrast. */
+/* Text remains pure black. Related text shares one broad reading glow, so
+   adjacent headings and links never create overlapping individual patches. */
 body,.scene,.tile,.panel,.panel-head,.panel-scroll{color:#000}
 .topline,.footline{color:#000}
 .tile>svg{color:#000}
 .panel h2,.panel h3,.panel p,.panel li,.panel a,.panel small,.panel strong,
 .panel label,.panel td,.panel th,.panel .step-no,.panel .eyebrow{color:#000}
-.panel-head h2,.panel-head .eyebrow,.panel-scroll h3,.panel-scroll p,
-.panel-scroll li,.panel-scroll .price-row>div,.panel-scroll .price-row>strong,
-.panel-scroll .contact-links a,.panel-scroll .step-no,.panel-scroll .form-grid>a,
-.panel-scroll .map-external,.panel-scroll .field>span,.panel-scroll .person-text h3,
-.panel-scroll .person-text p{
- background:radial-gradient(ellipse at center,rgba(233,244,252,.1848) 0%,rgba(239,247,253,.1512) 52%,rgba(226,240,251,0) 100%);
- padding:14px 22px;border-radius:16px;color:#000!important;opacity:1;
- -webkit-box-decoration-break:clone;box-decoration-break:clone;
+.panel-head>div,.panel-scroll>.prose,.panel-scroll>.steps,
+.panel-scroll>.price-group,.panel-scroll>.contact-grid,
+.panel-scroll>.booking-layout,.panel-scroll>.map-external,
+.panel-scroll .person-text{
+ position:relative;isolation:isolate;
 }
-.panel-scroll p{width:fit-content;max-width:100%}
-.panel-scroll .price-row>strong{align-self:start}
+.panel-head>div::before,.panel-scroll>.prose::before,.panel-scroll>.steps::before,
+.panel-scroll>.price-group::before,.panel-scroll>.contact-grid::before,
+.panel-scroll>.booking-layout::before,.panel-scroll>.map-external::before,
+.panel-scroll .person-text::before{
+ content:'';position:absolute;z-index:-1;pointer-events:none;
+ inset:-18px -30px;border-radius:32px;
+ background:linear-gradient(135deg,rgba(233,244,252,.16),rgba(239,247,253,.13) 48%,rgba(226,240,251,.15));
+ filter:blur(32px);
+}
+.panel-scroll>.prose{max-width:none;width:100%}
 @media(prefers-contrast:more),(prefers-reduced-transparency:reduce){
- .panel-head h2,.panel-head .eyebrow,.panel-scroll h3,.panel-scroll p,.panel-scroll li,
- .panel-scroll .price-row>div,.panel-scroll .price-row>strong,.panel-scroll .contact-links a,
- .panel-scroll .step-no,.panel-scroll .form-grid>a,.panel-scroll .map-external,
- .panel-scroll .field>span,.panel-scroll .person-text h3,.panel-scroll .person-text p{background:#f3f6ec}
+ .panel-head>div::before,.panel-scroll>.prose::before,.panel-scroll>.steps::before,
+ .panel-scroll>.price-group::before,.panel-scroll>.contact-grid::before,
+ .panel-scroll>.booking-layout::before,.panel-scroll>.map-external::before,
+ .panel-scroll .person-text::before{background:#f3f6ec;filter:none;inset:-8px;border-radius:12px}
 }
