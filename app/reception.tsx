@@ -6,7 +6,6 @@ import SectionPanel from './section-panel';
 import SectionPhoto from './section-photo';
 
 import TileLabel from './tile-label';
-import ForegroundPlants from './foreground-plants';
 import {useMobileReveal} from './use-mobile-reveal';
 import {PreferencesProvider,LanguageSwitcher,CookieBanner,PageLanguage,usePreferences} from './preferences';
 import {translatedContent} from '@/lib/i18n';
@@ -63,14 +62,6 @@ function ReceptionScene({original}:{original:Content}){
  },[]);
  useLayoutEffect(()=>{
   document.documentElement.classList.toggle('reception-panel-open',requested!==null);
-  if(requested){
-   const tile=document.getElementById('tile-'+requested);
-   const bounds=tile?.getBoundingClientRect();
-   if(bounds){
-    document.documentElement.style.setProperty('--panel-zoom-x',`${bounds.left+bounds.width/2}px`);
-    document.documentElement.style.setProperty('--panel-zoom-y',`${bounds.top+bounds.height/2}px`);
-   }
-  }
   return()=>document.documentElement.classList.remove('reception-panel-open');
  },[requested]);
  useEffect(()=>{if(!active&&requested)setActive(requested)},[active,requested]);
@@ -107,7 +98,7 @@ function ReceptionScene({original}:{original:Content}){
  return <>
   <div className="reception-bg" aria-hidden="true"/>
   <main className="scene" ref={scene} data-intro={revealing?'reveal':undefined} onPointerDownCapture={finishReveal} onFocusCapture={finishReveal}>
-   <ForegroundPlants/><header className="topline"><LanguageSwitcher/><a href={'tel:'+data.contact.phone.replace(/\s/g,'')}><Phone size={15}/>{data.contact.phone}</a></header>
+   <header className="topline"><LanguageSwitcher/><a href={'tel:'+data.contact.phone.replace(/\s/g,'')}><Phone size={15}/>{data.contact.phone}</a></header>
    <div className="stage">
     <h1 className="sr-only">{t("Zuby Dásně — stomatologické centrum")}</h1>
     <div className="home-navigation">
