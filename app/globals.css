@@ -278,6 +278,19 @@ body,.scene,.tile,.panel,.panel-head,.panel-scroll{color:#000}
  filter:blur(32px);
 }
 .panel-scroll>.prose{max-width:none;width:100%}
+.panel,.panel-head,.panel-scroll,.panel-scroll>*{min-width:0;max-width:100%;box-sizing:border-box}
+.panel-scroll{overflow-x:hidden}
+.prose,.panel-scroll p,.panel-scroll h3,.contact-links a,.map-external,.price-row>*{overflow-wrap:anywhere}
+.steps li{grid-template-columns:52px minmax(0,1fr)}
+.price-row{grid-template-columns:minmax(0,1fr) auto}
+.price-row strong{white-space:normal}
+.contact-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.hours{table-layout:fixed}
+.hours td{overflow-wrap:anywhere}
+.booking-layout{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}
+.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}
+.gallery img,.contact-map{max-width:100%}
+@media(max-width:700px){.steps li{grid-template-columns:38px minmax(0,1fr)}.contact-grid,.booking-layout{grid-template-columns:minmax(0,1fr)}}
 @media(prefers-contrast:more),(prefers-reduced-transparency:reduce){
  .panel-head>div::before,.panel-scroll>.prose::before,.panel-scroll>.steps::before,
  .panel-scroll>.price-group::before,.panel-scroll>.contact-grid::before,
