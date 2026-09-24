@@ -105,7 +105,7 @@ function ReceptionScene({original}:{original:Content}){
  return <>
   <div className="reception-bg" aria-hidden="true"/>
   <main className="scene" ref={scene} data-intro={revealing?'reveal':undefined} data-menu-returning={menuReturning||undefined} onPointerDownCapture={finishReveal} onFocusCapture={finishReveal}>
-    <header className="topline"><a className="brand-mark" href={'/?lang='+locale} aria-label={t("Zuby Dásně — úvodní stránka")}><img src="/zuby-dasne-logo-transparent.png" alt="Zuby Dásně"/></a><div className="topline-actions"><LanguageSwitcher/><a href={'tel:'+data.contact.phone.replace(/\s/g,'')}><Phone size={15}/>{data.contact.phone}</a></div></header>
+    <header className="topline"><a className="brand-mark" href={'/?lang='+locale} aria-label={t("Zuby Dásně — úvodní stránka")}><img src="/zuby-dasne-logo-v2.png" alt="Zuby Dásně"/></a><div className="topline-actions"><LanguageSwitcher/><a href={'tel:'+data.contact.phone.replace(/\s/g,'')}><Phone size={15}/>{data.contact.phone}</a></div></header>
    <div className="stage">
     <h1 className="sr-only">{t("Zuby Dásně — stomatologické centrum")}</h1>
     <div className="home-navigation">
