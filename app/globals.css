@@ -152,7 +152,8 @@
 /* The logo must not pick up the header buttons' backdrop blur. */
 .topline .brand-mark{display:block;position:relative;top:8px;flex:0 1 auto;min-width:0;padding:0;border:0;border-radius:0;background:none!important;background-color:transparent!important;background-image:none!important;box-shadow:none;filter:none;backdrop-filter:none;-webkit-backdrop-filter:none}
 .topline .brand-mark img{display:block;width:clamp(150px,20vw,262px);max-width:100%;height:auto;background:none!important;background-color:transparent!important;background-image:none!important;mix-blend-mode:normal;filter:none}
-@media(min-width:701px){.topline .brand-mark{transform:translateX(-22%)}}
+/* Apply the offset only when the scene has its wider desktop side padding. */
+@media(min-width:1001px){.topline .brand-mark{transform:translateX(-22%)}}
 .language-switch{display:flex;gap:4px;flex-shrink:0;padding:3px;border:1px solid #ffffff78;border-radius:18px;background:#eff6fa32;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
 .topline .language-switch a{min-height:36px;min-width:40px;justify-content:center;padding:5px 10px;border:0;border-radius:13px;box-shadow:none;background:transparent;font-size:.82rem;letter-spacing:.04em}
 .topline .language-switch a[aria-current=true]{background:#f5f8edb8;box-shadow:inset 0 1px 0 #fff9,0 2px 8px #26372c18}
