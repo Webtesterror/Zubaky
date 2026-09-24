@@ -63,6 +63,14 @@ function ReceptionScene({original}:{original:Content}){
  },[]);
  useLayoutEffect(()=>{
   document.documentElement.classList.toggle('reception-panel-open',requested!==null);
+  if(requested){
+   const tile=document.getElementById('tile-'+requested);
+   const bounds=tile?.getBoundingClientRect();
+   if(bounds){
+    document.documentElement.style.setProperty('--panel-zoom-x',`${bounds.left+bounds.width/2}px`);
+    document.documentElement.style.setProperty('--panel-zoom-y',`${bounds.top+bounds.height/2}px`);
+   }
+  }
   return()=>document.documentElement.classList.remove('reception-panel-open');
  },[requested]);
  useEffect(()=>{if(!active&&requested)setActive(requested)},[active,requested]);
