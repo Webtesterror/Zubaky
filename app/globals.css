@@ -201,7 +201,11 @@
  .scene[data-intro=reveal] .home-announcement{animation:mobile-detail-arrive 550ms ease 1500ms both}
  .scene[data-intro=reveal] .footline,.scene[data-intro=reveal] .cookie-banner{animation:mobile-detail-arrive 300ms ease 2050ms both}
 }
-.scene[data-menu-returning] .tiles{visibility:hidden;pointer-events:none}
+/* One parent transition keeps every reception control and tile synchronized
+   after a section closes. New scene elements inherit the same return timing. */
+.reception-page .scene{opacity:1;transition:opacity 480ms cubic-bezier(.22,1,.36,1)}
+.scene[data-menu-returning]{opacity:0;pointer-events:none;transition:none}
+@media(prefers-reduced-motion:reduce){.reception-page .scene{transition:none}}
 @media(max-width:1000px) and (orientation:landscape) and (prefers-reduced-motion:no-preference){
  .scene[data-intro=reveal] .tile:nth-child(n){--arrival-delay:1000ms}
  .scene[data-intro=reveal] .tile:nth-child(n+4){--arrival-delay:1100ms}
