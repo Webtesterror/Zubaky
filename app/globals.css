@@ -101,7 +101,7 @@
 /* Shared notice styling with the price list; empty announcements render nothing. */
 .home-navigation{width:min(760px,100%);min-width:0}
 .home-navigation .tiles{width:100%}
-.home-announcement{width:fit-content;max-width:100%;white-space:pre-line;overflow-wrap:anywhere;text-align:center;margin:0 auto 20px}
+.home-announcement{width:min(100%,30rem);max-width:100%;min-height:calc(3 * 1.65em + 36px);white-space:pre-line;overflow-wrap:anywhere;text-align:center;margin:0 auto 20px}
 .notice{background:#f5f8edb8;border:1px solid #ffffff78;box-shadow:inset 0 1px 0 #fff9,0 2px 8px #26372c18;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
 @media(min-width:1920px){.home-navigation{width:clamp(760px,39.5833vw,1440px)}.home-announcement{font-size:clamp(1rem,.83333vw,1.5rem);padding:clamp(18px,.9375vw,30px) clamp(22px,1.14583vw,40px);margin-bottom:clamp(20px,1.04167vw,36px)}}
 
@@ -131,7 +131,8 @@
  .reception-page .home-navigation{display:flex;flex-direction:column;min-height:0;max-height:100%;padding:6px}
  .reception-page .home-announcement{flex:0 1 auto;min-height:0;max-height:25vh;max-height:25dvh;overflow-y:auto;overscroll-behavior:contain;padding:10px 14px;margin-bottom:12px;font-size:.9rem;line-height:1.45}
  .reception-page .tiles{flex:0 1 auto;min-height:0;height:390px;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));gap:clamp(6px,1.5dvh,12px);margin:0}
- .reception-page .tile{min-width:0;min-height:0;padding:clamp(6px,2dvh,20px) 12px;border-radius:20px;gap:3px}
+ .reception-page .home-announcement{min-height:calc(3 * 1.45em + 20px);width:min(100%,30rem)}
+ .reception-page .tile{min-width:0;min-height:0;width:90%;height:90%;justify-self:center;align-self:center;padding:clamp(6px,2dvh,20px) 12px;border-radius:20px;gap:3px}
  .reception-page .tile span{font-size:clamp(1.1rem,3.5dvh,1.6rem);line-height:1.12}
  .reception-page .tile>svg{flex-shrink:0;width:clamp(18px,4dvh,29px);height:clamp(18px,4dvh,29px)}
  .reception-page .tile .tile-arrow{display:none}
@@ -235,6 +236,9 @@
  .tile-label{width:100%;min-height:2.3em;line-height:1.15;display:flex;align-items:flex-end;padding-right:20px}
 }
 
+/* Reduce each glass tile's footprint without scaling its icon or label. */
+@media(min-width:1001px){.reception-page .tile{width:90%;height:90%;justify-self:center;align-self:center}}
+
 /* Keep only the reception photograph behind the glass section surface.
    Visibility preserves tile geometry for the opening and closing animation. */
 .scene[inert]{visibility:hidden}
@@ -258,10 +262,10 @@
 @media(max-width:700px){.person-text{padding:12px}.person h3{font-size:1.35rem;line-height:1.15}.person p{font-size:.8rem}.team-grid{gap:12px}}
 
 /* Match background brightness and shading across desktop and mobile. */
-.reception-bg{filter:brightness(1.14);transform:scale(1);transform-origin:57% 48%;transition:transform 1090ms cubic-bezier(.22,.61,.36,1)}
-.reception-page.reception-panel-open .reception-bg{transform:scale(2.72)}
+.reception-bg{filter:brightness(1.25);transform:scale(1);transform-origin:57% 48%;transition:transform 1090ms cubic-bezier(.22,.61,.36,1)}
+.reception-page.reception-panel-open .reception-bg{transform:scale(2.312)}
 @media(max-width:700px){.reception-bg{transform-origin:74% 48%}}
-@media(min-width:1200px){.reception-page.reception-panel-open .reception-bg{transform:scale(2.18)}}
+@media(min-width:1200px){.reception-page.reception-panel-open .reception-bg{transform:scale(1.853)}}
 @media(prefers-reduced-motion:reduce){.reception-bg{transition:none}}
 
 
