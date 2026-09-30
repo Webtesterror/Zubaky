@@ -100,7 +100,7 @@
 /* Shared notice styling with the price list; empty announcements render nothing. */
 .home-navigation{width:min(760px,100%);min-width:0}
 .home-navigation .tiles{width:100%}
-.home-announcement{width:min(100%,30rem);max-width:100%;min-height:calc(3 * 1.65em + 36px);white-space:pre-line;overflow-wrap:anywhere;text-align:center;margin:0 auto 20px}
+.home-announcement{width:min(100%,30rem);max-width:100%;min-height:calc(3 * 1.65em + 36px);display:flex;align-items:center;justify-content:center;white-space:pre-line;overflow-wrap:anywhere;text-align:center;margin:0 auto 20px}
 .notice{background:#f5f8edb8;border:1px solid #ffffff78;box-shadow:inset 0 1px 0 #fff9,0 2px 8px #26372c18;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
 @media(min-width:1920px){.home-navigation{width:clamp(760px,39.5833vw,1440px)}.home-announcement{font-size:clamp(1rem,.83333vw,1.5rem);padding:clamp(18px,.9375vw,30px) clamp(22px,1.14583vw,40px);margin-bottom:clamp(20px,1.04167vw,36px)}}
 
@@ -127,8 +127,8 @@
  html.reception-page,html.reception-page body{height:100%;overflow:hidden;overscroll-behavior:none}
  .reception-page .scene{position:fixed;inset:0;height:100vh;height:100dvh;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:8px;overflow:hidden;padding:max(12px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
  .reception-page .stage{width:100%;height:100%;min-height:0;margin:0;gap:0;padding:0;display:flex;align-items:center;justify-content:center}
- .reception-page .home-navigation{display:flex;flex-direction:column;min-height:0;max-height:100%;padding:6px}
- .reception-page .home-announcement{flex:0 0 auto;max-height:none;overflow:visible;padding:10px 14px;margin-bottom:12px;font-size:.9rem;line-height:1.45}
+ .reception-page .home-navigation{position:relative;display:flex;flex-direction:column;min-height:0;max-height:100%;padding:6px}
+ .reception-page .home-announcement{position:absolute;z-index:2;left:50%;bottom:calc(100% + clamp(8px,1.5dvh,12px));transform:translateX(-50%);max-height:none;overflow:visible;padding:10px 14px;margin:0;font-size:.9rem;line-height:1.45}
  .reception-page .tiles{flex:0 1 auto;min-height:0;height:390px;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));gap:clamp(6px,1.5dvh,12px);margin:0}
  .reception-page .home-announcement{min-height:calc(3 * 1.45em + 20px);width:min(100%,30rem)}
  .reception-page .tile{min-width:0;min-height:0;padding:clamp(6px,2dvh,20px) 12px;border-radius:20px;gap:3px}
@@ -206,13 +206,13 @@
  .scene[data-intro=reveal] .tile:nth-child(n){--arrival-delay:1000ms}
  .scene[data-intro=reveal] .tile:nth-child(n+4){--arrival-delay:1100ms}
 }
-/* Use actual space left after the header, notice and consent controls.
-   Keep at least 350 px for the menu before spending free height on the photo. */
+/* Use actual space left after the header and consent controls.
+   Keep 390 px for the menu; the absolutely positioned notice cannot shrink it. */
 @media(max-width:1000px) and (orientation:portrait){
  .reception-page .stage{align-items:flex-end;padding-bottom:12px}
  @supports(height:1cqh){
   .reception-page .stage{container-type:size;align-items:center;padding-bottom:0}
-  .reception-page .home-navigation{--photo-space:clamp(0px,calc(100cqh - 350px),240px);margin-top:var(--photo-space);max-height:calc(100% - var(--photo-space))}
+  .reception-page .home-navigation{--photo-space:clamp(0px,calc(100cqh - 390px),240px);margin-top:var(--photo-space);max-height:calc(100% - var(--photo-space))}
  }
 }
 
