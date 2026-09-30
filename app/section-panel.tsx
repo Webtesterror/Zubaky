@@ -53,7 +53,7 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
     animation=s.animate([
      {transform:start,opacity:startOpacity},
      {transform:exiting?tileTransform:expanded,opacity:exiting?0:1},
-    ],{duration:exiting?300:480,easing:exiting?'cubic-bezier(.4,0,.2,1)':'cubic-bezier(.22,1,.36,1)',fill:'forwards'});
+    ],{duration:exiting?300:576,easing:exiting?'cubic-bezier(.4,0,.2,1)':'cubic-bezier(.22,1,.36,1)',fill:'forwards'});
     animation.finished.then(finish,()=>{});
   };
   if(motion.matches||!s.animate)finish();

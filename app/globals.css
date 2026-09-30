@@ -250,7 +250,7 @@
 
 /* Fade content during the glass expansion; never scale text or long galleries. */
 .panel.is-morphing .panel-head,.panel.is-morphing .panel-scroll{visibility:hidden;opacity:0;animation:none;pointer-events:none}
-.panel.is-open:not(.is-closing) .panel-head,.panel.is-open:not(.is-closing) .panel-scroll{animation:panel-content-in 380ms cubic-bezier(.2,.65,.3,1) 60ms both}
+.panel.is-open:not(.is-closing) .panel-head,.panel.is-open:not(.is-closing) .panel-scroll{animation:panel-content-in 456ms cubic-bezier(.2,.65,.3,1) 60ms both}
 .section-photo{display:block;overflow:hidden;background:linear-gradient(135deg,#eff3e54d,#d3dec340);border-radius:20px}
 .section-photo.is-portrait{aspect-ratio:3/4;border-radius:0}
 .section-photo img{display:block;transition:opacity 280ms ease;opacity:1}
@@ -264,9 +264,9 @@
 
 /* Match background brightness and shading across desktop and mobile. */
 .reception-bg{filter:brightness(1.25);transform:scale(1);transform-origin:57% 48%;transition:transform 1090ms cubic-bezier(.22,.61,.36,1)}
-.reception-page.reception-panel-open .reception-bg{transform:scale(2.312)}
+.reception-page.reception-panel-open .reception-bg{transform:scale(2.115)}
 @media(max-width:700px){.reception-bg{transform-origin:74% 48%}}
-@media(min-width:1200px){.reception-page.reception-panel-open .reception-bg{transform:scale(1.853)}}
+@media(min-width:1200px){.reception-page.reception-panel-open .reception-bg{transform:scale(1.725)}}
 @media(prefers-reduced-motion:reduce){.reception-bg{transition:none}}
 
 
