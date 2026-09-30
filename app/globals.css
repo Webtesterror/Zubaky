@@ -225,7 +225,7 @@
 }
 
 /* Only tile lettering softens during a language change. */
-.tile-label{filter:blur(0);opacity:1;transition:filter 220ms ease,opacity 220ms ease}
+.tile-label{text-transform:uppercase;filter:blur(0);opacity:1;transition:filter 220ms ease,opacity 220ms ease}
 .tile-label.is-blurred{filter:blur(6px);opacity:.35;transition-duration:140ms}
 @media(prefers-reduced-motion:reduce){.tile-label,.tile-label.is-blurred{filter:none;opacity:1;transition:none}}
 
