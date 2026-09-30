@@ -128,10 +128,10 @@
  .reception-page .scene{position:fixed;inset:0;height:100vh;height:100dvh;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:8px;overflow:hidden;padding:max(12px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
  .reception-page .stage{width:100%;height:100%;min-height:0;margin:0;gap:0;padding:0;display:flex;align-items:center;justify-content:center}
  .reception-page .home-navigation{display:flex;flex-direction:column;min-height:0;max-height:100%;padding:6px}
- .reception-page .home-announcement{flex:0 1 auto;min-height:0;max-height:25vh;max-height:25dvh;overflow-y:auto;overscroll-behavior:contain;padding:10px 14px;margin-bottom:12px;font-size:.9rem;line-height:1.45}
+ .reception-page .home-announcement{flex:0 0 auto;max-height:none;overflow:visible;padding:10px 14px;margin-bottom:12px;font-size:.9rem;line-height:1.45}
  .reception-page .tiles{flex:0 1 auto;min-height:0;height:390px;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));gap:clamp(6px,1.5dvh,12px);margin:0}
  .reception-page .home-announcement{min-height:calc(3 * 1.45em + 20px);width:min(100%,30rem)}
- .reception-page .tile{min-width:0;min-height:0;width:90%;height:90%;justify-self:center;align-self:center;padding:clamp(6px,2dvh,20px) 12px;border-radius:20px;gap:3px}
+ .reception-page .tile{min-width:0;min-height:0;padding:clamp(6px,2dvh,20px) 12px;border-radius:20px;gap:3px}
  .reception-page .tile span{font-size:clamp(1.1rem,3.5dvh,1.6rem);line-height:1.12}
  .reception-page .tile>svg{flex-shrink:0;width:clamp(18px,4dvh,29px);height:clamp(18px,4dvh,29px)}
  .reception-page .tile .tile-arrow{display:none}
@@ -236,9 +236,6 @@
  .tile>svg{flex-shrink:0}
  .tile-label{width:100%;min-height:2.3em;line-height:1.15;display:flex;align-items:flex-end;padding-right:20px}
 }
-
-/* Reduce each glass tile's footprint without scaling its icon or label. */
-@media(min-width:1001px){.reception-page .tile{width:90%;height:90%;justify-self:center;align-self:center}}
 
 /* Keep only the reception photograph behind the glass section surface.
    Visibility preserves tile geometry for the opening and closing animation. */
