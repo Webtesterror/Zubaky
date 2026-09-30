@@ -269,7 +269,6 @@
 
 .language-switch,.topline-actions,.stage,.footline,.cookie-banner{position:relative;z-index:4}
 .cookie-banner{position:fixed;z-index:9}
-@media(max-width:1000px){.cookie-banner{position:static}}
 
 /* Text remains pure black. Related text shares one broad reading glow, so
    adjacent headings and links never create overlapping individual patches. */
