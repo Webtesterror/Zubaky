@@ -47,7 +47,7 @@
 @supports not ((mask-composite:exclude) or (-webkit-mask-composite:xor)){.tile::after,.panel-surface::after{display:none}}
 @media(prefers-contrast:more){.tile,.tile.booking{--tile-fill:linear-gradient(#eef2e3,#eef2e3);color:#162819;border-color:#42583e}}
 
-/* Keep live blur and long content out of the expanding compositor layer. */
+/* A single glass surface morphs; long content keeps its final layout. */
 .veil{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(21,35,15,.19);animation:veil-in 420ms ease both}
 .veil.is-closing{animation:veil-out 300ms ease both}
 .panel{background:none;backdrop-filter:none;-webkit-backdrop-filter:none;border:0;box-shadow:none;overflow:visible;isolation:isolate;contain:layout style}
@@ -55,7 +55,6 @@
 .panel-morph,.panel-surface{position:absolute;inset:0;border:1px solid #ffffedab;border-radius:inherit;background:linear-gradient(125deg,#fafbf0,#e5e9d9);pointer-events:none}
 .panel-morph{transform-origin:top left;contain:strict;box-shadow:inset 0 1px 2px #fff8,0 12px 32px #18220d24}
 .panel-surface{box-shadow:inset 0 1px 2px #fff9,0 24px 64px #18220d35}
-.panel.is-open .panel-morph{visibility:hidden}
 .panel-head,.panel-scroll{position:relative}
 .panel-head{flex-shrink:0}
 .panel-scroll{min-height:0;border-radius:0 0 32px 32px;animation:panel-content-in 140ms ease-out both}
@@ -249,9 +248,9 @@
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.panel-surface{background:linear-gradient(125deg,#fafbf0,#e5e9d9)}}
 @media(prefers-contrast:more),(prefers-reduced-transparency:reduce){.panel-surface{background:linear-gradient(125deg,#fafbf0,#e5e9d9);backdrop-filter:none;-webkit-backdrop-filter:none}}
 
-/* Prepare content and first images during expansion; reveal without a blank beat. */
+/* Fade content during the glass expansion; never scale text or long galleries. */
 .panel.is-morphing .panel-head,.panel.is-morphing .panel-scroll{visibility:hidden;opacity:0;animation:none;pointer-events:none}
-.panel.is-open:not(.is-closing) .panel-head,.panel.is-open:not(.is-closing) .panel-scroll{animation:panel-content-in 300ms ease-out both}
+.panel.is-open:not(.is-closing) .panel-head,.panel.is-open:not(.is-closing) .panel-scroll{animation:panel-content-in 380ms cubic-bezier(.2,.65,.3,1) 60ms both}
 .section-photo{display:block;overflow:hidden;background:linear-gradient(135deg,#eff3e54d,#d3dec340);border-radius:20px}
 .section-photo.is-portrait{aspect-ratio:3/4;border-radius:0}
 .section-photo img{display:block;transition:opacity 280ms ease;opacity:1}

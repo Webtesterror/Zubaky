@@ -26,9 +26,9 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
   const expanded='translate3d(0,0,0) scale(1,1)';
   const start=exiting?(currentTransform.current??expanded):tileTransform;
   const startOpacity=exiting?currentOpacity.current:.06;
-  let animation:Animation|undefined,frame=0,timer:ReturnType<typeof setTimeout>|undefined,cancelled=false,finished=false;
+  let animation:Animation|undefined,timer:ReturnType<typeof setTimeout>|undefined,cancelled=false,finished=false;
   const fadeContent=exiting&&revealed.current;
-  if(!exiting){revealed.current=false;setVisible(false)}
+  if(!exiting){revealed.current=true;setVisible(true)}
   p.focus({preventScroll:true});
   s.style.transform=start;
   s.style.opacity=String(startOpacity);
@@ -42,32 +42,30 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
    currentOpacity.current=exiting?0:1;
    s.style.opacity=String(currentOpacity.current);
    s.style.willChange='auto';
+   animation?.cancel();
    if(exiting)onExited();
    else{revealed.current=true;setVisible(true)}
   };
-  // Content prepares offscreen during the morph. Only the empty shell scales;
-  // the prepared content fades in once the shell reaches its final geometry.
+  // Only the glass surface scales. Text and photos render at their final size
+  // and fade in concurrently, without waiting for the surface animation.
   const startMotion=()=>{
    if(exiting){revealed.current=false;setVisible(false)}
-   frame=requestAnimationFrame(()=>{
     animation=s.animate([
      {transform:start,opacity:startOpacity},
      {transform:exiting?tileTransform:expanded,opacity:exiting?0:1},
     ],{duration:exiting?300:480,easing:exiting?'cubic-bezier(.4,0,.2,1)':'cubic-bezier(.22,1,.36,1)',fill:'forwards'});
     animation.finished.then(finish,()=>{});
-   });
   };
   if(motion.matches||!s.animate)finish();
   else if(fadeContent)timer=setTimeout(startMotion,80);
   else startMotion();
-  const skipMotion=()=>{if(motion.matches){clearTimeout(timer);cancelAnimationFrame(frame);finish();animation?.cancel()}};
+  const skipMotion=()=>{if(motion.matches){clearTimeout(timer);finish();animation?.cancel()}};
   motion.addEventListener('change',skipMotion);
   return()=>{
    // Preserve progress if Back/Escape interrupts an opening animation.
    if(!finished){const style=getComputedStyle(s);currentTransform.current=style.transform;currentOpacity.current=Number(style.opacity)}
    cancelled=true;
    clearTimeout(timer);
-   cancelAnimationFrame(frame);
    animation?.cancel();
    motion.removeEventListener('change',skipMotion);
    s.style.willChange='auto';
@@ -90,9 +88,8 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
      else if(!e.shiftKey&&(document.activeElement===last||document.activeElement===panel.current)){e.preventDefault();first.focus()}
     }
    }}>
-   <div className="panel-morph" ref={shell} aria-hidden="true"/>
+   <div className="panel-morph panel-surface" ref={shell} aria-hidden="true"/>
    <>
-    {visible&&<div className="panel-surface" aria-hidden="true"/>}
     <header className="panel-head" inert={!visible} aria-hidden={!visible}><div><div className="eyebrow">Zuby | Dásně</div><h2>{title}</h2></div>
      <button className="close" ref={closeButton} aria-label={t("Zavřít sekci")} onClick={()=>{if(!exiting)onClose()}}><X size={23}/></button>
     </header>
