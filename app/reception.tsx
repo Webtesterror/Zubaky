@@ -35,7 +35,7 @@ export default function Reception({data,initialLocale='cs',initialConsent=null}:
 }
 function ReceptionScene({original}:{original:Content}){
  const {revealing,finishReveal}=useMobileReveal();
- const {locale,t,openSettings}=usePreferences();
+ const {locale,t,bannerOpen,openSettings}=usePreferences();
  const data=translatedContent(original,locale);
  const [requested,setRequested]=useState<string|null>(null);
  const [active,setActive]=useState<string|null>(null);
@@ -115,7 +115,7 @@ function ReceptionScene({original}:{original:Content}){
     </nav>
     </div>
    </div>
-   <footer className="footline"><button className="cookie-settings" onClick={openSettings}>{t("Nastavení cookies")}</button></footer>
+   <footer className="footline">{!bannerOpen&&<button className="cookie-settings" onClick={openSettings}>{t("Nastavení cookies")}</button>}</footer>
    <CookieBanner/>
   </main>
   {active&&<SectionPanel key={active} id={active} title={t(sections.find(s=>s.id===active)!.name)}
