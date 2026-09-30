@@ -167,8 +167,10 @@
  .topline-actions>a{gap:5px;padding:4px 6px;font-size:.68rem}
 }
 .footline{justify-content:space-between}
-.cookie-settings{border:0;padding:4px 0;background:transparent;color:inherit;font:inherit;cursor:pointer}
-.cookie-banner{position:fixed;z-index:9;bottom:max(16px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(1000px,calc(100% - 32px));display:flex;align-items:center;gap:24px;border:1px solid #ffffff78;border-radius:20px;padding:18px 22px;background:#f5f8edb8;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);box-shadow:inset 0 1px 0 #fff9,0 2px 8px #26372c18;color:#000;font-size:.85rem;line-height:1.5}
+.cookie-settings{border:0;padding:4px 0;background:transparent;color:inherit;font:inherit;cursor:pointer;opacity:1;transform:translateY(0);transition:opacity 260ms ease,transform 320ms ease,visibility 0s linear}
+.cookie-settings[data-hidden=true]{opacity:0;transform:translateY(5px);visibility:hidden;pointer-events:none;transition:opacity 220ms ease,transform 280ms ease,visibility 0s linear 280ms}
+.cookie-banner{position:fixed;z-index:9;bottom:max(16px,env(safe-area-inset-bottom));left:50%;transform:translate(-50%,10px) scale(.985);opacity:0;visibility:hidden;pointer-events:none;width:min(1000px,calc(100% - 32px));display:flex;align-items:center;gap:24px;border:1px solid #ffffff78;border-radius:20px;padding:18px 22px;background:#f5f8edb8;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);box-shadow:inset 0 1px 0 #fff9,0 2px 8px #26372c18;color:#000;font-size:.85rem;line-height:1.5;transition:opacity 260ms ease,transform 340ms cubic-bezier(.22,1,.36,1),visibility 0s linear 340ms}
+.cookie-banner[data-open=true]{transform:translate(-50%,0) scale(1);opacity:1;visibility:visible;pointer-events:auto;transition:opacity 280ms ease,transform 380ms cubic-bezier(.22,1,.36,1),visibility 0s linear}
 .cookie-banner strong{display:block;margin-bottom:5px;font-weight:600}
 .cookie-banner p{margin:0}
 .cookie-actions{display:flex;gap:10px;flex-shrink:0}
@@ -177,8 +179,8 @@
 .map-consent p{max-width:520px;margin:0}
 .translation-source{white-space:pre-line;overflow-wrap:anywhere;margin-top:8px}
 @media(max-width:1000px){
- .reception-page .scene{grid-template-rows:auto minmax(0,1fr) auto auto}
- .cookie-banner{position:static;transform:none;left:auto;bottom:auto;width:100%;min-height:0;max-height:38dvh;display:flex;flex-direction:column;align-items:stretch;gap:10px;padding:12px 14px;border-radius:16px;font-size:.75rem;line-height:1.4}
+ .reception-page .scene{grid-template-rows:auto minmax(0,1fr) auto}
+ .cookie-banner{width:calc(100% - 32px);min-height:0;max-height:38dvh;display:flex;flex-direction:column;align-items:stretch;gap:10px;padding:12px 14px;border-radius:16px;font-size:.75rem;line-height:1.4}
  .cookie-banner>div:first-child{min-height:0;overflow-y:auto;overscroll-behavior:contain}
  .cookie-actions{gap:8px;justify-content:center}
  .cookie-actions button{flex:1;min-width:0;font-size:.75rem;padding:8px 6px}

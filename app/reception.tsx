@@ -115,7 +115,7 @@ function ReceptionScene({original}:{original:Content}){
     </nav>
     </div>
    </div>
-   <footer className="footline">{!bannerOpen&&<button className="cookie-settings" onClick={openSettings}>{t("Nastavení cookies")}</button>}</footer>
+   <footer className="footline"><button className="cookie-settings" data-hidden={bannerOpen} aria-hidden={bannerOpen} inert={bannerOpen} onClick={openSettings}>{t("Nastavení cookies")}</button></footer>
    <CookieBanner/>
   </main>
   {active&&<SectionPanel key={active} id={active} title={t(sections.find(s=>s.id===active)!.name)}
