@@ -262,6 +262,7 @@
 @media(prefers-reduced-motion:reduce){.section-photo img,.panel.is-open:not(.is-closing) .panel-head,.panel.is-open:not(.is-closing) .panel-scroll{animation:none;transition:none}}
 
 /* Compact team portraits: four columns on desktop, two on mobile. */
+.person h3,.person-text>p:not(.bio){font-family:'Inter',Arial,sans-serif}
 .team-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
 @media(max-width:1000px){.team-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}}
 @media(max-width:700px){.person-text{padding:12px}.person h3{font-size:1.35rem;line-height:1.15}.person p{font-size:.8rem}.team-grid{gap:12px}}
