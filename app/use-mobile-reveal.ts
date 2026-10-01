@@ -9,8 +9,8 @@ export function useMobileReveal(){
  useLayoutEffect(()=>{
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   if(reduced.matches||location.hash){finishReveal();return;}
-  // The CSS delay reveals the complete scene at its final opacity after 1 s.
-  const timer=setTimeout(finishReveal,1050);
+  // Keep the reveal attribute through the 1 s delay and 450 ms item fade.
+  const timer=setTimeout(finishReveal,1500);
   const changed=()=>{if(reduced.matches)finishReveal()};
   const restored=(event:PageTransitionEvent)=>{if(event.persisted)finishReveal()};
   reduced.addEventListener('change',changed);

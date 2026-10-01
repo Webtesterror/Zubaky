@@ -41,6 +41,7 @@ function ReceptionScene({original}:{original:Content}){
  const [active,setActive]=useState<string|null>(null);
  const [ready,setReady]=useState(false);
  const [menuReturning,setMenuReturning]=useState(false);
+ const [menuRevealing,setMenuRevealing]=useState(false);
  const scene=useRef<HTMLElement>(null);
  const navigating=useRef(false);
 
@@ -68,9 +69,17 @@ function ReceptionScene({original}:{original:Content}){
  useEffect(()=>{if(!active&&requested)setActive(requested)},[active,requested]);
  useEffect(()=>{
   if(!menuReturning)return;
-  const timer=setTimeout(()=>setMenuReturning(false),300);
+  const timer=setTimeout(()=>{
+   setMenuReturning(false);
+   setMenuRevealing(true);
+  },300);
   return()=>clearTimeout(timer);
  },[menuReturning]);
+ useEffect(()=>{
+  if(!menuRevealing)return;
+  const timer=setTimeout(()=>setMenuRevealing(false),450);
+  return()=>clearTimeout(timer);
+ },[menuRevealing]);
  useLayoutEffect(()=>{
   if(!active)return;
   const main=scene.current,overflow=document.body.style.overflow;
@@ -104,7 +113,7 @@ function ReceptionScene({original}:{original:Content}){
  }
  return <>
   <div className="reception-bg" aria-hidden="true"/>
-  <main className="scene" ref={scene} data-intro={revealing?'reveal':undefined} data-menu-returning={menuReturning||undefined} onPointerDownCapture={finishReveal} onFocusCapture={finishReveal}>
+  <main className="scene" ref={scene} data-intro={revealing?'reveal':undefined} data-menu-returning={menuReturning||undefined} data-menu-revealing={menuRevealing||undefined} onPointerDownCapture={finishReveal} onFocusCapture={finishReveal}>
     <header className="topline"><a className="brand-mark" href={'/?lang='+locale} aria-label={t("Zuby Dásně — úvodní stránka")}><img src="/zuby-dasne-logo-v4.png" alt="Zuby Dásně"/></a><div className="topline-actions"><LanguageSwitcher/><a href={'tel:'+data.contact.phone.replace(/\s/g,'')}><Phone size={15}/>{data.contact.phone}</a></div></header>
    <div className="stage">
     <h1 className="sr-only">{t("Zuby Dásně — stomatologické centrum")}</h1>

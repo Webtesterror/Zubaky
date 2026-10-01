@@ -195,11 +195,17 @@
  from{visibility:hidden}
  to{visibility:visible}
 }
+@keyframes reception-item-fade{
+ from{opacity:0}
+ to{opacity:1}
+}
 @media(prefers-reduced-motion:no-preference){
  .scene[data-intro=reveal]{animation:reception-scene-arrive 1000ms step-end both}
+ .scene[data-intro=reveal] :is(.topline,.home-announcement,.tile,.footline){animation:reception-item-fade 450ms cubic-bezier(.4,0,.2,1) 1000ms both}
+ .scene[data-menu-revealing] :is(.topline,.home-announcement,.tile,.footline){animation:reception-item-fade 450ms cubic-bezier(.4,0,.2,1) both}
 }
-/* The returning scene stays fully hidden until every element can be shown at
-   its final glass opacity in the same frame. */
+/* Keep the returning scene hidden for the requested pause, then let every
+   element start the same 450 ms fade together. */
 .scene[data-menu-returning]{visibility:hidden;pointer-events:none}
 /* Use actual space left after the header and consent controls.
    Keep 390 px for the menu; the absolutely positioned notice cannot shrink it. */
