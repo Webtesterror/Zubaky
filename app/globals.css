@@ -299,6 +299,8 @@ body,.scene,.tile,.panel,.panel-head,.panel-scroll{color:#000}
 .panel-scroll>.prose{max-width:none;width:100%}
 .panel,.panel-head,.panel-scroll,.panel-scroll>*{min-width:0;max-width:100%;box-sizing:border-box}
 .panel-scroll{overflow-x:hidden}
+.panel-head h2{text-transform:uppercase}
+.price-row .price-value{font-weight:400;white-space:normal}
 .prose,.panel-scroll p,.panel-scroll h3,.contact-links a,.map-external,.price-row>*{overflow-wrap:anywhere}
 .steps li{grid-template-columns:52px minmax(0,1fr)}
 .price-row{grid-template-columns:minmax(0,1fr) auto}
