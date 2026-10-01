@@ -11,7 +11,6 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
  const shell=useRef<HTMLDivElement>(null);
  const closeButton=useRef<HTMLButtonElement>(null);
  const currentTransform=useRef<string|null>(null);
- const revealed=useRef(false);
  const [visible,setVisible]=useState(false);
 
  useLayoutEffect(()=>{
@@ -24,9 +23,8 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
    :'scale(.97)';
   const expanded='translate3d(0,0,0) scale(1,1)';
   const start=exiting?(currentTransform.current??expanded):tileTransform;
-  let animation:Animation|undefined,timer:ReturnType<typeof setTimeout>|undefined,cancelled=false,finished=false;
-  const fadeContent=exiting&&revealed.current;
-  if(!exiting){revealed.current=true;setVisible(true)}
+  let animation:Animation|undefined,hideTimer:ReturnType<typeof setTimeout>|undefined,cancelled=false,finished=false;
+  if(!exiting)setVisible(true);
   p.focus({preventScroll:true});
   s.style.transform=start;
   s.style.opacity='1';
@@ -41,12 +39,14 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
    s.style.willChange='auto';
    animation?.cancel();
    if(exiting)onExited();
-   else{revealed.current=true;setVisible(true)}
+   else setVisible(true);
   };
   // Only the glass surface scales. Text and photos render at their final size
   // and fade in concurrently, without waiting for the surface animation.
   const startMotion=()=>{
-   if(exiting){revealed.current=false;setVisible(false)}
+   // Start the reverse morph immediately. Content completes its short fade
+   // independently, instead of delaying the entire closing motion by 80 ms.
+   if(exiting)hideTimer=setTimeout(()=>setVisible(false),80);
     animation=s.animate([
      {transform:start,opacity:1},
      {transform:exiting?tileTransform:expanded,opacity:0},
@@ -54,15 +54,14 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
     animation.finished.then(finish,()=>{});
   };
   if(motion.matches||!s.animate)finish();
-  else if(fadeContent)timer=setTimeout(startMotion,80);
   else startMotion();
-  const skipMotion=()=>{if(motion.matches){clearTimeout(timer);finish();animation?.cancel()}};
+  const skipMotion=()=>{if(motion.matches){clearTimeout(hideTimer);finish();animation?.cancel()}};
   motion.addEventListener('change',skipMotion);
   return()=>{
    // Preserve progress if Back/Escape interrupts an opening animation.
    if(!finished)currentTransform.current=getComputedStyle(s).transform;
    cancelled=true;
-   clearTimeout(timer);
+   clearTimeout(hideTimer);
    animation?.cancel();
    motion.removeEventListener('change',skipMotion);
    s.style.willChange='auto';
