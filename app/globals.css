@@ -188,11 +188,12 @@
 @media(max-width:1000px) and (orientation:landscape){.cookie-banner{flex-direction:row;align-items:center;gap:16px;max-height:35dvh}.cookie-actions{flex-direction:column;gap:4px}.cookie-actions button{min-height:32px;padding:5px 12px}}
 @media(min-width:1920px){.topline .language-switch a{font-size:clamp(.82rem,.72917vw,1.4rem);padding:8px 14px;min-height:44px}}
 
-/* One scene-level arrival keeps every current and future reception element in
-   lockstep while using a single compositor layer. */
+/* One opacity-only scene reveal keeps every reception element in lockstep.
+   Avoiding a full-scene transform/filter layer prevents the background from
+   being re-rasterized (and visibly jumping) when the intro finishes. */
 @keyframes reception-scene-arrive{
- from{opacity:0;transform:translate3d(0,12px,0);filter:blur(14px)}
- to{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
+ from{opacity:0}
+ to{opacity:1}
 }
 @media(prefers-reduced-motion:no-preference){
  .scene[data-intro=reveal]{animation:reception-scene-arrive 1250ms cubic-bezier(.22,1,.36,1) 1000ms both}
