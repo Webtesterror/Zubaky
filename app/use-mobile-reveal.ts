@@ -9,8 +9,8 @@ export function useMobileReveal(){
  useLayoutEffect(()=>{
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   if(reduced.matches||location.hash){finishReveal();return;}
-  // Remove animation/filter layers once the last row has arrived at 2950 ms.
-  const timer=setTimeout(finishReveal,3050);
+  // Remove the shared compositor layer just after the 1000 + 1250 ms reveal.
+  const timer=setTimeout(finishReveal,2350);
   const changed=()=>{if(reduced.matches)finishReveal()};
   const restored=(event:PageTransitionEvent)=>{if(event.persisted)finishReveal()};
   reduced.addEventListener('change',changed);

@@ -188,28 +188,20 @@
 @media(max-width:1000px) and (orientation:landscape){.cookie-banner{flex-direction:row;align-items:center;gap:16px;max-height:35dvh}.cookie-actions{flex-direction:column;gap:4px}.cookie-actions button{min-height:32px;padding:5px 12px}}
 @media(min-width:1920px){.topline .language-switch a{font-size:clamp(.82rem,.72917vw,1.4rem);padding:8px 14px;min-height:44px}}
 
-/* A single arrival: 1000 ms of the room, then three rows 100 ms apart. */
-@keyframes mobile-tile-arrive{
+/* One scene-level arrival keeps every current and future reception element in
+   lockstep while using a single compositor layer. */
+@keyframes reception-scene-arrive{
  from{opacity:0;transform:translate3d(0,12px,0);filter:blur(14px)}
  to{opacity:1;transform:translate3d(0,0,0);filter:blur(0)}
 }
-@keyframes mobile-detail-arrive{from{opacity:0}to{opacity:1}}
 @media(prefers-reduced-motion:no-preference){
- .scene[data-intro=reveal] .tile{--arrival-delay:1000ms;animation:mobile-tile-arrive 1250ms cubic-bezier(.22,1,.36,1) var(--arrival-delay) both}
- .scene[data-intro=reveal] .tile:nth-child(n+3){--arrival-delay:1100ms}
- .scene[data-intro=reveal] .tile:nth-child(n+5){--arrival-delay:1200ms}
- .scene[data-intro=reveal] .home-announcement{animation:mobile-detail-arrive 550ms ease 1500ms both}
- .scene[data-intro=reveal] .footline,.scene[data-intro=reveal] .cookie-banner{animation:mobile-detail-arrive 300ms ease 2050ms both}
+ .scene[data-intro=reveal]{animation:reception-scene-arrive 1250ms cubic-bezier(.22,1,.36,1) 1000ms both}
 }
 /* One parent transition keeps every reception control and tile synchronized
    after a section closes. New scene elements inherit the same return timing. */
 .reception-page .scene{opacity:1;transition:opacity 480ms cubic-bezier(.22,1,.36,1)}
 .scene[data-menu-returning]{opacity:0;pointer-events:none;transition:none}
 @media(prefers-reduced-motion:reduce){.reception-page .scene{transition:none}}
-@media(max-width:1000px) and (orientation:landscape) and (prefers-reduced-motion:no-preference){
- .scene[data-intro=reveal] .tile:nth-child(n){--arrival-delay:1000ms}
- .scene[data-intro=reveal] .tile:nth-child(n+4){--arrival-delay:1100ms}
-}
 /* Use actual space left after the header and consent controls.
    Keep 390 px for the menu; the absolutely positioned notice cannot shrink it. */
 @media(max-width:1000px) and (orientation:portrait){
