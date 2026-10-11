@@ -1,0 +1,9 @@
+/* Server-rendered fallback remains usable and indexed if JavaScript fails. */
+html:not(.forpsi-booting) body:has(.public-fallback){overflow:auto;height:auto;min-height:100vh}
+.forpsi-booting .public-fallback{display:none}
+.public-fallback{max-width:1000px;margin:32px auto;padding:24px;color:#000;background:#f5f8ed}
+.public-fallback section{margin-block:40px}.public-fallback img{max-width:100%;height:auto}
+.booking-honeypot{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
+.login form+form,.login form+a{margin-top:24px;display:block}
+.admin .logout-form{margin:0}.admin .logout-form button{font:inherit;border:0;background:none;text-decoration:underline;cursor:pointer;padding:0}
+.grecaptcha-badge{visibility:hidden}

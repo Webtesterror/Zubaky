@@ -1,12 +1,12 @@
 # Zuby Dásně — správa webu
 
-**Nasazení na Netlify včetně administrace:** postup najdete v [NETLIFY.md](NETLIFY.md). Netlify používá vlastní heslo `ADMIN_PASSWORD` a trvalé Netlify Blobs. Níže uvedená aktivace přes ChatGPT se týká pouze původního Sites náhledu.
+**Aktuální hosting: FORPSI, PHP 8.2+.** Sestavení, SMTP, účty s e-mailovým ověřením, místní náhled a ruční nasazení popisuje [FORPSI.md](FORPSI.md). Starší konfigurace Sites a [Netlify](NETLIFY.md) zůstávají v repozitáři pro původní instalace; nový PHP backend je nepoužívá.
 
 ## Přihlášení
 
-Na webu klikněte dole na **Správa obsahu**. Online náhled používá přihlášení přes ChatGPT. Při první návštěvě zadejte jednorázový aktivační kód z odděleného souboru **PRISTUPY.txt**. Tím se váš účet stane jediným správcem. Další přihlášené účty nemají právo upravovat obsah.
+Otevřete přímo **`/admin`**. Zadejte uživatelské jméno a heslo, potom jednorázový kód z e-mailu. Účty jsou `spravce1` a `spravce2`; jejich hesla jsou pouze v soukromém souboru `.local-forpsi/PRISTUPY.txt`, mimo GitHub.
 
-Místní náhled používá stejný kód jako online aktivace. Je dostupný pouze na tomto počítači. Místní a online databáze jsou oddělené; jejich změny se automaticky nesynchronizují.
+Místní PHP náhled spouští `npm run dev:forpsi`. E-maily zachytává do soukromé testovací schránky; poslední kód zobrazí `node scripts/read-local-mail.mjs`. Místní a online data jsou oddělená a automaticky se nesynchronizují.
 
 ## Změna ceníku
 
@@ -19,7 +19,7 @@ Místní náhled používá stejný kód jako online aktivace. Je dostupný pouz
 
 1. Otevřete **Náš tým → Přidat zaměstnance**.
 2. Vyplňte jméno, titul, roli a případný popis.
-3. Přes **Nahrát / vyměnit fotografii** vyberte JPG, PNG nebo WebP do 5 MB. Obrázek se nahraje do úložiště a zobrazí se náhled.
+3. Přes **Nahrát / vyměnit fotografii** vyberte JPG, PNG nebo WebP do 4 MB a 24 Mpx. Obrázek se nahraje do úložiště a zobrazí se náhled.
 4. Vyplňte stručný popis fotografie. Posuvníkem nastavte svislý hlavní bod ořezu, například směrem k obličeji.
 5. Profil můžete přesouvat, dočasně skrýt nebo odstranit. Počet zaměstnanců není pevně daný.
 6. Zkontrolujte **Náhled konceptu**, uložte nebo zveřejněte změny.
@@ -32,18 +32,16 @@ V **O nás** lze upravovat odstavce a fotografie, včetně jejich pořadí. **Pr
 
 ## Objednávání
 
-Formulář je pouze frontend. Kontroluje povinná pole, ale nic neodesílá ani neukládá. Aktivní jsou telefon a e-mail. Backend rezervací bude třeba doplnit později. Text oznámení lze měnit v administraci, ale změna textu objednávání neaktivuje.
+PHP backend odesílá žádosti o objednání přes SMTP na `marius.mervart@gmail.com` po ověření reCAPTCHA. Formulář se aktivuje až po doplnění konfigurace popsané v [FORPSI.md](FORPSI.md). Nejde o kalendář rezervací; termín potvrzuje ordinace. Místní testovací režim e-maily neodesílá.
 
 ## Ukládání a zálohy
 
-Online obsah se ukládá do databáze D1 a nové fotografie do úložiště R2; jsou oddělené od nasazované aplikace. Nové nasazení je nepřepisuje. Místní data jsou ve složce `.local-data`; při opětovném spuštění zůstávají zachována. Pro přesun místního webu ponechte tuto složku, případně nastavte `ZUBY_DATA_DIR` na trvalou složku mimo aplikaci. Zálohujte databázi i fotografie; při souborovém kopírování místní databáze nejprve zastavte server.
+Na FORPSI jsou obsah a fotografie v privátní složce `zuby-data` mimo veřejný web. Při aktualizaci ji nepřepisujte. Místní PHP náhled používá `.local-forpsi/data`; původní SQLite data v `.local-data` zůstala zachovaná. Konzistentní export obsahu a použitých fotografií vytvoří `php zuby-app/bin/export.php /soukroma/cesta/nova-zaloha`. Soukromý `config.php` zálohujte zvlášť.
 
 Odebrání fotografie z profilu odstraní její použití v obsahu. Původní soubor zůstává v úložišti, aby se nepoškodily starší koncepty nebo jiná použití.
 
-## Stav kontroly
+## Stav kontroly PHP backendu
 
-Ověřeno: sestavení aplikace, typová kontrola, serverové vykreslení, přihlášení, aktivace správce, uložení konceptu, oddělení konceptu od veřejného obsahu, zveřejnění, změna počtu členů týmu, skrytí profilu, nahrání a načtení fotografie, odmítnutí neplatných obrázků, nepřihlášených úprav a cizího původu požadavku. Ověřeno zachování databáze po restartu. Testovací obsah byl odstraněn.
+Integrační testy ověřují oba účty, povinné 2FA, jednorázovost a expiraci kódu, omezení pokusů, CSRF, zákaz anonymních změn, koncept/zveřejnění, souběh editorů, fotografie, objednávky do testovací schránky a trvalost dat po restartu. Přihlášení a objednací formulář byly vyzkoušeny i v místním prohlížeči.
 
-Vyčištěné pozadí bylo vizuálně zkontrolováno. Plnou vizuální kontrolu rozložení a interakcí v reálném prohlížeči zablokovala omezení prostředí Windows. Mobilní rozvržení, animace, klávesnicové ovládání a historie jsou implementované, ale nepovažujte je za plně uživatelsky otestované. WebMCP má kontrolu dostupnosti; ověření v podporovaném prohlížeči nebylo dostupné.
-
-Online náhled zůstává soukromý. Zpřístupnění pacientům a připojení vlastní domény jsou samostatný krok.
+Ještě je nutné doplnit heslo aplikace Gmail, klíče reCAPTCHA a cílovou doménu. Skutečné doručení e-mailů a prostředí FORPSI se ověří až po ručním nasazení. GitHub není nasazení; Netlify se automaticky nepublikuje.

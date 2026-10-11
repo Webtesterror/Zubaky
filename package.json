@@ -6,6 +6,9 @@
     "node": ">=22.13.0"
   },
   "scripts": {
+    "build:forpsi": "node scripts/build-forpsi.mjs",
+    "dev:forpsi": "node scripts/start-forpsi.mjs",
+    "test:forpsi": "node scripts/test-forpsi.mjs",
     "build:netlify": "node scripts/build-netlify.mjs",
     "install:ci": "node scripts/install-ci.mjs",
     "dev": "node scripts/local-server.mjs",

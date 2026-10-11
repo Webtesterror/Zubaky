@@ -1,0 +1,11 @@
+import {spawn} from 'node:child_process';
+import fs from 'node:fs';
+import path from 'node:path';
+const bundled=path.resolve('.local-forpsi/runtime/php/php.exe');
+const php=process.env.PHP_BINARY||(fs.existsSync(bundled)?bundled:'php');
+const extensions=fs.existsSync(bundled)&&php===bundled?['-d','extension_dir='+path.dirname(bundled)+'/ext',...['curl','openssl','fileinfo','gd','mbstring'].flatMap(e=>['-d','extension='+e])]:[];
+const config=path.resolve('.local-forpsi/local-config.php');
+if(!fs.existsSync(config)||!fs.existsSync('dist/forpsi/www/index.php'))throw Error('Nejprve proveďte build:forpsi a prepare-forpsi-local.mjs.');
+const child=spawn(php,[...extensions,'-d','display_errors=0','-d','log_errors=1','-d','upload_max_filesize=4M','-d','post_max_size=5M','-S','127.0.0.1:5173','-t','dist/forpsi/www','forpsi/router.php'],{stdio:'inherit',env:{...process.env,ZUBY_CONFIG:config}});
+child.on('error',e=>{console.error(e.message);process.exitCode=1});child.on('exit',code=>{process.exitCode=code||0});
+process.on('SIGINT',()=>child.kill());process.on('SIGTERM',()=>child.kill());

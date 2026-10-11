@@ -49,3 +49,7 @@ next-env.d.ts
 *.tsbuildinfo
 /netlify/functions/
 /.netlify/
+/.local-forpsi/
+/forpsi/config.php
+/forpsi/PRISTUPY.txt
+/forpsi/vendor/
