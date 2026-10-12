@@ -24,21 +24,23 @@ export default function TileLabel({text,locale}:{text:string,locale:Locale}){
   const mobile=matchMedia('(max-width: 1000px)');
   let active=true;
   const measure=()=>{
-   if(!mobile.matches){setOverflowing(false);return}
+   if(!mobile.matches){tile.classList.remove('has-overflowing-label');setOverflowing(false);return}
    const tileStyle=getComputedStyle(tile);
    const available=tile.clientWidth-parseFloat(tileStyle.paddingLeft)-parseFloat(tileStyle.paddingRight);
    const previous=label.style.cssText;
    label.style.cssText+=';position:absolute;display:block;width:max-content;max-width:none;white-space:nowrap;transform:none;visibility:hidden';
    const naturalWidth=label.getBoundingClientRect().width;
    label.style.cssText=previous;
-   if(active)setOverflowing(naturalWidth>available+1);
+   const next=naturalWidth>available+1;
+   tile.classList.toggle('has-overflowing-label',next);
+   if(active)setOverflowing(next);
   };
   measure();
   const observer=new ResizeObserver(measure);
   observer.observe(tile);
   mobile.addEventListener('change',measure);
   void document.fonts?.ready.then(()=>{if(active)measure()});
-  return()=>{active=false;observer.disconnect();mobile.removeEventListener('change',measure)};
+  return()=>{active=false;tile.classList.remove('has-overflowing-label');observer.disconnect();mobile.removeEventListener('change',measure)};
  },[shown.text,shown.locale]);
  return <span ref={labelRef} className={'tile-label'+(blurred?' is-blurred':'')+(overflowing?' is-overflowing':'')} lang={shown.locale} aria-hidden="true">{shown.text}</span>;
 }
