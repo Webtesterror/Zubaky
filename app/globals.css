@@ -140,6 +140,7 @@
  .reception-page .tile{min-width:0;min-height:0;padding:clamp(6px,2dvh,20px) 12px;border-radius:20px;gap:3px;overflow:visible}
  .reception-page .tile span{font-size:clamp(1.045rem,3.325dvh,1.52rem);line-height:1.12}
  .reception-page .tile .tile-label{z-index:3}
+ .reception-page .tile .tile-label.is-multiword{white-space:pre-line}
  .reception-page .tile.has-overflowing-label{z-index:6}
  .reception-page .tile .tile-label.is-overflowing{position:absolute;left:50%;bottom:clamp(6px,2dvh,20px);width:max-content;max-width:none;white-space:nowrap;text-align:center;transform:translateX(-50%)}
  .reception-page .tile>svg{flex-shrink:0;width:clamp(18px,4dvh,29px);height:clamp(18px,4dvh,29px)}

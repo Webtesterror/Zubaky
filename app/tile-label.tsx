@@ -17,6 +17,8 @@ export default function TileLabel({text,locale}:{text:string,locale:Locale}){
   reduced.addEventListener('change',changed);
   return()=>{clearTimeout(timer);reduced.removeEventListener('change',changed)};
  },[text,locale]);
+ const words=shown.text.trim().split(/\s+/);
+ const multiword=words.length>1;
  useLayoutEffect(()=>{
   const label=labelRef.current;
   const tile=label?.closest<HTMLElement>('.tile');
@@ -24,7 +26,7 @@ export default function TileLabel({text,locale}:{text:string,locale:Locale}){
   const mobile=matchMedia('(max-width: 1000px)');
   let active=true;
   const measure=()=>{
-   if(!mobile.matches){tile.classList.remove('has-overflowing-label');setOverflowing(false);return}
+   if(!mobile.matches||multiword){tile.classList.remove('has-overflowing-label');setOverflowing(false);return}
    const tileStyle=getComputedStyle(tile);
    const available=tile.clientWidth-parseFloat(tileStyle.paddingLeft)-parseFloat(tileStyle.paddingRight);
    const previous=label.style.cssText;
@@ -41,6 +43,6 @@ export default function TileLabel({text,locale}:{text:string,locale:Locale}){
   mobile.addEventListener('change',measure);
   void document.fonts?.ready.then(()=>{if(active)measure()});
   return()=>{active=false;tile.classList.remove('has-overflowing-label');observer.disconnect();mobile.removeEventListener('change',measure)};
- },[shown.text,shown.locale]);
- return <span ref={labelRef} className={'tile-label'+(blurred?' is-blurred':'')+(overflowing?' is-overflowing':'')} lang={shown.locale} aria-hidden="true">{shown.text}</span>;
+ },[shown.text,shown.locale,multiword]);
+ return <span ref={labelRef} className={'tile-label'+(blurred?' is-blurred':'')+(multiword?' is-multiword':'')+(overflowing?' is-overflowing':'')} lang={shown.locale} aria-hidden="true">{multiword?words.join('\n'):shown.text}</span>;
 }
