@@ -21,7 +21,7 @@ export function translationEntries(data:Content){
  return [...entries].map(([text,group])=>({text,group}));
 }
 export const ui:Record<string,string>={
- 'O nás':'About us','Náš tým':'Our team','Průběh léčby':'Treatment process','Ceník':'Prices','Kontakt':'Contact','Objednání':'Appointments',
+ 'O nás':'About us','Náš tým':'Our team','Průběh léčby':'Treatment process','Ceník':'Prices','Kontakt':'Contact','Objednání':'Appointment',
  'Mimořádná zpráva':'Important notice','Telefon, e-mail, adresa, sítě':'Phone, email, address & social media','Otevírací doba':'Opening hours',
  'Otevřít mapu a navigaci ↗':'Open map & directions ↗','Mapa — Zuby Dásně, Hradec Králové':'Map — Zuby Dásně, Hradec Králové',
  'Facebook — otevřít v nové záložce':'Facebook — opens in a new tab','Instagram — otevřít v nové záložce':'Instagram — opens in a new tab',
