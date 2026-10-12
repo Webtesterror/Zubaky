@@ -72,7 +72,7 @@ export default function BookingForm(){
   <button className="primary" type="submit" disabled={busy||!ready||!settings?.enabled}>{busy?(en?'Sending…':'Odesílám…'):t('Odeslat')}</button>
   {status&&<p className="form-status" role="status">{status}</p>}
   <a href="/source/Podminky_ochrany_osobnich-udaju-ZUBY_DASNE.pdf" target="_blank" rel="noreferrer">{t('Ochrana osobních údajů')}</a>
-  {settings?.siteKey&&<small>{en?'Protected by reCAPTCHA. Google’s ':'Chráněno reCAPTCHA. Platí '}<a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">{en?'Privacy Policy':'zásady ochrany soukromí'}</a>{en?' and ':' a '}<a href="https://policies.google.com/terms" target="_blank" rel="noreferrer">{en?'Terms of Service':'podmínky Google'}</a>.</small>}
+  <small>{en?'Protected by reCAPTCHA. Google’s ':'Chráněno reCAPTCHA. Platí '}<a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">{en?'Privacy Policy':'zásady ochrany soukromí'}</a>{en?' and ':' a '}<a href="https://policies.google.com/terms" target="_blank" rel="noreferrer">{en?'Terms of Service':'podmínky Google'}</a>.</small>
  </form>}
  </div>;
 }
