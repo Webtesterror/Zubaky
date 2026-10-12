@@ -265,7 +265,11 @@
 .person h3,.person-text>p:not(.bio){font-family:'Inter',Arial,sans-serif}
 .person h3{font-size:1.71rem}
 .team-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
-.team-grid.team-owners{grid-template-columns:repeat(2,minmax(0,1fr));width:min(100%,820px);justify-self:center}
+.team-grid.team-owners{grid-template-columns:repeat(2,minmax(0,1fr));justify-self:center}
+@media(min-width:1001px){
+ .team-grid.team-members{width:90%;justify-self:center}
+ .team-grid.team-owners{width:calc(45% - 10px)}
+}
 @media(max-width:1000px){.team-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}}
 @media(max-width:700px){.person-text{padding:12px}.person h3{font-size:1.28rem;line-height:1.15}.person p{font-size:.8rem}.team-grid{gap:12px}}
 @media(max-width:480px){.team-grid,.team-grid.team-owners{grid-template-columns:1fr}}
