@@ -25,7 +25,8 @@ function captchaToken(key:string):Promise<string>{
 export default function BookingForm(){
  const {t,locale}=usePreferences(),en=locale==='en';
  const [settings,setSettings]=useState<Settings|null>(null),[ready,setReady]=useState(false),[busy,setBusy]=useState(false),[status,setStatus]=useState('');
- const sending=useRef(false),attempt=useRef({payload:'',id:''});
+ const [phase,setPhase]=useState<'form'|'leaving'|'success'>('form'),[confirmation,setConfirmation]=useState('');
+ const sending=useRef(false),attempt=useRef({payload:'',id:''}),transitionTimer=useRef<number|null>(null),confirmationRef=useRef<HTMLDivElement>(null);
  const supported=backendConfig().backend==='forpsi';
  useEffect(()=>{
   if(!supported){setReady(true);return}
@@ -33,6 +34,8 @@ export default function BookingForm(){
   fetch('/api/booking-config',{signal:controller.signal}).then(async r=>{if(!r.ok)throw Error();setSettings(await r.json());setReady(true)}).catch(()=>{if(!controller.signal.aborted)setReady(true)});
   return()=>controller.abort();
  },[supported]);
+ useEffect(()=>()=>{if(transitionTimer.current!==null)window.clearTimeout(transitionTimer.current)},[]);
+ useEffect(()=>{if(phase==='success')confirmationRef.current?.focus()},[phase]);
  async function submit(e:FormEvent<HTMLFormElement>){
   e.preventDefault();if(sending.current)return;
   if(!settings?.enabled){setStatus(en?'The form is not connected yet. Please contact us by phone.':'Formulář ještě není připojený. Objednejte se prosím telefonicky.');return}
@@ -47,13 +50,18 @@ export default function BookingForm(){
     const error=en?(r.status===429?'Too many attempts. Please try again later.':r.status===403?'Your session expired. Reload the page and try again.':'Delivery could not be confirmed. Please contact us by phone.'):(j.error||'Odeslání se nepodařilo. Zkuste to později.');
     throw Error(error);
    }
-   form.reset();attempt.current={payload:'',id:''};
-   setStatus(j.localTest?(en?'Local test: the message was saved in the private test mailbox. No email was sent.':'Místní test: zpráva je v soukromé testovací schránce. E-mail nebyl odeslán.'):(en?'Your request has been sent. We will contact you to arrange an appointment. This is not a confirmed booking.':'Vaše žádost byla odeslána. Ozveme se vám a domluvíme termín. Nejde o potvrzenou rezervaci.'));
+   attempt.current={payload:'',id:''};
+   setConfirmation(j.localTest
+    ?(en?'Local test: the message was saved in the private test mailbox. No email was sent.':'Místní test: zpráva byla uložena do soukromé testovací schránky. E-mail nebyl odeslán.')
+    :(en?'The appointment form has been sent. We will contact you regarding your request. Thank you.':'Objednací formulář byl odeslán. Na jeho základě Vás budeme dále kontaktovat. Děkujeme.'));
+   setPhase('leaving');
+   transitionTimer.current=window.setTimeout(()=>{form.reset();setPhase('success')},320);
   }catch(error){
    setStatus(error instanceof Error&&error.name==='Error'&&error.message!=='captcha'?error.message:(en?'Delivery could not be confirmed. Your entries remain in the form; please contact us by phone.':'Odeslání se nepodařilo potvrdit. Údaje zůstaly ve formuláři; kontaktujte nás prosím telefonicky.'));
   }finally{sending.current=false;setBusy(false)}
  }
- return <form className="form-grid" onSubmit={e=>void submit(e)} aria-busy={busy}>
+ return <div className="booking-form-shell">
+ {phase==='success'?<div className="booking-confirmation" role="status" tabIndex={-1} ref={confirmationRef}><p>{confirmation}</p></div>:<form className={'form-grid booking-form '+(phase==='leaving'?'is-leaving':'')} onSubmit={e=>void submit(e)} aria-busy={busy}>
   <label className="field">{t('Jméno a příjmení')} *<input name="name" autoComplete="name" required maxLength={150}/></label>
   <label className="field">{t('E-mail')} *<input type="email" name="email" autoComplete="email" required maxLength={200}/></label>
   <label className="field">{t('Telefon')} *<input type="tel" name="phone" autoComplete="tel" required pattern="\+?[0-9\s\-]{9,18}" title={t('Zadejte telefonní číslo, případně s předvolbou.')}/></label>
@@ -65,5 +73,6 @@ export default function BookingForm(){
   {status&&<p className="form-status" role="status">{status}</p>}
   <a href="/source/Podminky_ochrany_osobnich-udaju-ZUBY_DASNE.pdf" target="_blank" rel="noreferrer">{t('Ochrana osobních údajů')}</a>
   {settings?.siteKey&&<small>{en?'Protected by reCAPTCHA. Google’s ':'Chráněno reCAPTCHA. Platí '}<a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">{en?'Privacy Policy':'zásady ochrany soukromí'}</a>{en?' and ':' a '}<a href="https://policies.google.com/terms" target="_blank" rel="noreferrer">{en?'Terms of Service':'podmínky Google'}</a>.</small>}
- </form>;
+ </form>}
+ </div>;
 }
