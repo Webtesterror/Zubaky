@@ -22,7 +22,7 @@ export function SectionContent({id,data}:{id:string,data:Content}){
  if(id==='o-nas')return <><div className="prose about-text">{data.about.map((p,i)=><p key={i}>{p}</p>)}</div><div className="gallery">{data.photos.filter(p=>p.src).map((p,i)=><SectionPhoto key={p.id+p.src} src={p.src} alt={p.alt} focus={p.focus} eager={i<2}/>)}</div></>;
  if(id==='nas-tym'){
   const team=data.team.filter(p=>!p.hidden);
-  const profiles=(people:Content['team'])=>people.map(p=><article className="person" key={p.id}>{p.src&&<SectionPhoto key={p.src} src={p.src} alt={p.alt} focus={p.focus} portrait eager={team.indexOf(p)<4}/>}<div className="person-text"><h3>{p.title==='MDDr.'?'MDDr. ':''}{p.name}{p.title&&p.title!=='MDDr.'?', '+p.title:''}</h3><p>{p.role}</p>{p.description&&<p className="bio">{p.description}</p>}</div></article>);
+  const profiles=(people:Content['team'])=>people.map(p=><article className={'person'+(p.name==='Ondřej Stárek'?' person-height-match':'')} key={p.id}>{p.src&&<SectionPhoto key={p.src} src={p.src} alt={p.alt} focus={p.focus} portrait eager={team.indexOf(p)<4}/>}<div className="person-text"><h3>{p.title==='MDDr.'?'MDDr. ':''}{p.name}{p.title&&p.title!=='MDDr.'?', '+p.title:''}</h3><p>{p.role}</p>{p.description&&<p className="bio">{p.description}</p>}</div></article>);
   const owners=team.slice(0,2);
   const members=team.slice(2);
   return <div className="team-layout">{owners.length>0&&<div className="team-grid team-owners">{profiles(owners)}</div>}{members.length>0&&<div className="team-grid team-members">{profiles(members)}</div>}</div>;
