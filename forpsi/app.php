@@ -9,6 +9,16 @@ require __DIR__ . '/render.php';
 final class HttpError extends RuntimeException { public function __construct(public int $status, string $message) { parent::__construct($message); } }
 function fail(int $status, string $message): never { throw new HttpError($status, $message); }
 function cfg(): array { return $GLOBALS['zuby_config']; }
+function admin_accounts_ready(): bool {
+    $users = cfg()['users'] ?? null;
+    if (!is_array($users) || count($users) < 1) return false;
+    foreach ($users as $username => $account) {
+        if (!is_string($username) || $username === '' || !is_array($account)
+            || empty($account['password_hash'])
+            || !filter_var($account['otp_to'] ?? '', FILTER_VALIDATE_EMAIL)) return false;
+    }
+    return true;
+}
 function local_test(): bool {
     return !empty(cfg()['local_test']) && PHP_SAPI === 'cli-server'
         && in_array($_SERVER['REMOTE_ADDR'] ?? '', ['127.0.0.1', '::1'], true)
@@ -88,10 +98,7 @@ function zuby_run(): void {
         $configFile = getenv('ZUBY_CONFIG') ?: __DIR__ . '/config.php';
         if (!is_file($configFile)) fail(503, 'Backend ještě není nastavený. Správce musí doplnit soukromou konfiguraci.');
         $GLOBALS['zuby_config'] = require $configFile;
-        if (strlen(cfg()['app_key']) < 32 || count(cfg()['users']) < 1) fail(503, 'Dokončete nastavení přihlašovacích účtů.');
-        foreach (cfg()['users'] as $account) {
-            if (empty($account['password_hash']) || !filter_var($account['otp_to'] ?? '', FILTER_VALIDATE_EMAIL)) fail(503, 'Dokončete nastavení přihlašovacích účtů.');
-        }
+        if (strlen(cfg()['app_key'] ?? '') < 32) fail(503, 'Dokončete nastavení backendu.');
         if (!empty(cfg()['local_test']) && !local_test()) fail(503, 'Testovací konfiguraci nelze použít na veřejném webu.');
         $origin = cfg()['origin']; $host = parse_url($origin, PHP_URL_HOST);
         $expectedHost = $host . (parse_url($origin, PHP_URL_PORT) ? ':' . parse_url($origin, PHP_URL_PORT) : '');
@@ -113,6 +120,9 @@ function zuby_run(): void {
             if ((int)($_SERVER['CONTENT_LENGTH'] ?? 0) > 4500000) fail(413, 'Požadavek je příliš velký.');
         }
         $admin = admin_base();
+        $needsAdmin = $path === $admin || str_starts_with($path, $admin . '/')
+            || in_array($path, ['/api/content', '/api/upload'], true);
+        if ($needsAdmin && !admin_accounts_ready()) fail(503, 'Dokončete nastavení přihlašovacích účtů.');
         if ($path === $admin . '/prihlaseni' && $method === 'POST') password_login();
         if ($path === $admin . '/overeni' && $method === 'POST') verify_login();
         if ($path === $admin . '/zrusit' && $method === 'POST') { check_csrf(); unset($_SESSION['pending']); redirect($admin . '/prihlaseni'); }

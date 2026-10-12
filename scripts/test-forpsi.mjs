@@ -123,8 +123,17 @@ try{
  const denied=client(),denyToken=csrf(await (await denied(admin+'/prihlaseni')).text());for(let i=0;i<5;i++)assert.equal((await denied(admin+'/prihlaseni',form({csrf:denyToken,username:'unknown',password:'bad'}))).status,403);
  assert.equal((await denied(admin+'/prihlaseni',form({csrf:denyToken,username:'unknown',password:'bad'}))).status,429);
  console.log('PASS logout, code expiry, attempt limit and login throttling');
- // Even a accidentally uploaded local-test configuration fails on a public HTTPS origin.
+ // A legacy or incomplete account configuration must disable administration, never the public website.
  await stop();
+ const usersPath=path.join(tmp,'users.json'),validUsers=fs.readFileSync(usersPath,'utf8');
+ fs.writeFileSync(usersPath,JSON.stringify({legacy:{password_hash:'hash-without-otp-destination'}}));
+ start();await wait();
+ assert.equal((await guest('/')).status,200);
+ assert.equal((await guest(admin)).status,503);
+ assert.equal((await guest('/api/content')).status,503);
+ await stop();fs.writeFileSync(usersPath,validUsers);
+ console.log('PASS invalid admin accounts cannot take down the public website');
+ // Even a accidentally uploaded local-test configuration fails on a public HTTPS origin.
  const source=fs.readFileSync(config,'utf8');fs.writeFileSync(config,source.replace("'http://127.0.0.1:5193'","'https://example.com'"));start();await wait();assert.equal((await guest('/')).status,503);
  console.log('PASS production cannot enable local-test mail/captcha bypass');
  console.log('All FORPSI integration tests passed. No real emails sent.');

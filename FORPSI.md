@@ -5,6 +5,7 @@ Web má samostatný backend v PHP 8.2+ pro Linux webhosting s Apache. Na hosting
 ## Co funguje
 
 - `/paveljeborec`: čtyři vlastní účty, každý s vlastním heslem a vlastní adresou pro povinný jednorázový šestimístný kód. Kód platí 5 minut, má nejvýše 5 pokusů a nelze ho použít podruhé. Další přihlášení stejného účtu zneplatní předchozí nevyužitý kód. Přihlášení vyprší po 30 minutách nečinnosti, nejpozději po 8 hodinách. Původní `/admin` není vstupem do PHP administrace.
+- Neúplná nebo starší konfigurace účtů bezpečně zablokuje pouze administraci a její API. Veřejný web a kontaktní informace zůstanou dostupné.
 - Dosavadní editor: ceník, tým, fotografie, texty, angličtina, mimořádná zpráva, koncept a zveřejnění. Souběžné úpravy se nepřepíšou bez upozornění.
 - Formulář: žádost přijde na `marius.mervart@gmail.com`, e-mail návštěvníka je v Reply-To. Odesílatelem je `webtest.error@gmail.com`. Potvrzení se zobrazí až po přijetí zprávy SMTP serverem; není to potvrzení termínu ani záruka doručení do inboxu.
 - reCAPTCHA v3 se kontroluje na serveru včetně domény, stáří tokenu, akce a skóre. Odesílání i přihlašování má limity pokusů.
