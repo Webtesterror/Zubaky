@@ -4,7 +4,7 @@
 
 ## Přihlášení
 
-Otevřete přímo **`/admin`**. Zadejte uživatelské jméno a heslo, potom jednorázový kód z e-mailu. Účty jsou `spravce1` a `spravce2`; jejich hesla jsou pouze v soukromém souboru `.local-forpsi/PRISTUPY.txt`, mimo GitHub.
+Otevřete přímo **`/paveljeborec`**. Zadejte uživatelské jméno a heslo, potom jednorázový kód z e-mailu konkrétního správce. Účty jsou `sponer`, `starek` a `tester`; jejich hesla jsou pouze v soukromém souboru `.local-forpsi/PRISTUPY.txt`, mimo GitHub.
 
 Místní PHP náhled spouští `npm run dev:forpsi`. E-maily zachytává do soukromé testovací schránky; poslední kód zobrazí `node scripts/read-local-mail.mjs`. Místní a online data jsou oddělená a automaticky se nesynchronizují.
 
@@ -42,6 +42,6 @@ Odebrání fotografie z profilu odstraní její použití v obsahu. Původní so
 
 ## Stav kontroly PHP backendu
 
-Integrační testy ověřují oba účty, povinné 2FA, jednorázovost a expiraci kódu, omezení pokusů, CSRF, zákaz anonymních změn, koncept/zveřejnění, souběh editorů, fotografie, objednávky do testovací schránky a trvalost dat po restartu. Přihlášení a objednací formulář byly vyzkoušeny i v místním prohlížeči.
+Integrační testy ověřují všechny tři účty, jejich vlastní 2FA adresy, jednorázovost a expiraci kódu, omezení pokusů, CSRF, zákaz anonymních změn, koncept/zveřejnění, souběh editorů, fotografie, objednávky do testovací schránky a trvalost dat po restartu.
 
 Ještě je nutné doplnit heslo aplikace Gmail, klíče reCAPTCHA a cílovou doménu. Skutečné doručení e-mailů a prostředí FORPSI se ověří až po ručním nasazení. GitHub není nasazení; Netlify se automaticky nepublikuje.

@@ -4,7 +4,7 @@ Web má samostatný backend v PHP 8.2+ pro Linux webhosting s Apache. Na hosting
 
 ## Co funguje
 
-- `/admin`: dva vlastní účty, heslo + povinný jednorázový šestimístný kód zasílaný na `marius.mervart@gmail.com`. Kód platí 5 minut, má nejvýše 5 pokusů a nelze ho použít podruhé. Další přihlášení stejného účtu zneplatní předchozí nevyužitý kód. Přihlášení vyprší po 30 minutách nečinnosti, nejpozději po 8 hodinách.
+- `/paveljeborec`: tři vlastní účty, každý s vlastním heslem a vlastní adresou pro povinný jednorázový šestimístný kód. Kód platí 5 minut, má nejvýše 5 pokusů a nelze ho použít podruhé. Další přihlášení stejného účtu zneplatní předchozí nevyužitý kód. Přihlášení vyprší po 30 minutách nečinnosti, nejpozději po 8 hodinách. Původní `/admin` není vstupem do PHP administrace.
 - Dosavadní editor: ceník, tým, fotografie, texty, angličtina, mimořádná zpráva, koncept a zveřejnění. Souběžné úpravy se nepřepíšou bez upozornění.
 - Formulář: žádost přijde na `marius.mervart@gmail.com`, e-mail návštěvníka je v Reply-To. Odesílatelem je `webtest.error@gmail.com`. Potvrzení se zobrazí až po přijetí zprávy SMTP serverem; není to potvrzení termínu ani záruka doručení do inboxu.
 - reCAPTCHA v3 se kontroluje na serveru včetně domény, stáří tokenu, akce a skóre. Odesílání i přihlašování má limity pokusů.
@@ -60,7 +60,7 @@ Je-li dostupné SSH, kontrolu konfigurace spustíte `php zuby-app/bin/check.php`
 
 ## Účty, obnova a zálohy
 
-Pro tuto instalaci jsou účty `spravce1` a `spravce2` hotové v soukromé konfiguraci. Zcela nová instalace může použít `php zuby-app/bin/setup.php`; existující konfiguraci nepřepíše. Každá instalace získá vlastní náhodná šestimístná hesla a hashe. Kód 2FA obou účtů chodí do stejné schránky dle zadání.
+Pro tuto instalaci jsou v soukromé konfiguraci účty `sponer`, `starek` a `tester`. Každý má vlastní 2FA adresu. Hesla jsou pouze v `.local-forpsi/PRISTUPY.txt`. Zcela nová instalace může použít `php zuby-app/bin/setup.php`; existující konfiguraci nepřepíše a vytvoří pro stejné názvy účtů nová náhodná hesla.
 
 Pokud potřebujete obnovit přístup, přes FTP/SSH bezpečně zazálohujte `config.php`, odstraňte jej z umístění aplikace a spusťte setup pro nové účty; přeneste SMTP, reCAPTCHA a doménu ze zálohy. `zuby-data` ponechte. Změna hashů hesel zneplatní staré přihlášení. Soukromou zálohu nenechávejte ve veřejné www.
 
@@ -68,7 +68,7 @@ Zálohu obsahu a použitých fotografií vytvoří `php zuby-app/bin/export.php 
 
 ## Místní náhled
 
-Připravený náhled běží na http://127.0.0.1:5173, přihlášení na http://127.0.0.1:5173/admin. Při vypnutí počítače se server zastaví. Příště jej spustíte:
+Připravený náhled běží na http://127.0.0.1:5173, přihlášení na http://127.0.0.1:5173/paveljeborec. Při vypnutí počítače se server zastaví. Příště jej spustíte:
 
 ```sh
 npm run dev:forpsi
@@ -80,6 +80,6 @@ Místní režim zachytává e-maily do `.local-forpsi/data/mail`. **Nic skutečn
 
 ## Ověření a publikace
 
-`npm run test:forpsi` provádí integrační testy nad odděleným PHP serverem a dočasnými daty: dvě přihlášení, vyžadování 2FA, chybný a použitý kód, expirace, omezení pokusů, CSRF, cizí Origin, zakázané anonymní úpravy, koncept/zveřejnění, souběh editorů, validace obsahu a fotografií, WebP, formulář s testovací schránkou, odmítnutí podvržené adresy, deduplikace a restart serveru. Skutečná Gmail schránka ani skutečná reCAPTCHA se testy nekontaktují.
+`npm run test:forpsi` provádí integrační testy nad odděleným PHP serverem a dočasnými daty: tři přihlášení, správné směrování 2FA pro každý účet, chybný a použitý kód, expiraci, omezení pokusů, CSRF, cizí Origin, zakázané anonymní úpravy, nepřístupnost původní `/admin`, koncept/zveřejnění, souběh editorů, validaci obsahu a fotografií, WebP, formulář s testovací schránkou, odmítnutí podvržené adresy, deduplikaci a restart serveru. Skutečné e-mailové schránky ani skutečná reCAPTCHA se testy nekontaktují.
 
 Změny zdrojů se odesílají na GitHub. Nasazování hostingu zůstává ruční. Commity používají `[skip ci]`, aby staré propojení Netlify nespustilo automatické sestavení. Tento backend se nenahrává na Netlify.
