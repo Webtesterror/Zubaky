@@ -10,12 +10,18 @@ const ext=php===bundled?['-d','extension_dir='+path.dirname(php)+'/ext',...['cur
 fs.mkdirSync('.local-forpsi',{recursive:true});
 const tmp=fs.mkdtempSync(path.resolve('.local-forpsi/test-')),data=path.join(tmp,'data'),config=path.join(tmp,'config.php');
 const origin='http://127.0.0.1:5193';
+const admin='/paveljeborec';
 const phpString=s=>"'"+s.replaceAll('\\','/').replaceAll("'","\\'")+"'";
 fs.writeFileSync(config,`<?php
 $c = require ${phpString(path.resolve('forpsi/config.example.php'))};
 $c['origin'] = '${origin}'; $c['data_dir'] = ${phpString(data)};
 $c['app_key'] = str_repeat('a', 64); $c['local_test'] = true;
-if (!is_file(__DIR__ . '/users.json')) file_put_contents(__DIR__ . '/users.json', json_encode(['spravce1' => ['password_hash' => password_hash('654321', PASSWORD_BCRYPT)], 'spravce2' => ['password_hash' => password_hash('123456', PASSWORD_BCRYPT)]]));
+if (!is_file(__DIR__ . '/users.json')) file_put_contents(__DIR__ . '/users.json', json_encode([
+ 'alpha' => ['password_hash' => password_hash('fixture-alpha', PASSWORD_BCRYPT), 'otp_to' => 'alpha@example.test'],
+ 'bravo' => ['password_hash' => password_hash('fixture-bravo', PASSWORD_BCRYPT), 'otp_to' => 'bravo@example.test'],
+ 'charlie' => ['password_hash' => password_hash('fixture-charlie', PASSWORD_BCRYPT), 'otp_to' => 'charlie@example.test'],
+ 'delta' => ['password_hash' => password_hash('fixture-delta', PASSWORD_BCRYPT), 'otp_to' => 'delta@example.test']
+]));
 $c['users'] = json_decode(file_get_contents(__DIR__ . '/users.json'), true);
 return $c;`);
 let server,serverError;
@@ -33,18 +39,18 @@ const boot=html=>JSON.parse(html.match(/<script id="bootstrap" type="application
 const form=(values)=>({method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(values)});
 const json=(method,value,token)=>({method,headers:{'Content-Type':'application/json',...(token?{'X-CSRF-Token':token}:{})},body:JSON.stringify(value)});
 function mails(){return fs.readdirSync(path.join(data,'mail')).map(n=>JSON.parse(fs.readFileSync(path.join(data,'mail',n),'utf8')))}
-async function begin(c,user='spravce1',pw='654321'){
- let token=csrf(await (await c('/admin/login')).text());
- assert.equal((await c('/admin/login',form({username:user,password:pw,csrf:token}))).status,303);
+async function begin(c,user='alpha',pw='fixture-alpha'){
+ let token=csrf(await (await c(admin+'/prihlaseni')).text());
+ assert.equal((await c(admin+'/prihlaseni',form({username:user,password:pw,csrf:token}))).status,303);
  const pending=JSON.parse(fs.readFileSync(path.join(data,'challenges.json'),'utf8'))[user];
  // Mail files have random names; find the code matching the current server-side hash.
  const {createHmac}=await import('node:crypto');
  const code=mails().filter(m=>m.body.includes('Účet: '+user)).map(m=>m.body.match(/kód: ([0-9]{6})/)[1]).find(n=>createHmac('sha256','a'.repeat(64)).update(pending.nonce+n).digest('hex')===pending.hash);
- token=csrf(await (await c('/admin/verify')).text());return {token,code};
+ token=csrf(await (await c(admin+'/overeni')).text());return {token,code};
 }
-async function login(c,user='spravce1',pw='654321'){
- const {token,code}=await begin(c,user,pw);assert.equal((await c('/admin/verify',form({csrf:token,code}))).status,303);
- return boot(await (await c('/admin')).text()).csrf;
+async function login(c,user='alpha',pw='fixture-alpha'){
+ const {token,code}=await begin(c,user,pw);assert.equal((await c(admin+'/overeni',form({csrf:token,code}))).status,303);
+ return boot(await (await c(admin)).text()).csrf;
 }
 try{
  start();await wait();
@@ -52,19 +58,25 @@ try{
  assert.equal((await guest('/api/content')).status,401);
  assert.equal((await guest('/api/content',json('PUT',{}))).status,401);
  assert.equal((await guest('/api/upload',{method:'POST'})).status,401);
- assert.equal((await guest('/admin')).status,303);
+ assert.equal((await guest('/admin')).status,404);
+ assert.equal((await guest(admin)).status,303);
  assert.equal((await guest('/api/booking',json('POST',{}))).status,403);
  console.log('PASS unauthenticated administration and uploads denied');
  const pending=await begin(a);
  assert.equal((await a('/api/content')).status,401);
- assert.equal((await a('/admin/verify',form({csrf:'bad',code:pending.code}))).status,403);
- assert.equal((await a('/admin/verify',form({csrf:pending.token,code:'000000'}))).status,403);
- assert.equal((await a('/admin/verify',form({csrf:pending.token,code:pending.code}))).status,303);
- const token=boot(await (await a('/admin')).text()).csrf;
- assert.equal((await a('/admin/verify',form({csrf:token,code:pending.code}))).status,403);
- assert.ok(mails().every(m=>m.to==='marius.mervart@gmail.com'));
- const token2=await login(b,'spravce2','123456');
- console.log('PASS two accounts, required email OTP, wrong code, CSRF and replay rejection');
+ assert.equal((await a(admin+'/overeni',form({csrf:'bad',code:pending.code}))).status,403);
+ assert.equal((await a(admin+'/overeni',form({csrf:pending.token,code:'000000'}))).status,403);
+ assert.equal((await a(admin+'/overeni',form({csrf:pending.token,code:pending.code}))).status,303);
+ const token=boot(await (await a(admin)).text()).csrf;
+ assert.equal((await a(admin+'/overeni',form({csrf:token,code:pending.code}))).status,403);
+ assert.equal(mails().findLast(m=>m.body.includes('Účet: alpha')).to,'alpha@example.test');
+ const token2=await login(b,'bravo','fixture-bravo');
+ assert.equal(mails().findLast(m=>m.body.includes('Účet: bravo')).to,'bravo@example.test');
+ const c=client();await login(c,'charlie','fixture-charlie');
+ assert.equal(mails().findLast(m=>m.body.includes('Účet: charlie')).to,'charlie@example.test');
+ const d=client();await login(d,'delta','fixture-delta');
+ assert.equal(mails().findLast(m=>m.body.includes('Účet: delta')).to,'delta@example.test');
+ console.log('PASS four accounts, per-account email OTP, wrong code, CSRF and replay rejection');
  let state=await (await a('/api/content')).json();const edited=structuredClone(state.data);edited.announcement='FORPSI test '+randomUUID();
  assert.equal((await a('/api/content',json('PUT',{...state,publish:true}))).status,403);
  assert.equal((await a('/api/content',{...json('PUT',state,token),headers:{...json('PUT',state,token).headers,Origin:'https://foreign.example'}})).status,403);
@@ -103,16 +115,25 @@ try{
  await stop();start();await wait();
  assert.ok((await (await guest('/')).text()).includes(edited.announcement));assert.equal((await guest(media)).status,200);assert.equal((await a('/api/content')).status,200);
  console.log('PASS content, photos and sessions persist across restart');
- assert.equal((await a('/admin/logout',form({csrf:token}))).status,303);assert.equal((await a('/api/content')).status,401);
- const expired=client(),p=await begin(expired,'spravce2','123456');const challengePath=path.join(data,'challenges.json');const challenge=JSON.parse(fs.readFileSync(challengePath,'utf8'));challenge.spravce2.expires=1;fs.writeFileSync(challengePath,JSON.stringify(challenge));
- assert.equal((await expired('/admin/verify',form({csrf:p.token,code:p.code}))).status,403);
- const limited=client();const challenge2=await begin(limited,'spravce2','123456');for(let i=0;i<5;i++)assert.equal((await limited('/admin/verify',form({csrf:challenge2.token,code:'000000'}))).status,403);
- assert.equal((await limited('/admin/verify',form({csrf:challenge2.token,code:challenge2.code}))).status,403);
- const denied=client(),denyToken=csrf(await (await denied('/admin/login')).text());for(let i=0;i<5;i++)assert.equal((await denied('/admin/login',form({csrf:denyToken,username:'unknown',password:'bad'}))).status,403);
- assert.equal((await denied('/admin/login',form({csrf:denyToken,username:'unknown',password:'bad'}))).status,429);
+ assert.equal((await a(admin+'/odhlasit',form({csrf:token}))).status,303);assert.equal((await a('/api/content')).status,401);
+ const expired=client(),p=await begin(expired,'bravo','fixture-bravo');const challengePath=path.join(data,'challenges.json');const challenge=JSON.parse(fs.readFileSync(challengePath,'utf8'));challenge.bravo.expires=1;fs.writeFileSync(challengePath,JSON.stringify(challenge));
+ assert.equal((await expired(admin+'/overeni',form({csrf:p.token,code:p.code}))).status,403);
+ const limited=client();const challenge2=await begin(limited,'bravo','fixture-bravo');for(let i=0;i<5;i++)assert.equal((await limited(admin+'/overeni',form({csrf:challenge2.token,code:'000000'}))).status,403);
+ assert.equal((await limited(admin+'/overeni',form({csrf:challenge2.token,code:challenge2.code}))).status,403);
+ const denied=client(),denyToken=csrf(await (await denied(admin+'/prihlaseni')).text());for(let i=0;i<5;i++)assert.equal((await denied(admin+'/prihlaseni',form({csrf:denyToken,username:'unknown',password:'bad'}))).status,403);
+ assert.equal((await denied(admin+'/prihlaseni',form({csrf:denyToken,username:'unknown',password:'bad'}))).status,429);
  console.log('PASS logout, code expiry, attempt limit and login throttling');
- // Even a accidentally uploaded local-test configuration fails on a public HTTPS origin.
+ // A legacy or incomplete account configuration must disable administration, never the public website.
  await stop();
+ const usersPath=path.join(tmp,'users.json'),validUsers=fs.readFileSync(usersPath,'utf8');
+ fs.writeFileSync(usersPath,JSON.stringify({legacy:{password_hash:'hash-without-otp-destination'}}));
+ start();await wait();
+ assert.equal((await guest('/')).status,200);
+ assert.equal((await guest(admin)).status,503);
+ assert.equal((await guest('/api/content')).status,503);
+ await stop();fs.writeFileSync(usersPath,validUsers);
+ console.log('PASS invalid admin accounts cannot take down the public website');
+ // Even a accidentally uploaded local-test configuration fails on a public HTTPS origin.
  const source=fs.readFileSync(config,'utf8');fs.writeFileSync(config,source.replace("'http://127.0.0.1:5193'","'https://example.com'"));start();await wait();assert.equal((await guest('/')).status,503);
  console.log('PASS production cannot enable local-test mail/captcha bypass');
  console.log('All FORPSI integration tests passed. No real emails sent.');

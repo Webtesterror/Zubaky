@@ -9,6 +9,16 @@ require __DIR__ . '/render.php';
 final class HttpError extends RuntimeException { public function __construct(public int $status, string $message) { parent::__construct($message); } }
 function fail(int $status, string $message): never { throw new HttpError($status, $message); }
 function cfg(): array { return $GLOBALS['zuby_config']; }
+function admin_accounts_ready(): bool {
+    $users = cfg()['users'] ?? null;
+    if (!is_array($users) || count($users) < 1) return false;
+    foreach ($users as $username => $account) {
+        if (!is_string($username) || $username === '' || !is_array($account)
+            || empty($account['password_hash'])
+            || !filter_var($account['otp_to'] ?? '', FILTER_VALIDATE_EMAIL)) return false;
+    }
+    return true;
+}
 function local_test(): bool {
     return !empty(cfg()['local_test']) && PHP_SAPI === 'cli-server'
         && in_array($_SERVER['REMOTE_ADDR'] ?? '', ['127.0.0.1', '::1'], true)
@@ -88,7 +98,7 @@ function zuby_run(): void {
         $configFile = getenv('ZUBY_CONFIG') ?: __DIR__ . '/config.php';
         if (!is_file($configFile)) fail(503, 'Backend ještě není nastavený. Správce musí doplnit soukromou konfiguraci.');
         $GLOBALS['zuby_config'] = require $configFile;
-        if (strlen(cfg()['app_key']) < 32 || count(cfg()['users']) < 1) fail(503, 'Dokončete nastavení přihlašovacích účtů.');
+        if (strlen(cfg()['app_key'] ?? '') < 32) fail(503, 'Dokončete nastavení backendu.');
         if (!empty(cfg()['local_test']) && !local_test()) fail(503, 'Testovací konfiguraci nelze použít na veřejném webu.');
         $origin = cfg()['origin']; $host = parse_url($origin, PHP_URL_HOST);
         $expectedHost = $host . (parse_url($origin, PHP_URL_PORT) ? ':' . parse_url($origin, PHP_URL_PORT) : '');
@@ -109,18 +119,21 @@ function zuby_run(): void {
             if (($_SERVER['HTTP_ORIGIN'] ?? '') !== $origin) fail(403, 'Neplatný původ požadavku.');
             if ((int)($_SERVER['CONTENT_LENGTH'] ?? 0) > 4500000) fail(413, 'Požadavek je příliš velký.');
         }
-        if ($path === '/signin-with-chatgpt') redirect('/admin/login');
-        if ($path === '/admin/login' && $method === 'POST') password_login();
-        if ($path === '/admin/verify' && $method === 'POST') verify_login();
-        if ($path === '/admin/cancel' && $method === 'POST') { check_csrf(); unset($_SESSION['pending']); redirect('/admin/login'); }
-        if (in_array($path, ['/admin/login','/admin/verify'], true) && $method === 'GET') login_page();
-        if ($path === '/admin/logout' && $method === 'POST') {
+        $admin = admin_base();
+        $needsAdmin = $path === $admin || str_starts_with($path, $admin . '/')
+            || in_array($path, ['/api/content', '/api/upload'], true);
+        if ($needsAdmin && !admin_accounts_ready()) fail(503, 'Dokončete nastavení přihlašovacích účtů.');
+        if ($path === $admin . '/prihlaseni' && $method === 'POST') password_login();
+        if ($path === $admin . '/overeni' && $method === 'POST') verify_login();
+        if ($path === $admin . '/zrusit' && $method === 'POST') { check_csrf(); unset($_SESSION['pending']); redirect($admin . '/prihlaseni'); }
+        if (in_array($path, [$admin . '/prihlaseni', $admin . '/overeni'], true) && $method === 'GET') login_page();
+        if ($path === $admin . '/odhlasit' && $method === 'POST') {
             check_csrf(); $_SESSION = []; session_destroy();
             setcookie(session_name(), '', ['expires' => 1, 'path' => '/', 'secure' => !local_test(), 'httponly' => true, 'samesite' => 'Strict']); redirect('/');
         }
-        if ($path === '/admin' && $method === 'GET') {
-            if (!user_allowed()) redirect('/admin/login');
-            page('<main class="admin"><h1>Správa obsahu</h1><p>Načítám editor…</p><noscript>Pro editor povolte JavaScript.</noscript></main>', ['page' => 'editor', 'csrf' => csrf()]);
+        if ($path === $admin && $method === 'GET') {
+            if (!user_allowed()) redirect($admin . '/prihlaseni');
+            page('<main class="admin"><h1>Správa obsahu</h1><p>Načítám editor…</p><noscript>Pro editor povolte JavaScript.</noscript></main>', ['page' => 'editor', 'csrf' => csrf(), 'adminPath' => $admin]);
         }
         if ($path === '/api/booking-config' && $method === 'GET') json_response(['csrf' => csrf(), 'enabled' => mail_ready() && captcha_ready(), 'siteKey' => local_test() ? '' : cfg()['recaptcha']['site_key'], 'localTest' => local_test()]);
         if ($path === '/api/booking' && $method === 'POST') booking();
@@ -160,6 +173,6 @@ function zuby_run(): void {
         $message = $e instanceof HttpError ? $e->getMessage() : 'Požadavek nelze dokončit. Zkuste to později nebo kontaktujte správce.';
         if (!$e instanceof HttpError) error_log('Zuby backend: ' . get_class($e));
         if (str_starts_with($path, '/api/')) json_response(['error' => $message], $status);
-        page('<main class="login"><h1>Požadavek nelze dokončit</h1><p role="alert">' . esc($message) . '</p><a href="/admin/login">Přihlášení</a> · <a href="/">Zpět na web</a></main>', ['page' => 'none'], $status);
+        page('<main class="login"><h1>Požadavek nelze dokončit</h1><p role="alert">' . esc($message) . '</p><a href="' . admin_base() . '/prihlaseni">Přihlášení</a> · <a href="/">Zpět na web</a></main>', ['page' => 'none'], $status);
     }
 }

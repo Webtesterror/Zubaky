@@ -1,5 +1,5 @@
 // Public bootstrap only; secrets and password hashes never reach the browser.
-export function backendConfig():{backend?:string,csrf?:string}{
+export function backendConfig():{backend?:string,csrf?:string,adminPath?:string}{
  if(typeof document==='undefined')return {};
  try{return JSON.parse(document.getElementById('bootstrap')?.textContent||'{}')}catch{return {}}
 }

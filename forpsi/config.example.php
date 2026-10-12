@@ -5,9 +5,9 @@ return [
     'origin' => 'https://www.zubydasne.cz',
     'data_dir' => dirname(__DIR__) . '/zuby-data',
     'app_key' => '', // Generate with: php bin/setup.php
-    'users' => [], // setup.php generates TWO accounts with password_hash; no plain passwords here.
+    // Each account has its own password hash and 2FA destination.
+    'users' => [],
     'mail_to' => 'marius.mervart@gmail.com',
-    'otp_to' => 'marius.mervart@gmail.com',
     'smtp' => [
         'host' => 'smtp.forpsi.com', 'port' => 587, 'encryption' => 'tls',
         'username' => '', 'password' => '',
