@@ -14,6 +14,7 @@ $accounts = [
     'sponer' => 'sponer@zubydasne.cz',
     'starek' => 'starek@zubydasne.cz',
     'tester' => 'marius.mervart@gmail.com',
+    'hoffa' => 'hoffmann.p37@gmail.com',
 ];
 foreach ($accounts as $user => $otpTo) {
     $pw = (string)random_int(100000, 999999);
@@ -26,4 +27,4 @@ $php = "<?php\ndeclare(strict_types=1);\n\$config = " . var_export($config, true
 foreach ([$path, $credentials] as $f) if (!is_dir(dirname($f))) mkdir(dirname($f), 0700, true);
 file_put_contents($path, $php, LOCK_EX); chmod($path, 0600);
 file_put_contents($credentials, $text, LOCK_EX); chmod($credentials, 0600);
-echo "Vytvořeny tři účty. Hesla jsou pouze v soukromém souboru PRISTUPY.txt.\n";
+echo "Vytvořeny čtyři účty. Hesla jsou pouze v soukromém souboru PRISTUPY.txt.\n";

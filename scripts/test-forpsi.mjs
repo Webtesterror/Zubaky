@@ -19,7 +19,8 @@ $c['app_key'] = str_repeat('a', 64); $c['local_test'] = true;
 if (!is_file(__DIR__ . '/users.json')) file_put_contents(__DIR__ . '/users.json', json_encode([
  'alpha' => ['password_hash' => password_hash('fixture-alpha', PASSWORD_BCRYPT), 'otp_to' => 'alpha@example.test'],
  'bravo' => ['password_hash' => password_hash('fixture-bravo', PASSWORD_BCRYPT), 'otp_to' => 'bravo@example.test'],
- 'charlie' => ['password_hash' => password_hash('fixture-charlie', PASSWORD_BCRYPT), 'otp_to' => 'charlie@example.test']
+ 'charlie' => ['password_hash' => password_hash('fixture-charlie', PASSWORD_BCRYPT), 'otp_to' => 'charlie@example.test'],
+ 'delta' => ['password_hash' => password_hash('fixture-delta', PASSWORD_BCRYPT), 'otp_to' => 'delta@example.test']
 ]));
 $c['users'] = json_decode(file_get_contents(__DIR__ . '/users.json'), true);
 return $c;`);
@@ -73,7 +74,9 @@ try{
  assert.equal(mails().findLast(m=>m.body.includes('Účet: bravo')).to,'bravo@example.test');
  const c=client();await login(c,'charlie','fixture-charlie');
  assert.equal(mails().findLast(m=>m.body.includes('Účet: charlie')).to,'charlie@example.test');
- console.log('PASS three accounts, per-account email OTP, wrong code, CSRF and replay rejection');
+ const d=client();await login(d,'delta','fixture-delta');
+ assert.equal(mails().findLast(m=>m.body.includes('Účet: delta')).to,'delta@example.test');
+ console.log('PASS four accounts, per-account email OTP, wrong code, CSRF and replay rejection');
  let state=await (await a('/api/content')).json();const edited=structuredClone(state.data);edited.announcement='FORPSI test '+randomUUID();
  assert.equal((await a('/api/content',json('PUT',{...state,publish:true}))).status,403);
  assert.equal((await a('/api/content',{...json('PUT',state,token),headers:{...json('PUT',state,token).headers,Origin:'https://foreign.example'}})).status,403);
