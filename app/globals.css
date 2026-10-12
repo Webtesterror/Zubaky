@@ -317,6 +317,7 @@ body,.scene,.tile,.panel,.panel-head,.panel-scroll{color:#000}
 .booking-form-shell>.booking-form{width:100%}
 .booking-contact{text-align:center}
 .booking-contact .contact-links{align-items:center}
+.booking-legal{display:grid;justify-items:center;gap:6px;text-align:center}
 .booking-honeypot{position:absolute!important;left:-10000px!important;top:auto!important;width:1px!important;height:1px!important;overflow:hidden!important;opacity:0!important;pointer-events:none!important}
 .booking-form.is-leaving{pointer-events:none;animation:booking-form-out 320ms cubic-bezier(.4,0,.2,1) both}
 .booking-confirmation{min-height:320px;display:grid;place-items:center;padding:40px;text-align:center;outline:0;animation:booking-confirmation-in 520ms cubic-bezier(.22,1,.36,1) both}

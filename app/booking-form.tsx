@@ -67,12 +67,13 @@ export default function BookingForm(){
   <label className="field">{t('Telefon')} *<input type="tel" name="phone" autoComplete="tel" required pattern="\+?[0-9\s\-]{9,18}" title={t('Zadejte telefonní číslo, případně s předvolbou.')}/></label>
   <label className="field">{t('Vaše zpráva')}<textarea name="message" maxLength={2000}/></label>
   <label className="booking-honeypot" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off"/></label>
-  {ready&&!settings?.enabled&&<p role="status">{en?'The online form is not connected yet. Please use the phone or email above.':'Online formulář ještě není připojený. Použijte prosím telefon nebo e-mail uvedený výše.'}</p>}
   {settings?.localTest&&<p className="notice">{en?'Local test — no emails are sent.':'Místní test — e-maily se neodesílají.'}</p>}
   <button className="primary" type="submit" disabled={busy||!ready||!settings?.enabled}>{busy?(en?'Sending…':'Odesílám…'):t('Odeslat')}</button>
   {status&&<p className="form-status" role="status">{status}</p>}
-  <a href="/source/Podminky_ochrany_osobnich-udaju-ZUBY_DASNE.pdf" target="_blank" rel="noreferrer">{t('Ochrana osobních údajů')}</a>
-  <small>{en?'Protected by reCAPTCHA. Google’s ':'Chráněno reCAPTCHA. Platí '}<a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">{en?'Privacy Policy':'zásady ochrany soukromí'}</a>{en?' and ':' a '}<a href="https://policies.google.com/terms" target="_blank" rel="noreferrer">{en?'Terms of Service':'podmínky Google'}</a>.</small>
+  <div className="booking-legal">
+   <a href="/source/Podminky_ochrany_osobnich-udaju-ZUBY_DASNE.pdf" target="_blank" rel="noreferrer">{t('Ochrana osobních údajů')}</a>
+   <small>{en?'Protected by reCAPTCHA. Google’s ':'Chráněno reCAPTCHA. Platí '}<a href="https://policies.google.com/privacy" target="_blank" rel="noreferrer">{en?'Privacy Policy':'zásady ochrany soukromí'}</a>{en?' and ':' a '}<a href="https://policies.google.com/terms" target="_blank" rel="noreferrer">{en?'Terms of Service':'podmínky Google'}</a>.</small>
+  </div>
  </form>}
  </div>;
 }
