@@ -138,7 +138,8 @@
  .reception-page .tiles{flex:0 1 auto;min-height:0;height:390px;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));gap:clamp(6px,1.5dvh,12px);margin:0}
  .reception-page .home-announcement{min-height:calc(3 * 1.45em + 20px);width:max-content;max-width:min(100%,30rem)}
  .reception-page .tile{min-width:0;min-height:0;padding:clamp(6px,2dvh,20px) 12px;border-radius:20px;gap:3px}
- .reception-page .tile span{font-size:clamp(1.1rem,3.5dvh,1.6rem);line-height:1.12}
+ .reception-page .tile span{font-size:clamp(1.045rem,3.325dvh,1.52rem);line-height:1.12}
+ .reception-page .tile.booking .tile-label[lang="en"]{position:absolute;left:50%;bottom:clamp(6px,2dvh,20px);width:max-content;max-width:none;white-space:nowrap;text-align:center;transform:translateX(-50%)}
  .reception-page .tile>svg{flex-shrink:0;width:clamp(18px,4dvh,29px);height:clamp(18px,4dvh,29px)}
  .reception-page .tile .tile-arrow{display:none}
  .reception-page .topline,.reception-page .footline{min-width:0}
