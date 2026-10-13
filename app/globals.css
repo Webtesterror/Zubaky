@@ -354,11 +354,12 @@ body,.scene,.tile,.panel,.panel-head,.panel-scroll{color:#000}
 /* Match the close control to the light glass controls on hover and focus. */
 .close:hover,.close:focus-visible{background:#f5f8edb8;border-color:#ffffff78;box-shadow:inset 0 1px 0 #fff9,0 2px 8px #26372c18;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
 
-/* Let native pinch-zoom panning pass beyond the section scroll container. */
-html.reception-page.section-browser-zoomed,html.reception-page.section-browser-zoomed body,.section-browser-zoomed .panel-scroll{overscroll-behavior:auto}
-/* The modal also locks body inline; release both root scroll locks while zoomed.
-   Keep the fixed home scene in place so it cannot acquire its own scroll. */
-html.reception-page.section-browser-zoomed,html.reception-page.section-browser-zoomed body{overflow:auto!important}
-.section-browser-zoomed .panel,.section-browser-zoomed .panel-scroll{touch-action:auto}
-html.section-browser-zoomed .panel{position:absolute;inset:auto;left:var(--zoom-panel-left);top:var(--zoom-panel-top);width:var(--zoom-panel-width);height:var(--zoom-panel-height);max-height:none;margin:0}
-html.section-browser-zoomed .panel-scroll{overflow-x:auto}
+/* Mobile dialogs use the document scroller from the start of the gesture.
+   No nested scroll trap or layout change during native pinch zoom. */
+@media(max-width:1000px){
+ html.reception-page.reception-panel-open,
+ html.reception-page.reception-panel-open body{overflow:visible!important;height:auto;min-height:100%;overscroll-behavior:auto;touch-action:auto}
+ .reception-page .panel{position:relative;inset:auto;width:calc(100% - 24px);height:auto;min-height:calc(100svh - 24px);max-height:none;margin:12px;contain:style}
+ .reception-page .panel-scroll{overflow:visible;overscroll-behavior:auto;touch-action:auto;flex:none}
+ .reception-page .panel-head{position:sticky;top:0;z-index:2}
+}
