@@ -356,4 +356,7 @@ body,.scene,.tile,.panel,.panel-head,.panel-scroll{color:#000}
 
 /* Let native pinch-zoom panning pass beyond the section scroll container. */
 html.reception-page.section-browser-zoomed,html.reception-page.section-browser-zoomed body,.section-browser-zoomed .panel-scroll{overscroll-behavior:auto}
+/* The modal also locks body inline; release both root scroll locks while zoomed.
+   Keep the fixed home scene in place so it cannot acquire its own scroll. */
+html.reception-page.section-browser-zoomed,html.reception-page.section-browser-zoomed body{overflow:auto!important}
 .section-browser-zoomed .panel,.section-browser-zoomed .panel-scroll{touch-action:auto}
