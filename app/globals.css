@@ -268,8 +268,7 @@
 /* Compact team portraits: four columns on desktop, two on mobile. */
 .person h3,.person-text>p:not(.bio){font-family:'Inter',Arial,sans-serif}
 .person h3{font-size:1.71rem}
-.person{overflow:visible}
-.person .section-photo.is-portrait{border-radius:20px 20px 0 0}
+.person{container-type:inline-size}
 .person-name-lead{white-space:nowrap}
 .person-height-match .section-photo img{transform:scale(1.055);transform-origin:50% 100%}
 .team-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
@@ -279,7 +278,8 @@
  .team-grid.team-owners{width:calc(45% - 10px)}
 }
 @media(max-width:1000px){.team-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}}
-@media(max-width:700px){.person-text{padding:12px;position:relative;z-index:1}.person h3{font-size:1.28rem;line-height:1.15;overflow:visible}.person p{font-size:.8rem}.team-grid{gap:12px}}
+@media(min-width:701px){.person h3{font-size:clamp(1.35rem,13.5cqw,1.71rem)}}
+@media(max-width:700px){.person{overflow:visible}.person img{border-radius:20px 20px 0 0}.person-text{padding:12px;position:relative;z-index:1}.person h3{font-size:1.28rem;line-height:1.15;overflow:visible}.person p{font-size:.8rem}.team-grid{gap:12px}}
 @media(max-width:280px){.team-grid,.team-grid.team-owners{grid-template-columns:1fr}}
 
 /* Match background brightness and shading across desktop and mobile. */
