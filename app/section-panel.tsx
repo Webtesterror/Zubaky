@@ -14,6 +14,18 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
  const [visible,setVisible]=useState(false);
 
  useLayoutEffect(()=>{
+  const viewport=window.visualViewport;
+  if(!viewport)return;
+  const syncZoom=()=>document.documentElement.classList.toggle('section-browser-zoomed',viewport.scale>1.01);
+  syncZoom();
+  viewport.addEventListener('resize',syncZoom);
+  return()=>{
+   viewport.removeEventListener('resize',syncZoom);
+   document.documentElement.classList.remove('section-browser-zoomed');
+  };
+ },[]);
+
+ useLayoutEffect(()=>{
   const p=panel.current!,s=shell.current!;
   const tile=document.getElementById('tile-'+id);
   const motion=matchMedia('(prefers-reduced-motion: reduce)');
