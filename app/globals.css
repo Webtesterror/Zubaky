@@ -360,3 +360,5 @@ html.reception-page.section-browser-zoomed,html.reception-page.section-browser-z
    Keep the fixed home scene in place so it cannot acquire its own scroll. */
 html.reception-page.section-browser-zoomed,html.reception-page.section-browser-zoomed body{overflow:auto!important}
 .section-browser-zoomed .panel,.section-browser-zoomed .panel-scroll{touch-action:auto}
+html.section-browser-zoomed .panel{position:absolute;inset:auto;left:var(--zoom-panel-left);top:var(--zoom-panel-top);width:var(--zoom-panel-width);height:var(--zoom-panel-height);max-height:none;margin:0}
+html.section-browser-zoomed .panel-scroll{overflow-x:auto}

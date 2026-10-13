@@ -16,7 +16,21 @@ export default function SectionPanel({id,title,exiting,onClose,onExited,renderCo
  useLayoutEffect(()=>{
   const viewport=window.visualViewport;
   if(!viewport)return;
-  const syncZoom=()=>document.documentElement.classList.toggle('section-browser-zoomed',viewport.scale>1.01);
+  const root=document.documentElement;
+  const p=panel.current!;
+  const syncZoom=()=>{
+   const zoomed=viewport.scale>1.01;
+   if(zoomed&&!root.classList.contains('section-browser-zoomed')){
+    // Preserve the layout rectangle before releasing fixed positioning. The
+    // browser can then pan across the entire dialog, including its edges.
+    const rect=p.getBoundingClientRect();
+    p.style.setProperty('--zoom-panel-left',`${rect.left+window.scrollX}px`);
+    p.style.setProperty('--zoom-panel-top',`${rect.top+window.scrollY}px`);
+    p.style.setProperty('--zoom-panel-width',`${rect.width}px`);
+    p.style.setProperty('--zoom-panel-height',`${rect.height}px`);
+   }
+   root.classList.toggle('section-browser-zoomed',zoomed);
+  };
   syncZoom();
   viewport.addEventListener('resize',syncZoom);
   return()=>{
