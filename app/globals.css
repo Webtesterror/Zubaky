@@ -361,5 +361,7 @@ body,.scene,.tile,.panel,.panel-head,.panel-scroll{color:#000}
  html.reception-page.reception-panel-open body{overflow:visible!important;height:auto;min-height:100%;overscroll-behavior:auto;touch-action:auto}
  .reception-page .panel{position:relative;inset:auto;width:calc(100% - 24px);height:auto;min-height:calc(100svh - 24px);max-height:none;margin:12px;contain:style}
  .reception-page .panel-scroll{overflow:visible;overscroll-behavior:auto;touch-action:auto;flex:none}
- .reception-page .panel-head{position:sticky;top:0;z-index:2}
+  /* The document scrolls on mobile, so the sticky heading needs its own
+     opaque surface; the panel's absolute glass layer scrolls behind it. */
+  .reception-page .panel-head{position:sticky;top:0;z-index:2;background:#edf0ea;border-radius:32px 32px 0 0}
 }
