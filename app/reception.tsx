@@ -24,7 +24,7 @@ export function SectionContent({id,data}:{id:string,data:Content}){
   const team=data.team.filter(p=>!p.hidden);
   const profiles=(people:Content['team'])=>people.map(p=>{
    const [firstName,...remainingName]=p.name.trim().split(/\s+/);
-   return <article className={'person'+(p.name==='Ondřej Stárek'?' person-height-match':'')} key={p.id}>{p.src&&<SectionPhoto key={p.src} src={p.src} alt={p.alt} focus={p.focus} portrait eager={team.indexOf(p)<4}/>}<div className="person-text"><h3><span className="person-name-lead">{p.title==='MDDr.'?'MDDr. ':''}{firstName}</span>{remainingName.length>0&&<> {remainingName.join(' ')}</>}{p.title&&p.title!=='MDDr.'?', '+p.title:''}</h3><p>{p.role}</p>{p.description&&<p className="bio">{p.description}</p>}</div></article>;
+   return <article className={'person'+(p.name==='Ondřej Stárek'?' person-height-match':'')} key={p.id}><SectionPhoto key={p.src||'/source/avatar.jpg'} src={p.src||'/source/avatar.jpg'} alt={p.alt||(!p.src||p.src==='/source/avatar.jpg'?`Ilustrační avatar zaměstnance ${p.name}`:p.name)} focus={p.focus} portrait eager={team.indexOf(p)<4}/><div className="person-text"><h3><span className="person-name-lead">{p.title==='MDDr.'?'MDDr. ':''}{firstName}</span>{remainingName.length>0&&<> {remainingName.join(' ')}</>}{p.title&&p.title!=='MDDr.'?', '+p.title:''}</h3><p>{p.role}</p>{p.description&&<p className="bio">{p.description}</p>}</div></article>;
   });
   const owners=team.slice(0,2);
   const members=team.slice(2);

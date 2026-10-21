@@ -23,7 +23,9 @@ function public_fallback(array $d, string $locale): string {
     $html .= '</section><section id="nas-tym"><h2>' . $labels[1] . '</h2>';
     foreach ($d['team'] as $p) {
         $html .= '<article><h3>' . esc($p['title'] . ' ' . $p['name']) . '</h3><p>' . esc($t($p['role'])) . '</p><p>' . esc($t($p['description'])) . '</p>';
-        if ($p['src']) $html .= '<img src="' . esc($p['src']) . '" alt="' . esc($t($p['alt'])) . '" loading="lazy" width="200">';
+        $photo = $p['src'] ?: '/source/avatar.jpg';
+        $alt = $p['alt'] ?: ($photo === '/source/avatar.jpg' ? 'Ilustrační avatar zaměstnance' : $p['name']);
+        $html .= '<img src="' . esc($photo) . '" alt="' . esc($t($alt)) . '" loading="lazy" width="200">';
         $html .= '</article>';
     }
     $html .= '</section><section id="prubeh-lecby"><h2>' . $labels[2] . '</h2>';
