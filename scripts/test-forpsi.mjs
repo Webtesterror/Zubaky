@@ -45,7 +45,8 @@ async function begin(c,user='alpha',pw='fixture-alpha'){
  const pending=JSON.parse(fs.readFileSync(path.join(data,'challenges.json'),'utf8'))[user];
  // Mail files have random names; find the code matching the current server-side hash.
  const {createHmac}=await import('node:crypto');
- const code=mails().filter(m=>m.body.includes('Účet: '+user)).map(m=>m.body.match(/kód: ([0-9]{6})/)[1]).find(n=>createHmac('sha256','a'.repeat(64)).update(pending.nonce+n).digest('hex')===pending.hash);
+ const code=mails().filter(m=>m.body.includes('Účet: '+user)).map(m=>m.body.match(/kód: ([a-z0-9]{9})/)[1]).find(n=>createHmac('sha256','a'.repeat(64)).update(pending.nonce+n).digest('hex')===pending.hash);
+ assert.match(code,/^(?=.*[a-z])(?=.*[0-9])[a-z0-9]{9}$/);
  token=csrf(await (await c(admin+'/overeni')).text());return {token,code};
 }
 async function login(c,user='alpha',pw='fixture-alpha'){
@@ -65,7 +66,7 @@ try{
  const pending=await begin(a);
  assert.equal((await a('/api/content')).status,401);
  assert.equal((await a(admin+'/overeni',form({csrf:'bad',code:pending.code}))).status,403);
- assert.equal((await a(admin+'/overeni',form({csrf:pending.token,code:'000000'}))).status,403);
+ assert.equal((await a(admin+'/overeni',form({csrf:pending.token,code:'a00000000'}))).status,403);
  assert.equal((await a(admin+'/overeni',form({csrf:pending.token,code:pending.code}))).status,303);
  const token=boot(await (await a(admin)).text()).csrf;
  assert.equal((await a(admin+'/overeni',form({csrf:token,code:pending.code}))).status,403);
