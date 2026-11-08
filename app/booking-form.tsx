@@ -40,12 +40,16 @@ export default function BookingForm(){
     text:String(fields.get('message')||'').trim(),'g-recaptcha-response':captcha,
    }),signal:AbortSignal.timeout(30000)});
    const result=await r.json() as {captchaSuccess?:boolean,emailSent?:boolean};
+   if(result.captchaSuccess===false)throw Error(en?'reCAPTCHA verification failed. Please try again; if it persists, contact us by phone.':'Ověření reCAPTCHA selhalo. Zkuste to znovu; pokud chyba trvá, kontaktujte nás telefonicky.');
    if(result.emailSent!==true)throw Error(en?'The request was not sent. Please try again or call us.':'Žádost nebyla odeslána. Zkuste to znovu nebo nám zavolejte.');
    setConfirmation(en?'The appointment form has been sent. We will contact you regarding your request. Thank you.':'Objednací formulář byl odeslán. Na jeho základě Vás budeme dále kontaktovat. Děkujeme.');
    setPhase('leaving');
    transitionTimer.current=window.setTimeout(()=>{form.reset();setPhase('success')},320);
   }catch(error){
-   setStatus(error instanceof Error&&error.name==='Error'&&error.message!=='captcha'?error.message:(en?'Delivery could not be confirmed. Your entries remain in the form; please contact us by phone.':'Odeslání se nepodařilo potvrdit. Údaje zůstaly ve formuláři; kontaktujte nás prosím telefonicky.'));
+   setStatus(error instanceof Error&&error.message==='captcha'
+    ?(en?'reCAPTCHA could not load. Check your connection or browser blocker and try again.':'reCAPTCHA se nepodařilo načíst. Zkontrolujte připojení nebo blokování v prohlížeči a zkuste to znovu.')
+    :error instanceof Error&&error.name==='Error'?error.message
+    :(en?'Delivery could not be confirmed. Your entries remain in the form; please contact us by phone.':'Odeslání se nepodařilo potvrdit. Údaje zůstaly ve formuláři; kontaktujte nás prosím telefonicky.'));
   }finally{sending.current=false;setBusy(false)}
  }
  return <div className="booking-form-shell">
