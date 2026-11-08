@@ -61,7 +61,7 @@ try{
  assert.equal((await guest('/api/upload',{method:'POST'})).status,401);
  assert.equal((await guest('/admin')).status,404);
  assert.equal((await guest(admin)).status,303);
- assert.equal((await guest('/api/booking',json('POST',{}))).status,403);
+ assert.equal((await guest('/api/booking',json('POST',{}))).status,410);
  console.log('PASS unauthenticated administration and uploads denied');
  const pending=await begin(a);
  assert.equal((await a('/api/content')).status,401);
@@ -105,14 +105,10 @@ try{
  assert.deepEqual(fs.readdirSync(snapshot).sort(),['content.json','media']);
  console.log('PASS real image validation, WebP re-encoding, public media and private storage');
  console.log('PASS content export includes referenced images and excludes credentials');
- const settings=await (await guest('/api/booking-config')).json();assert.equal(settings.localTest,true);assert.equal(settings.enabled,true);
- const request={name:'Test uživatel',email:'test@example.com',phone:'+420123456789',message:'TEST, NEODESÍLAT',website:'',captcha:'',requestId:randomUUID()};
- let r=await guest('/api/booking',json('POST',request,settings.csrf));assert.equal(r.status,200,await r.clone().text());assert.equal((await r.json()).localTest,true);
- r=await guest('/api/booking',json('POST',request,settings.csrf));assert.equal(r.status,200);
- assert.equal(mails().filter(m=>m.subject.includes('žádost o objednání')).length,1);
- assert.equal((await guest('/api/booking',json('POST',{...request,email:'bad\r\nBcc: attacker@example.com'},settings.csrf))).status,422);
- assert.equal((await guest('/api/booking',json('POST',{...request,website:'spam'},settings.csrf))).status,422);
- console.log('PASS booking target, no duplicate delivery, validation and honeypot (test mailbox only)');
+  assert.equal((await guest('/api/booking-config')).status,404);
+  assert.equal((await guest('/api/booking',json('POST',{name:'Test uživatel'}))).status,410);
+  assert.equal(mails().filter(m=>m.subject.includes('žádost o objednání')).length,0);
+  console.log('PASS legacy booking route disabled; local server sends no appointment email');
  await stop();start();await wait();
  assert.ok((await (await guest('/')).text()).includes(edited.announcement));assert.equal((await guest(media)).status,200);assert.equal((await a('/api/content')).status,200);
  console.log('PASS content, photos and sessions persist across restart');

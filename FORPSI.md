@@ -1,29 +1,29 @@
 # Nasazení na FORPSI
 
-Web má samostatný backend v PHP 8.2+ pro Linux webhosting s Apache. Na hostingu se nespouští Node, Firebase ani Netlify. Node je potřeba pouze na počítači při sestavení souborů.
+Web má backend v PHP 8.2+ pro správu obsahu a přihlášení. Objednávkový formulář volá přímo Firebase Cloud Function. Na hostingu se nespouští Node. Node je potřeba pouze na počítači při sestavení souborů.
 
 ## Co funguje
 
 - `/paveljeborec`: čtyři vlastní účty, každý s vlastním heslem a vlastní adresou pro povinný jednorázový devítiznakový kód z číslic a malých písmen. Kód platí 5 minut, má nejvýše 5 pokusů a nelze ho použít podruhé. Další přihlášení stejného účtu zneplatní předchozí nevyužitý kód. Přihlášení vyprší po 30 minutách nečinnosti, nejpozději po 8 hodinách. Původní `/admin` není vstupem do PHP administrace.
 - Neúplná nebo starší konfigurace účtů bezpečně zablokuje pouze administraci a její API. Veřejný web a kontaktní informace zůstanou dostupné.
 - Dosavadní editor: ceník, tým, fotografie, texty, angličtina, mimořádná zpráva, koncept a zveřejnění. Souběžné úpravy se nepřepíšou bez upozornění.
-- Formulář: žádost přijde na `marius.mervart@gmail.com`, e-mail návštěvníka je v Reply-To. Odesílatelem je `webtest.error@gmail.com`. Potvrzení se zobrazí až po přijetí zprávy SMTP serverem; není to potvrzení termínu ani záruka doručení do inboxu.
-- reCAPTCHA v3 se kontroluje na serveru včetně domény, stáří tokenu, akce a skóre. Odesílání i přihlašování má limity pokusů.
+- Formulář volá `https://us-central1-zubydasne-b19d4.cloudfunctions.net/verify` s reCAPTCHA v3 tokenem a zobrazí potvrzení pouze při `emailSent: true`. PHP backend už žádné objednávky neodesílá. Doručování a ověření tokenu zajišťuje Cloud Function.
+- Přihlášení a nahrávání souborů má limity pokusů. PHP používá SMTP pouze k zaslání přihlašovacích 2FA kódů.
 - Fotografie do 4 MB / 24 Mpx se ověřují skutečným dekódováním, zbaví se metadat, zmenší na nejvýše 2400 px a uloží jako WebP.
 - Publikovaný obsah se vrací přímo v HTML pro vyhledávače i návštěvníky bez JavaScriptu. Interaktivní rozhraní používá stávající React a vzhled webu.
 
 Obsah je uložen v JSON souborech pod souborovým zámkem s atomickou výměnou. Pro tento malý web není potřeba zakládat MySQL databázi. Úložiště je mimo veřejný adresář a nepřepisuje se při aktualizaci aplikace.
 
-## Co je nutné před skutečným odesíláním doplnit
+## Co je nutné před provozem ověřit
 
 Soukromý `config.php` je uložen mimo GitHub a mimo veřejný adresář. V této instalaci je připraven v `.local-forpsi/production-config.php`; do hostingu se nahraje jako `zuby-app/config.php`.
 
 1. `origin`: skutečná doména včetně `https://`, například `https://www.zubydasne.cz`, bez závěrečného lomítka. Variantu bez www nastavte na hostingu jako přesměrování na tuto doménu. Zapněte HTTPS certifikát.
-2. `smtp.password`: **heslo aplikace Google**, nikoli běžné heslo Gmailu. V účtu `webtest.error@gmail.com` zapněte dvoufázové ověření a vytvořte heslo aplikace v https://myaccount.google.com/apppasswords. Do hodnoty vložte 16 znaků bez mezer. Ostatní nastavení je `smtp.gmail.com`, port 587, TLS, uživatel a From `webtest.error@gmail.com`.
-3. `recaptcha.site_key` a `recaptcha.secret`: vytvořte klíče reCAPTCHA **v3** pro skutečnou doménu na https://www.google.com/recaptcha/admin/create. Akce formuláře je `booking`, výchozí minimální skóre 0,5. Původní veřejný klíč zubydasne.cz sám o sobě nestačí.
-4. `local_test` musí na hostingu zůstat `false`. Veřejný server testovací režim odmítne. Bez SMTP a reCAPTCHA se objednávání neaktivuje; bez SMTP nelze dokončit přihlášení.
+2. `smtp.password`: **heslo aplikace Google** pro odesílání 2FA kódů, nikoli běžné heslo Gmailu. Ostatní nastavení je `smtp.gmail.com`, port 587, TLS. Bez SMTP nelze dokončit přihlášení do správy.
+3. U veřejného reCAPTCHA v3 klíče uvedeného v `app/booking-form.tsx` musí být povolená skutečná doména webu. Cloud Function musí ověřovat akci `submit` a příslušný tajný klíč. Po nasazení otestujte formulář bez skutečné objednávky pouze v dohodnutém testovacím režimu na straně Cloud Function.
+4. `local_test` musí na hostingu zůstat `false`. Veřejný server testovací režim odmítne.
 
-Nezadávejte SMTP heslo do frontendových proměnných, Reactu ani do GitHubu. Aplikační klíč a hashe účtů byly již vygenerovány. Samotná přihlašovací hesla jsou v `.local-forpsi/PRISTUPY.txt`, který se na hosting nenahrává. Před spuštěním veřejného formuláře zkontrolujte také text přiložených informací o zpracování osobních údajů, aby odpovídal skutečnému příjemci a použitému řešení.
+Nezadávejte SMTP heslo do frontendových proměnných, Reactu ani do GitHubu. Aplikační klíč a hashe účtů byly již vygenerovány. Samotná přihlašovací hesla jsou v `.local-forpsi/PRISTUPY.txt`, který se na hosting nenahrává. Před spuštěním veřejného formuláře zkontrolujte také text přiložených informací o zpracování osobních údajů, aby odpovídal nové službě a skutečnému příjemci.
 
 Dokumentace: [Google — hesla aplikací](https://support.google.com/accounts/answer/185833?hl=cs), [Google — reCAPTCHA v3](https://developers.google.com/recaptcha/docs/v3), [FORPSI — Linux hosting](https://www.forpsi.com/webhosting_s_domenou/), [PHPMailer](https://github.com/PHPMailer/PHPMailer).
 
@@ -81,6 +81,6 @@ Místní režim zachytává e-maily do `.local-forpsi/data/mail`. **Nic skutečn
 
 ## Ověření a publikace
 
-`npm run test:forpsi` provádí integrační testy nad odděleným PHP serverem a dočasnými daty: čtyři přihlášení, správné směrování 2FA pro každý účet, chybný a použitý kód, expiraci, omezení pokusů, CSRF, cizí Origin, zakázané anonymní úpravy, nepřístupnost původní `/admin`, koncept/zveřejnění, souběh editorů, validaci obsahu a fotografií, WebP, formulář s testovací schránkou, odmítnutí podvržené adresy, deduplikaci a restart serveru. Skutečné e-mailové schránky ani skutečná reCAPTCHA se testy nekontaktují.
+`npm run test:forpsi` provádí integrační testy nad odděleným PHP serverem a dočasnými daty: čtyři přihlášení, správné směrování 2FA pro každý účet, chybný a použitý kód, expiraci, omezení pokusů, CSRF, cizí Origin, zakázané anonymní úpravy, nepřístupnost původní `/admin`, koncept/zveřejnění, souběh editorů, validaci obsahu a fotografií, WebP, vypnutou původní PHP trasu objednání a restart serveru. Skutečné e-mailové schránky ani Cloud Function se testy nekontaktují.
 
 Změny zdrojů se odesílají na GitHub. Nasazování hostingu zůstává ruční. Commity používají `[skip ci]`, aby staré propojení Netlify nespustilo automatické sestavení. Tento backend se nenahrává na Netlify.

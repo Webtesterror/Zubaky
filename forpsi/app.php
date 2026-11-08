@@ -37,38 +37,6 @@ function read_json(int $limit): array {
     try { return obj(json_decode($raw, true, 512, JSON_THROW_ON_ERROR)); }
     catch (JsonException) { fail(400, 'Neplatná data.'); }
 }
-function booking(): never {
-    check_csrf(); rate_limit('booking-ip:' . client_ip(), 5, 900); rate_limit('booking-global', 100, 3600);
-    $d = read_json(16000); $name = trim(txt($d['name'] ?? null, 150, true));
-    $email = trim(txt($d['email'] ?? null, 200, true)); $phone = trim(txt($d['phone'] ?? null, 30, true));
-    $message = txt($d['message'] ?? '', 2000);
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL) || preg_match('/[\r\n]/', $email . $name)
-        || !preg_match('/^\+?[0-9\s-]{9,18}$/D', $phone)) fail(422, 'Zkontrolujte jméno, e-mail a telefon.');
-    if (!empty($d['website'])) fail(422, 'Formulář se nepodařilo ověřit.');
-    if (!mail_ready() || !captcha_ready()) fail(503, 'Online formulář ještě není připojený. Objednejte se prosím telefonicky.');
-    $id = txt($d['requestId'] ?? '', 80, true);
-    if (!preg_match('/^[a-f0-9-]{36}$/D', $id)) fail(422, 'Neplatný požadavek.');
-    verify_captcha(txt($d['captcha'] ?? '', 8192));
-    // Store only deduplication hashes, never submitted personal details.
-    $key = hash_hmac('sha256', session_id() . $id, cfg()['app_key']);
-    $state = with_store('deliveries', [], function (&$s) use ($key) {
-        foreach ($s as $k => $v) if ($v['until'] < time()) unset($s[$k]);
-        if (isset($s[$key])) return $s[$key]['status'];
-        $s[$key] = ['status' => 'pending', 'until' => time() + 86400]; return 'new';
-    });
-    if ($state === 'pending') fail(409, 'Předchozí odeslání se ověřuje. Neodesílejte žádost opakovaně; kontaktujte nás telefonicky.');
-    if ($state !== 'sent') {
-        try {
-            send_mail(cfg()['mail_to'], 'Zuby Dásně — žádost o objednání', "Jméno: $name\nE-mail: $email\nTelefon: $phone\n\nZpráva:\n$message\n\nJde o žádost, nikoli potvrzený termín.", $email);
-        } catch (Throwable $e) {
-            // SMTP may have accepted DATA even if its acknowledgement was lost.
-            // Keep 'pending' to prevent accidental duplicate messages on retry.
-            throw new HttpError(503, 'Doručení se nepodařilo potvrdit. Neodesílejte žádost opakovaně; kontaktujte nás telefonicky.');
-        }
-        with_store('deliveries', [], function (&$s) use ($key) { $s[$key]['status'] = 'sent'; });
-    }
-    json_response(['ok' => true, 'localTest' => local_test()]);
-}
 function upload_photo(): never {
     require_user(); check_csrf(); rate_limit('upload:' . $_SESSION['user'], 60, 3600);
     $f = $_FILES['file'] ?? null;
@@ -109,7 +77,7 @@ function zuby_run(): void {
         $publicPath = str_replace('\\', '/', realpath($_SERVER['DOCUMENT_ROOT']));
         if ($dataPath === $publicPath || str_starts_with($dataPath, $publicPath . '/')) fail(503, 'Úložiště musí být mimo veřejnou složku webu.');
         foreach (['sessions', 'media', 'mail'] as $d) if (!is_dir(cfg()['data_dir'] . '/' . $d)) mkdir(cfg()['data_dir'] . '/' . $d, 0700);
-        header("Content-Security-Policy: default-src 'self'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://www.google.com/recaptcha/; frame-src https://www.google.com https://recaptcha.google.com https://maps.google.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");
+        header("Content-Security-Policy: default-src 'self'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self' https://www.google.com/recaptcha/ https://us-central1-zubydasne-b19d4.cloudfunctions.net; frame-src https://www.google.com https://recaptcha.google.com https://maps.google.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'");
         ini_set('session.use_strict_mode', '1'); ini_set('session.use_only_cookies', '1'); ini_set('session.gc_maxlifetime', '28800');
         session_save_path(cfg()['data_dir'] . '/sessions'); session_name(local_test() ? 'zuby_session' : '__Host-zuby_session');
         session_set_cookie_params(['lifetime' => 0, 'path' => '/', 'secure' => !local_test(), 'httponly' => true, 'samesite' => 'Strict']);
@@ -135,8 +103,7 @@ function zuby_run(): void {
             if (!user_allowed()) redirect($admin . '/prihlaseni');
             page('<main class="admin"><h1>Správa obsahu</h1><p>Načítám editor…</p><noscript>Pro editor povolte JavaScript.</noscript></main>', ['page' => 'editor', 'csrf' => csrf(), 'adminPath' => $admin]);
         }
-        if ($path === '/api/booking-config' && $method === 'GET') json_response(['csrf' => csrf(), 'enabled' => mail_ready() && captcha_ready(), 'siteKey' => local_test() ? '' : cfg()['recaptcha']['site_key'], 'localTest' => local_test()]);
-        if ($path === '/api/booking' && $method === 'POST') booking();
+        if ($path === '/api/booking' && $method === 'POST') fail(410, 'Objednávkový formulář používá nové přímé napojení.');
         if ($path === '/api/upload' && $method === 'POST') upload_photo();
         if (str_starts_with($path, '/api/media/') && in_array($method, ['GET','HEAD'], true)) {
             $key = substr($path, 11);
