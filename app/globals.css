@@ -369,3 +369,31 @@ body,.scene,.tile,.panel,.panel-head,.panel-scroll{color:#000}
  @media(max-width:1000px){.reception-page .panel-head{background:#edf0eaf2}}
 }
 @media(max-width:1000px) and (prefers-reduced-transparency:reduce){.reception-page .panel-head{background:#edf0ea;backdrop-filter:none;-webkit-backdrop-filter:none}}
+
+/* Booking stays compact enough for the submit button to fit on ordinary desktops. */
+.booking-layout{gap:14px}
+.booking-layout .booking-contact .contact-links{gap:0}
+.booking-layout .booking-form{gap:12px}
+.booking-layout .booking-form textarea{min-height:78px}
+.tile-label.is-single-line{white-space:nowrap}
+.contact-map,.map-consent{height:468px}
+@media(max-width:700px){.contact-map,.map-consent{height:390px}}
+
+.gallery-thumb{display:block;width:100%;padding:0;border:0;border-radius:20px;background:none;cursor:zoom-in;overflow:hidden}
+.gallery-thumb .section-photo{height:100%}
+.gallery-thumb img{transition:transform 250ms ease,opacity 280ms ease}
+@media(hover:hover){.gallery-thumb:hover img{transform:scale(1.025)}}
+.gallery-thumb:focus-visible{outline:3px solid #203d39;outline-offset:4px}
+.gallery-viewer{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:clamp(18px,5vw,64px);background:rgba(20,31,27,.48);backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px);animation:gallery-in 320ms ease-out both}
+.gallery-large{display:block;max-width:min(100%,1400px);max-height:calc(100dvh - 80px);width:auto;height:auto;object-fit:contain;border-radius:16px;box-shadow:0 24px 80px #0b18145c;animation:gallery-photo-in 380ms cubic-bezier(.22,1,.36,1) both}
+.gallery-control{position:absolute;z-index:1;display:grid;place-items:center;width:48px;height:48px;border:1px solid #ffffffba;border-radius:50%;background:#f0f6f1d9;color:#102722;cursor:pointer;box-shadow:0 4px 18px #0b181433}
+.gallery-control:focus-visible{outline:3px solid white;outline-offset:3px}
+.gallery-close{top:max(16px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right))}
+.gallery-previous{left:max(12px,env(safe-area-inset-left));top:50%;transform:translateY(-50%)}
+.gallery-next{right:max(12px,env(safe-area-inset-right));top:50%;transform:translateY(-50%)}
+.gallery-viewer.is-closing{animation:gallery-out 260ms ease-in both;pointer-events:none}
+@keyframes gallery-in{from{opacity:0}to{opacity:1}}
+@keyframes gallery-out{from{opacity:1}to{opacity:0}}
+@keyframes gallery-photo-in{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+@media(max-width:700px){.gallery-viewer{padding:70px 18px}.gallery-large{max-height:calc(100dvh - 140px)}.gallery-control{width:42px;height:42px}}
+@media(prefers-reduced-motion:reduce){.gallery-viewer,.gallery-large,.gallery-thumb img{animation:none;transition:none}}
